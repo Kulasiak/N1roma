@@ -1,0 +1,462 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   ONDA — Design system a due versioni.
+   Ogni componente usa solo token semantici, quindi cambiare versione o tema
+   riveste l'intera applicazione senza toccare una sola classe.
+   ========================================================================== */
+
+@theme {
+  --font-seta: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-neon: 'Bricolage Grotesque', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-xl2: 1.25rem;
+  --radius-xl3: 1.75rem;
+
+  --animate-rise: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade: fade 0.35s ease both;
+  --animate-pop: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-alert: alertPulse 1.6s ease-in-out infinite;
+  --animate-blink: blinkSoft 1.4s ease-in-out infinite;
+  --animate-sweep: sweep 2.6s linear infinite;
+  --animate-breathe: breathe 3.4s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+/* L'appuntamento imminente: alone che respira, sempre leggibile. */
+@keyframes alertPulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--ring-alert), var(--shadow-lift); }
+  50% { box-shadow: 0 0 0 10px transparent, var(--shadow-lift); }
+}
+@keyframes blinkSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+@keyframes sweep {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.06); opacity: 0.85; }
+}
+
+/* ==========================================================================
+   VERSIONE 1 — «Seta»: calda, editoriale, da atelier.
+   ========================================================================== */
+
+:root,
+:root[data-skin='seta'] {
+  --font-display: var(--font-seta);
+
+  --bg: #fdfaf7;
+  --bg-tint: #f6eee6;
+  --surface: #ffffff;
+  --surface-2: #f7f1ea;
+  --line: #e9ddd0;
+  --line-strong: #dccec0;
+  --text: #1c1714;
+  --text-soft: #6b5a4b;
+  --text-mute: #8e7c6b;
+
+  --brand: #612b4f;
+  --brand-2: #a47864;
+  --accent: #e8946a;
+  --accent-2: #e5bf68;
+  --on-brand: #fdfaf7;
+  --brand-soft: #f3e3ee;
+
+  --good: #6b8563;
+  --warn: #d2764b;
+  --bad: #8a6252;
+
+  --grad-brand: linear-gradient(135deg, #612b4f 0%, #a47864 55%, #e8946a 100%);
+  --grad-accent: linear-gradient(120deg, #e8946a, #e5bf68);
+  --ring-alert: rgb(232 148 106 / 0.55);
+  --shadow-soft: 0 1px 2px rgb(46 38 33 / 0.04), 0 8px 24px -12px rgb(46 38 33 / 0.16);
+  --shadow-lift: 0 2px 4px rgb(46 38 33 / 0.05), 0 18px 40px -18px rgb(46 38 33 / 0.26);
+  --glow: 0 12px 40px -12px rgb(97 43 79 / 0.45);
+}
+
+:root[data-skin='seta'].dark,
+.dark:root:not([data-skin='neon']) {
+  --bg: #14100e;
+  --bg-tint: #1b1512;
+  --surface: #1e1815;
+  --surface-2: #272019;
+  --line: #362c25;
+  --line-strong: #4a3d33;
+  --text: #f6efe7;
+  --text-soft: #c4b5a6;
+  --text-mute: #9a8877;
+
+  --brand: #cf9cc0;
+  --brand-2: #cfb09b;
+  --accent: #f0a87c;
+  --accent-2: #f2d492;
+  --on-brand: #1d0d18;
+  --brand-soft: #33202c;
+
+  --good: #a8bfa0;
+  --warn: #f0a87c;
+  --bad: #cfb09b;
+
+  --grad-brand: linear-gradient(135deg, #8e4a7c 0%, #a47864 55%, #e8946a 100%);
+  --ring-alert: rgb(240 168 124 / 0.5);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 18px 40px -18px rgb(0 0 0 / 0.6);
+  --glow: 0 12px 40px -12px rgb(207 156 192 / 0.4);
+}
+
+/* ==========================================================================
+   VERSIONE 2 — «Neon»: elettrica, notturna, ad alto contrasto.
+   ========================================================================== */
+
+:root[data-skin='neon'] {
+  --font-display: var(--font-neon);
+
+  --bg: #f6f6fb;
+  --bg-tint: #ededf8;
+  --surface: #ffffff;
+  --surface-2: #f1f1f9;
+  --line: #e2e2ef;
+  --line-strong: #cdcde3;
+  --text: #0f0f1a;
+  --text-soft: #52526d;
+  --text-mute: #7a7a96;
+
+  --brand: #6d28d9;
+  --brand-2: #0891b2;
+  --accent: #db2777;
+  --accent-2: #d97706;
+  --on-brand: #ffffff;
+  --brand-soft: #ede9fe;
+
+  --good: #059669;
+  --warn: #ea580c;
+  --bad: #dc2626;
+
+  --grad-brand: linear-gradient(135deg, #6d28d9 0%, #db2777 55%, #d97706 100%);
+  --grad-accent: linear-gradient(120deg, #0891b2, #6d28d9);
+  --ring-alert: rgb(219 39 119 / 0.5);
+  --shadow-soft: 0 1px 2px rgb(15 15 26 / 0.05), 0 8px 24px -12px rgb(109 40 217 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(15 15 26 / 0.06), 0 18px 40px -18px rgb(109 40 217 / 0.35);
+  --glow: 0 12px 44px -10px rgb(109 40 217 / 0.5);
+}
+
+:root[data-skin='neon'].dark {
+  --bg: #08080f;
+  --bg-tint: #10101f;
+  --surface: #14142a;
+  --surface-2: #1c1c38;
+  --line: #2a2a4d;
+  --line-strong: #3d3d6b;
+  --text: #f0f0ff;
+  --text-soft: #b4b4d8;
+  --text-mute: #8686ae;
+
+  --brand: #a78bfa;
+  --brand-2: #22d3ee;
+  --accent: #f472b6;
+  --accent-2: #fbbf24;
+  --on-brand: #0a0a14;
+  --brand-soft: #241b4d;
+
+  --good: #34d399;
+  --warn: #fb923c;
+  --bad: #f87171;
+
+  --grad-brand: linear-gradient(135deg, #a78bfa 0%, #f472b6 55%, #fbbf24 100%);
+  --grad-accent: linear-gradient(120deg, #22d3ee, #a78bfa);
+  --ring-alert: rgb(244 114 182 / 0.55);
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 26px -12px rgb(167 139 250 / 0.4);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.45), 0 20px 46px -18px rgb(167 139 250 / 0.5);
+  --glow: 0 14px 48px -10px rgb(167 139 250 / 0.55);
+}
+
+/* I token semantici diventano utility Tailwind: bg-surface, text-soft, … */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-tint: var(--bg-tint);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-soft: var(--text-soft);
+  --color-mute: var(--text-mute);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-brand: var(--on-brand);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * { border-color: var(--line); }
+
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    overscroll-behavior-y: none;
+    touch-action: manipulation;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection { background: var(--accent); color: var(--on-brand); }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-2); background-clip: content-box; }
+
+  input, select, textarea, button { font: inherit; color: inherit; }
+
+  /* Chi ha chiesto meno movimento non perde l'informazione: le animazioni si
+     fermano sul fotogramma finale, che resta visibilmente distinto. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Utility
+   ========================================================================== */
+
+@utility surface-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl2);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility glass {
+  background-color: color-mix(in oklab, var(--surface) 74%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+@utility text-gradient {
+  background-image: var(--grad-brand);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility bg-grad-brand { background-image: var(--grad-brand); }
+@utility bg-grad-accent { background-image: var(--grad-accent); }
+
+@utility aurora {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--bg);
+  /* Gli aloni debordano ai lati di proposito: `clip` li taglia senza creare un
+     contenitore di scorrimento, così le testate sticky continuano a funzionare. */
+  overflow-x: clip;
+}
+
+.aurora::before {
+  content: '';
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 72%;
+  z-index: -1;
+  background:
+    radial-gradient(42% 55% at 18% 30%, color-mix(in srgb, var(--accent) 42%, transparent), transparent 70%),
+    radial-gradient(38% 50% at 80% 18%, color-mix(in srgb, var(--brand) 38%, transparent), transparent 68%),
+    radial-gradient(40% 46% at 52% 70%, color-mix(in srgb, var(--accent-2) 38%, transparent), transparent 70%),
+    radial-gradient(30% 40% at 88% 62%, color-mix(in srgb, var(--brand-2) 32%, transparent), transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.dark .aurora::before { opacity: 0.5; }
+
+/* Bordo sfumato per le schede in evidenza */
+@utility ring-gradient { position: relative; }
+
+.ring-gradient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad-brand);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* L'appuntamento che sta per iniziare: alone pulsante attorno alla scheda. */
+@utility alert-ring {
+  animation: var(--animate-alert);
+  border-color: var(--accent) !important;
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: var(--animate-sweep);
+}
+
+@utility no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@utility stagger {
+  animation: var(--animate-rise);
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+@utility safe-top { padding-top: env(safe-area-inset-top); }
+
+/* ==========================================================================
+   Sfondo fotografico
+   Se esiste public/salone.jpg viene usato come sfondo; altrimenti resta la
+   texture da studio qui sotto, disegnata in CSS (nessun peso da scaricare).
+   Sopra c'è sempre una velatura piena del colore di sfondo del tema: senza,
+   nessun testo sopra una foto resterebbe leggibile.
+   ========================================================================== */
+
+@utility studio-bg {
+  position: relative;
+  isolation: isolate;
+}
+
+.studio-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-color: #17141a;
+  background-image:
+    /* pieghe verticali del fondale */
+    repeating-linear-gradient(
+      100deg,
+      rgb(255 255 255 / 0.035) 0 2px,
+      transparent 2px 9px,
+      rgb(0 0 0 / 0.05) 9px 14px,
+      transparent 14px 26px
+    ),
+    radial-gradient(60% 50% at 50% 12%, rgb(255 255 255 / 0.1), transparent 70%),
+    linear-gradient(170deg, #2a2530 0%, #1a171e 45%, #100e13 100%);
+  background-size: auto, auto, auto;
+}
+
+/* La foto del salone, quando c'è, sostituisce la texture. */
+.studio-bg[data-photo='on']::before {
+  background-image:
+    linear-gradient(170deg, rgb(20 17 23 / 0.35), rgb(16 14 19 / 0.7)),
+    var(--photo-url);
+  background-size: cover;
+  background-position: center 28%;
+}
+
+/* Velatura: il contenuto resta perfettamente leggibile sopra qualsiasi foto. */
+.studio-bg::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+/* Nel tema scuro la foto può respirare un po' di più. */
+.dark .studio-bg::after {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+}
+
+/* Sulla vetrina la foto è protagonista: velatura più leggera e solo in alto. */
+@utility hero-photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero-photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-color: #17141a;
+  background-image:
+    repeating-linear-gradient(
+      100deg,
+      rgb(255 255 255 / 0.04) 0 2px,
+      transparent 2px 9px,
+      rgb(0 0 0 / 0.06) 9px 14px,
+      transparent 14px 26px
+    ),
+    linear-gradient(170deg, #2f2a36 0%, #1b181f 55%, #110f14 100%);
+}
+
+.hero-photo[data-photo='on']::before {
+  background-image: var(--photo-url);
+  background-size: cover;
+  background-position: center 22%;
+}
+
+/* Scrim direzionale: il testo sta sempre sulla parte scura. */
+.hero-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to right, rgb(12 10 14 / 0.88) 0%, rgb(12 10 14 / 0.62) 45%, rgb(12 10 14 / 0.25) 100%),
+    linear-gradient(to top, rgb(12 10 14 / 0.75), transparent 55%);
+  pointer-events: none;
+}

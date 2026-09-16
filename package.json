@@ -1,0 +1,30 @@
+{
+  "name": "onda-salon",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "ONDA — App di prenotazione e gestionale per saloni di parrucchieri",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "^1.31.0",
+    "qrcode-generator": "^2.0.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.0",
+    "vite": "^8.2.1",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}
