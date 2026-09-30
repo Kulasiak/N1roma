@@ -29,7 +29,7 @@ const inp = { boxSizing: 'border-box', width: '100%', height: 50, borderRadius: 
 const btn = (bg, fg) => ({ height: 48, padding: '0 16px', border: 0, borderRadius: 14, background: bg, color: fg, font: "700 15px 'Onest'", cursor: 'pointer', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' });
 
 function Agency() {
-  const [lang, setLang] = useState('it'); const t = S[lang];
+  const [lang, setLang] = useState('it'); const t = APP_URL ? { ...S[lang], ...(lang === 'it' ? { gen: 'Crea codice di accesso', link: 'CODICE PERSONALE', sub: 'Crea il codice personale che sblocca l’app Razem per un viaggiatore o una famiglia.' } : { gen: 'Utwórz kod dostępu', link: 'KOD OSOBISTY', sub: 'Utwórz osobisty kod, który odblokowuje aplikację Razem dla podróżnego lub rodziny.' }) } : S[lang];
   const [pw, setPw] = useState(''); const [key, setKey] = useState(null); const [err, setErr] = useState(''); const [busy, setBusy] = useState(false);
   const [who, setWho] = useState(''); const [ret, setRet] = useState(''); const [until, setUntil] = useState('');
   const [res, setRes] = useState(null); const [copied, setCopied] = useState(''); const [hist, setHist] = useState(loadH);
@@ -69,7 +69,7 @@ function Agency() {
         <div style={box}>
           <label style={{ ...lbl, marginTop: 0 }}>{t.who.toUpperCase()}</label>
           <input value={who} onChange={e => setWho(e.target.value)} placeholder="Anna Nowak + 1" style={inp} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 10 }}>
             <div><label style={lbl}>{t.ret.toUpperCase()}</label><input type="date" value={ret} onChange={e => setRet(e.target.value)} style={inp} /></div>
             <div><label style={lbl}>{t.until.toUpperCase()}</label><input type="date" value={until} onChange={e => setUntil(e.target.value)} style={inp} /></div>
           </div>
@@ -97,7 +97,7 @@ function Agency() {
             <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', borderBottom: '1px solid rgba(22,24,29,.07)' }}>
               <span style={{ font: "700 12px 'JetBrains Mono',monospace", minWidth: 96 }}>{h.label}</span>
               <span style={{ flex: 1, fontSize: 14, fontWeight: 600 }}>{h.who || '—'}<span style={{ display: 'block', fontSize: 12, color: '#5E6068', fontWeight: 400 }}>→ {h.until.split('-').reverse().join('.')}</span></span>
-              <button onClick={() => copy(APP_URL && h.code ? h.code : h.link, 'h' + i)} style={{ ...btn('#F4F1EA', '#16181D'), height: 36, font: "600 13px 'Onest'" }}>{copied === 'h' + i ? '✓' : t.copy}</button>
+              <button onClick={() => copy(APP_URL && h.code ? h.code : h.link, 'h' + i)} style={{ ...btn('#F4F1EA', '#16181D'), height: 36, font: "600 13px 'Onest'" }}>{copied === 'h' + i ? '✓' : (APP_URL && h.code ? t.copyCode : t.copy)}</button>
             </div>))}
         </div>
         <div style={{ fontSize: 12, color: '#5E6068', lineHeight: 1.5, marginTop: 12 }}>{t.revoke}</div>
