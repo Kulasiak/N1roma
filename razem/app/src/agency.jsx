@@ -12,10 +12,13 @@ import { BACKEND } from './api.js';
 import Panel, { S as PS } from './agencyPanel.jsx';
 
 const S = {
-  it: { title: 'Accessi viaggiatori', sub: 'Crea il link personale che sblocca l’app Razem per un viaggiatore o una famiglia.', pw: 'Password agenzia', open: 'Entra', wrong: 'Password errata.', who: 'Nome viaggiatore / gruppo (solo per il vostro archivio)', ret: 'Data di rientro', until: 'Accesso valido fino al', hint: 'Di default 30 giorni dopo il rientro.', gen: 'Crea link di accesso', link: 'LINK PERSONALE', copy: 'Copia link', copied: 'Copiato ✓', wa: 'Invia su WhatsApp', mail: 'Invia per e-mail', msgLbl: 'MESSAGGIO PRONTO (IN POLACCO)', copyMsg: 'Copia messaggio', hist: 'CREATI SU QUESTO COMPUTER', none: 'Nessun link ancora.', revoke: 'Per bloccare un accesso prima della scadenza: comunicate il codice (es. RZM-AB12CD) allo sviluppatore.', lock: 'Esci' },
-  pl: { title: 'Dostępy podróżnych', sub: 'Utwórz osobisty link, który odblokowuje aplikację Razem dla podróżnego lub rodziny.', pw: 'Hasło biura', open: 'Wejdź', wrong: 'Błędne hasło.', who: 'Imię podróżnego / grupa (tylko do Waszej ewidencji)', ret: 'Data powrotu', until: 'Dostęp ważny do', hint: 'Domyślnie 30 dni po powrocie.', gen: 'Utwórz link dostępu', link: 'LINK OSOBISTY', copy: 'Kopiuj link', copied: 'Skopiowano ✓', wa: 'Wyślij przez WhatsApp', mail: 'Wyślij e-mailem', msgLbl: 'GOTOWA WIADOMOŚĆ', copyMsg: 'Kopiuj wiadomość', hist: 'UTWORZONE NA TYM KOMPUTERZE', none: 'Brak linków.', revoke: 'Aby zablokować dostęp przed terminem: przekażcie kod (np. RZM-AB12CD) programiście.', lock: 'Wyloguj' },
+  it: { title: 'Accessi viaggiatori', sub: 'Crea il link personale che sblocca l’app Razem per un viaggiatore o una famiglia.', pw: 'Password agenzia', open: 'Entra', wrong: 'Password errata.', who: 'Nome viaggiatore / gruppo (solo per il vostro archivio)', ret: 'Data di rientro', until: 'Accesso valido fino al', hint: 'Di default 30 giorni dopo il rientro.', gen: 'Crea link di accesso', link: 'LINK PERSONALE', copy: 'Copia link', copyCode: 'Copia codice', copied: 'Copiato ✓', wa: 'Invia su WhatsApp', mail: 'Invia per e-mail', msgLbl: 'MESSAGGIO PRONTO (IN POLACCO)', copyMsg: 'Copia messaggio', hist: 'CREATI SU QUESTO COMPUTER', none: 'Nessun link ancora.', revoke: 'Per bloccare un accesso prima della scadenza: comunicate il codice (es. RZM-AB12CD) allo sviluppatore.', lock: 'Esci' },
+  pl: { title: 'Dostępy podróżnych', sub: 'Utwórz osobisty link, który odblokowuje aplikację Razem dla podróżnego lub rodziny.', pw: 'Hasło biura', open: 'Wejdź', wrong: 'Błędne hasło.', who: 'Imię podróżnego / grupa (tylko do Waszej ewidencji)', ret: 'Data powrotu', until: 'Dostęp ważny do', hint: 'Domyślnie 30 dni po powrocie.', gen: 'Utwórz link dostępu', link: 'LINK OSOBISTY', copy: 'Kopiuj link', copyCode: 'Kopiuj kod', copied: 'Skopiowano ✓', wa: 'Wyślij przez WhatsApp', mail: 'Wyślij e-mailem', msgLbl: 'GOTOWA WIADOMOŚĆ', copyMsg: 'Kopiuj wiadomość', hist: 'UTWORZONE NA TYM KOMPUTERZE', none: 'Brak linków.', revoke: 'Aby zablokować dostęp przed terminem: przekażcie kod (np. RZM-AB12CD) programiście.', lock: 'Wyloguj' },
 };
-const msg = (link, until) => `Dzień dobry! Oto Twój dostęp do aplikacji Razem na podróż do Rzymu:\n${link}\n\n1. Otwórz link w telefonie.\n2. Dodaj aplikację do ekranu głównego (iPhone: Udostępnij → „Do ekranu początkowego”; Android: menu ⋮ → „Zainstaluj aplikację”).\n3. Jeśli aplikacja poprosi o kod, dotknij „Wklej link od biura podróży”.\n\nDostęp ważny do ${until.split('-').reverse().join('.')}. Miłej podróży!`;
+// Hosted build without deep links (VITE_APP_URL set): the traveller opens the app and pastes the code.
+const APP_URL = import.meta.env.VITE_APP_URL || '';
+const msgPaste = (code, until) => `Dzień dobry! Oto Twój dostęp do aplikacji Razem na podróż do Rzymu.\n\n1. Otwórz aplikację: ${APP_URL}\n2. Dotknij „Zaczynamy”, potem wklej ten kod w polu „KOD REZERWACJI” i dotknij „Pobierz”:\n\n${code}\n\nDostęp ważny do ${until.split('-').reverse().join('.')}. Miłej podróży!`;
+const msg = (link, until, code) => APP_URL ? msgPaste(code, until) : `Dzień dobry! Oto Twój dostęp do aplikacji Razem na podróż do Rzymu:\n${link}\n\n1. Otwórz link w telefonie.\n2. Dodaj aplikację do ekranu głównego (iPhone: Udostępnij → „Do ekranu początkowego”; Android: menu ⋮ → „Zainstaluj aplikację”).\n3. Jeśli aplikacja poprosi o kod, dotknij „Wklej link od biura podróży”.\n\nDostęp ważny do ${until.split('-').reverse().join('.')}. Miłej podróży!`;
 const addDays = (iso, n) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
 const HKEY = 'razem.agency.history';
 const loadH = () => { try { return JSON.parse(localStorage.getItem(HKEY)) || []; } catch { return []; } };
@@ -38,11 +41,11 @@ function Agency() {
   const unlock = async (e) => { e.preventDefault(); setBusy(true); setErr(''); try { setKey(await unlockPrivateKey(keys.encPrivateKey, pw)); setPw(''); } catch { setErr(t.wrong); } setBusy(false); };
   const generate = async () => {
     const r = await signCode(key, until);
-    const link = location.origin + '/#k=' + r.code;
-    const item = { label: r.label, who, until, link, at: new Date().toISOString().slice(0, 10) };
+    const link = APP_URL || (location.origin + '/#k=' + r.code);
+    const item = { label: r.label, who, until, link, code: r.code, at: new Date().toISOString().slice(0, 10) };
     setRes(item); const h = [item, ...hist].slice(0, 300); setHist(h); try { localStorage.setItem(HKEY, JSON.stringify(h)); } catch {}
   };
-  const copy = (txt, what) => { navigator.clipboard.writeText(txt).then(() => { setCopied(what); setTimeout(() => setCopied(''), 1500); }); };
+  const copy = (txt, what) => { try { navigator.clipboard.writeText(txt).then(() => { setCopied(what); setTimeout(() => setCopied(''), 1500); }).catch(() => {}); } catch {} };
 
   return (
     <div style={{ maxWidth: BACKEND ? 820 : 560, margin: '0 auto', padding: '24px 20px 60px' }}>
@@ -78,12 +81,12 @@ function Agency() {
           <div style={{ ...box, background: '#16181D', color: '#fff', border: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', font: "700 11px 'JetBrains Mono',monospace", letterSpacing: '.08em', color: '#F2B33D' }}><span>{t.link}</span><span>{res.label} · {res.until.split('-').reverse().join('.')}</span></div>
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}><canvas ref={qr} style={{ borderRadius: 12, background: '#fff', padding: 8 }} /></div>
-            <div style={{ font: "500 11px 'JetBrains Mono',monospace", color: '#C9CBD1', wordBreak: 'break-all', marginTop: 12 }}>{res.link}</div>
+            <div style={{ font: "500 11px 'JetBrains Mono',monospace", color: '#C9CBD1', wordBreak: 'break-all', marginTop: 12, userSelect: 'all' }}>{APP_URL ? res.code : res.link}</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 14 }}>
-              <button onClick={() => copy(res.link, 'l')} style={btn('#F2B33D', '#16181D')}>{copied === 'l' ? t.copied : t.copy}</button>
-              <a href={'https://wa.me/?text=' + encodeURIComponent(msg(res.link, res.until))} target="_blank" rel="noopener" style={btn('#1F8A5B', '#fff')}>{t.wa}</a>
-              <a href={'mailto:?subject=' + encodeURIComponent('Razem — dostęp do aplikacji') + '&body=' + encodeURIComponent(msg(res.link, res.until))} style={btn('rgba(255,255,255,.12)', '#fff')}>{t.mail}</a>
-              <button onClick={() => copy(msg(res.link, res.until), 'm')} style={btn('rgba(255,255,255,.12)', '#fff')}>{copied === 'm' ? t.copied : t.copyMsg}</button>
+              <button onClick={() => copy(APP_URL ? res.code : res.link, 'l')} style={btn('#F2B33D', '#16181D')}>{copied === 'l' ? t.copied : (APP_URL ? t.copyCode : t.copy)}</button>
+              <a href={'https://wa.me/?text=' + encodeURIComponent(msg(res.link, res.until, res.code))} target="_blank" rel="noopener" style={btn('#1F8A5B', '#fff')}>{t.wa}</a>
+              <a href={'mailto:?subject=' + encodeURIComponent('Razem — dostęp do aplikacji') + '&body=' + encodeURIComponent(msg(res.link, res.until, res.code))} style={btn('rgba(255,255,255,.12)', '#fff')}>{t.mail}</a>
+              <button onClick={() => copy(msg(res.link, res.until, res.code), 'm')} style={btn('rgba(255,255,255,.12)', '#fff')}>{copied === 'm' ? t.copied : t.copyMsg}</button>
             </div>
           </div>
         )}
@@ -94,7 +97,7 @@ function Agency() {
             <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', borderBottom: '1px solid rgba(22,24,29,.07)' }}>
               <span style={{ font: "700 12px 'JetBrains Mono',monospace", minWidth: 96 }}>{h.label}</span>
               <span style={{ flex: 1, fontSize: 14, fontWeight: 600 }}>{h.who || '—'}<span style={{ display: 'block', fontSize: 12, color: '#5E6068', fontWeight: 400 }}>→ {h.until.split('-').reverse().join('.')}</span></span>
-              <button onClick={() => copy(h.link, 'h' + i)} style={{ ...btn('#F4F1EA', '#16181D'), height: 36, font: "600 13px 'Onest'" }}>{copied === 'h' + i ? '✓' : t.copy}</button>
+              <button onClick={() => copy(APP_URL && h.code ? h.code : h.link, 'h' + i)} style={{ ...btn('#F4F1EA', '#16181D'), height: 36, font: "600 13px 'Onest'" }}>{copied === 'h' + i ? '✓' : t.copy}</button>
             </div>))}
         </div>
         <div style={{ fontSize: 12, color: '#5E6068', lineHeight: 1.5, marginTop: 12 }}>{t.revoke}</div>
@@ -104,5 +107,8 @@ function Agency() {
   );
 }
 
-document.body.style.cssText = "margin:0;background:#F4F1EA;font-family:'Onest',system-ui,sans-serif;color:#16181D;-webkit-font-smoothing:antialiased";
-createRoot(document.getElementById('root')).render(<Agency />);
+export default Agency;
+if (!window.__RAZEM_EMBED) {
+  document.body.style.cssText = "margin:0;background:#F4F1EA;font-family:'Onest',system-ui,sans-serif;color:#16181D;-webkit-font-smoothing:antialiased";
+  createRoot(document.getElementById('root')).render(<Agency />);
+}

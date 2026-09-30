@@ -1,0 +1,6 @@
+/* Hosted single-file build: fit the viewer's frame; the agency area is a normal scrolling page. */
+:root { color-scheme: light; }
+html, body { height: 100%; background: #E7E3DA; }
+#root { height: 100%; }
+html.rz-agency, html.rz-agency body { height: auto; background: #F4F1EA; }
+html.rz-agency #root { max-width: none; height: auto; box-shadow: none; }
