@@ -30,8 +30,9 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/agenzia/],
-        globIgnores: ['agenzia.html', 'assets/agenzia-*'],
+        globIgnores: ['agenzia.html', 'assets/agenzia-*', 'config.js'],
         runtimeCaching: [
+          { urlPattern: ({ url }) => url.pathname === '/config.js', handler: 'NetworkFirst', options: { cacheName: 'config', networkTimeoutSeconds: 3 } },
           // Rome map tiles: cached as you browse, so the map keeps working offline.
           { urlPattern: /^https:\/\/tile\.openstreetmap\.org\//, handler: 'CacheFirst',
             options: { cacheName: 'osm-tiles', expiration: { maxEntries: 3000, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [0, 200] } } },

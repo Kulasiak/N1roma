@@ -14,8 +14,8 @@ export const DEMO_CODE = 'RZM-2481';
 // Accepts a code, or a whole invitation link (…/#k=RZM1.xxxx) pasted from a message.
 export function normCode(c) {
   const s = (c || '').trim();
-  const m = s.match(/[#?&]k=([A-Za-z0-9._-]+)/);
-  if (m) return m[1];
+  const m = s.match(/[#?&][kc]=([A-Za-z0-9._-]+)/);
+  if (m) return m[1].startsWith('RZM1.') ? m[1] : m[1].toUpperCase();
   const sig = s.match(/RZM1\.[A-Za-z0-9_-]+/);
   if (sig) return sig[0];
   return s.toUpperCase().replace(/\s+/g, '');

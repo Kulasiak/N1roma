@@ -20,6 +20,27 @@ npm run preview   # serve dist/ (service worker active)
 
 On the phone: open the URL, then **Share → Add to Home Screen** (iOS Safari) or **Install app** (Android Chrome). It opens full-screen, like a native app.
 
+## Two versions, one build
+
+`public/config.js` decides which version runs:
+
+- **Empty (stand-alone):** no server. The agency creates signed links on `/agenzia` (see *Access*). Trip data is the design's demo trip and the chat replies are simulated.
+- **With Supabase URL + anon key (backend):** the agency logs in on `/agenzia`. For each booking it enters flight, hotel, transfer, contacts and the day-by-day programme, and gets a code, link and QR. The traveller sees their real data. The chat with the assistant is real. Access limits are enforced by the server: max 6 phones per code, expiry date, instant blocking, and disconnecting a phone.
+
+You can edit `config.js` directly in the published folder; no rebuild is needed.
+
+## Backend (Supabase, free plan)
+
+1. Create a project at supabase.com (EU region, e.g. Frankfurt).
+2. SQL Editor → paste `supabase/schema.sql` → Run.
+3. In the same editor, run `select razem_create_agency('Agency name', 'office@agency.pl', 'a-long-password');`
+4. Project Settings → API: copy the **Project URL** and the **anon public** key into `config.js`.
+5. Republish, then log in at `/agenzia` with that e-mail and password.
+
+How it works: every table is closed to the public (RLS on, no policies). The app and the panel only call the `agency_*` / `trip_*` SQL functions, which check an agency session token or a traveller device token. Travellers pick up new messages every 4 s while the chat is open (every 16 s otherwise), and re-check their access every minute and whenever the app is reopened. A blocked, expired or disconnected phone returns to the code screen. Messages written offline are kept on the phone and sent when it reconnects; if the assistant has a phone number, the SMS app also opens.
+
+Local development without Supabase: `node scripts/dev-backend.mjs` runs the same SQL in an in-process Postgres (PGlite) with the same HTTP API on :54321 (agency `demo@razem.test` / `demo-password-123`). `scripts/e2e-backend.mjs` is the end-to-end test (21 checks).
+
 ## Access (trip codes)
 
 **Normal flow, no rebuild needed.** The agency opens `/agenzia` on the published site, enters the agency password, sets the return date (access is valid until 30 days after it by default) and gets a personal link + QR code. It can send them by WhatsApp or email, with a ready-made message in Polish. The traveller opens the link and the app unlocks. Each link is digitally signed (ECDSA P-256): the app checks it offline with the public key, and it can't be forged or have its date changed.
@@ -51,6 +72,9 @@ Codes are stored in `src/access-codes.json` as SHA-256 hashes only; the plain co
 | `src/View.jsx` | The UI, converted from the prototype template by `scripts/convert.mjs`, then adapted to full screen. |
 | `src/MapView.jsx` | The Leaflet map from `map.html`: position, hotel, POIs, crowd layer and route. |
 | `src/access.js`, `src/access-codes.json` | Trip-code access check and the list of valid codes. |
+| `src/api.js`, `src/trip.js` | Backend client (Supabase RPC) and booking → screen values. |
+| `src/agency.jsx`, `src/agencyPanel.jsx` | Agency page: signed links (stand-alone) or the bookings panel (backend). |
+| `supabase/schema.sql` | Database, security and API functions. |
 | `src/storage.js` | Saved app state (localStorage) and the encrypted document vault (IndexedDB + AES-GCM). |
 
 ## Real vs. simulated
@@ -65,8 +89,10 @@ Codes are stored in `src/access-codes.json` as SHA-256 hashes only; the plain co
 - Privacy: "Download my data" exports JSON, and "Delete account" (tap twice) wipes everything on the device.
 - 112 is a real `tel:` link.
 
-**Still simulated, needs a backend or integrations** (see the design README → *Integrations needed*)
-- Loading trip details from the code (flight and hotel are still demo data), Marta's chat replies, calls and video (VoIP), booking confirmations.
-- Payments (Apple Pay / Google Pay), Wallet passes, QR codes, availability, weather, strikes and crowd levels.
-- Face ID unlock (a WebAuthn platform authenticator could replace it), watch/Bluetooth distance alarm, group geofencing, push notifications.
+**Still simulated** (see the design README → *Integrations needed*)
+- Weather, strikes, crowd levels, tour availability, payments (Apple Pay / Google Pay), Wallet passes and QR codes.
+- Tour booking requests go to the real chat, but the assistant confirms them by writing back; there is no automatic voucher yet.
+- Video calls: with a phone number the button opens WhatsApp; otherwise it shows the simulated call screen. Normal calls use the real number when the agency has entered one.
+- Face ID, the watch/Bluetooth alarm, group geofencing and push notifications (the chat uses polling).
+- The assistant's name inside the fixed texts is "Marta"; name, initials and phone on cards and in the chat come from the booking.
 - Photos come from Wikimedia Commons; the production app needs licensed photos or credits.

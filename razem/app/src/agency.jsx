@@ -8,6 +8,8 @@ import '@fontsource/onest/800.css';
 import '@fontsource/jetbrains-mono/700.css';
 import keys from './access-keys.json';
 import { signCode, unlockPrivateKey } from './signedCode.js';
+import { BACKEND } from './api.js';
+import Panel, { S as PS } from './agencyPanel.jsx';
 
 const S = {
   it: { title: 'Accessi viaggiatori', sub: 'Crea il link personale che sblocca l’app Razem per un viaggiatore o una famiglia.', pw: 'Password agenzia', open: 'Entra', wrong: 'Password errata.', who: 'Nome viaggiatore / gruppo (solo per il vostro archivio)', ret: 'Data di rientro', until: 'Accesso valido fino al', hint: 'Di default 30 giorni dopo il rientro.', gen: 'Crea link di accesso', link: 'LINK PERSONALE', copy: 'Copia link', copied: 'Copiato ✓', wa: 'Invia su WhatsApp', mail: 'Invia per e-mail', msgLbl: 'MESSAGGIO PRONTO (IN POLACCO)', copyMsg: 'Copia messaggio', hist: 'CREATI SU QUESTO COMPUTER', none: 'Nessun link ancora.', revoke: 'Per bloccare un accesso prima della scadenza: comunicate il codice (es. RZM-AB12CD) allo sviluppatore.', lock: 'Esci' },
@@ -43,17 +45,17 @@ function Agency() {
   const copy = (txt, what) => { navigator.clipboard.writeText(txt).then(() => { setCopied(what); setTimeout(() => setCopied(''), 1500); }); };
 
   return (
-    <div style={{ maxWidth: 560, margin: '0 auto', padding: '24px 20px 60px' }}>
+    <div style={{ maxWidth: BACKEND ? 820 : 560, margin: '0 auto', padding: '24px 20px 60px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ fontWeight: 800, fontSize: 22, letterSpacing: '-.03em' }}>razem<span style={{ color: '#C8102E' }}>.</span> <span style={{ font: "700 11px 'JetBrains Mono',monospace", color: '#5E6068', letterSpacing: '.08em' }}>AGENZIA</span></div>
         <div style={{ display: 'flex', gap: 2, background: '#E4DFD4', borderRadius: 9, padding: 3 }}>
           {['it', 'pl'].map(c => <button key={c} onClick={() => setLang(c)} style={{ border: 0, borderRadius: 7, padding: '5px 9px', font: "700 11px 'JetBrains Mono',monospace", cursor: 'pointer', background: c === lang ? '#16181D' : 'transparent', color: c === lang ? '#fff' : '#5E6068' }}>{c.toUpperCase()}</button>)}
         </div>
       </div>
-      <h1 style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-.03em', margin: '24px 0 6px' }}>{t.title}</h1>
+      <h1 style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-.03em', margin: '24px 0 6px' }}>{BACKEND ? PS[lang].bookings : t.title}</h1>
       <div style={{ fontSize: 15, color: '#4A4C54', lineHeight: 1.45 }}>{t.sub}</div>
 
-      {!key ? (
+      {BACKEND ? <Panel t={PS[lang]} /> : !key ? (
         <form onSubmit={unlock} style={box}>
           <label style={{ ...lbl, marginTop: 0 }}>{t.pw.toUpperCase()}</label>
           <input type="password" autoComplete="current-password" value={pw} onChange={e => setPw(e.target.value)} style={inp} />

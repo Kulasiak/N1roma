@@ -3,15 +3,22 @@ import View from './View.jsx';
 import { DEMO_POS, HOTEL } from './MapView.jsx';
 import { loadState, saveState, saveDoc, loadDocs, wipeAll } from './storage.js';
 import { checkCode, SHOW_DEMO, DEMO_CODE, normCode } from './access.js';
+import { isSigned } from './signedCode.js';
+import { BACKEND, rpc, deviceId, deviceLabel } from './api.js';
+import { tripView } from './trip.js';
+
+const LOCK_ERR = ['revoked','expired','device_removed'];
+const hm = (iso) => { const d = new Date(iso); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); };
+const trfTicket = (bk) => { const tr = bk.trip || {}, f = tr.flight || {}, h = tr.hotel || {}, x = tr.transfer || {}; const title = 'Transfer ' + ((f.airport || 'FCO').split(/[ ·]/)[0]) + ' → ' + (h.name || 'Hotel'); return { id:'trf', kind:'TRF', t:{ pl:title, it:title, en:title }, sub:[f.date ? f.date.slice(8,10)+'.'+f.date.slice(5,7) : '', x.time, x.driver, x.plate].filter(Boolean).join(' · '), code:bk.code, auto:true }; };
 import { T, ROUTE_STEPS, PH, IMGS, GUIDE_DEST, L, TOURS, CATS, PHRASES, TIPS, DATES, TIMES, avail, fmt, CROWD, WEATHER, qrFor, PLAN, DAYS, now } from './data.js';
 
 // Extra strings for PWA-only features (live GPS + hand-off to native navigation).
-Object.assign(T.pl, { codeInvalid:'Nieprawidłowy kod. Sprawdź kod od biura podróży.', codeExpired:'Ten kod wygasł. Skontaktuj się z biurem podróży.', codeChecking:'Sprawdzanie…', pasteLink:'Wklej link od biura podróży', gpsHere:'Twoja pozycja (GPS)', navOpen:'Nawigacja krok po kroku', fromHotel:'{d} od hotelu' });
-Object.assign(T.it, { codeInvalid:"Codice non valido. Controlla il codice dell'agenzia.", codeExpired:"Questo codice è scaduto. Contatta l'agenzia.", codeChecking:'Verifica…', pasteLink:"Incolla il link dell'agenzia", gpsHere:'La tua posizione (GPS)', navOpen:'Navigazione passo passo', fromHotel:"{d} dall'hotel" });
-Object.assign(T.en, { codeInvalid:'Invalid code. Check the code from your travel agency.', codeExpired:'This code has expired. Please contact your travel agency.', codeChecking:'Checking…', pasteLink:'Paste the link from your agency', gpsHere:'Your position (GPS)', navOpen:'Turn-by-turn navigation', fromHotel:'{d} from the hotel' });
+Object.assign(T.pl, { codeInvalid:'Nieprawidłowy kod. Sprawdź kod od biura podróży.', codeExpired:'Ten kod wygasł. Skontaktuj się z biurem podróży.', codeRevoked:'Dostęp został zablokowany przez biuro podróży.', codeDevices:'Ten kod jest już używany na 6 telefonach. Poproś biuro o usunięcie starego telefonu.', codeRemoved:'Ten telefon został odłączony od podróży. Wpisz kod ponownie.', codeNetwork:'Brak połączenia. Sprawdź internet i spróbuj ponownie.', codeChecking:'Sprawdzanie…', pasteLink:'Wklej link od biura podróży', gpsHere:'Twoja pozycja (GPS)', navOpen:'Nawigacja krok po kroku', fromHotel:'{d} od hotelu' });
+Object.assign(T.it, { codeInvalid:"Codice non valido. Controlla il codice dell'agenzia.", codeExpired:"Questo codice è scaduto. Contatta l'agenzia.", codeRevoked:"L'accesso è stato bloccato dall'agenzia.", codeDevices:"Questo codice è già usato su 6 telefoni. Chiedi all'agenzia di rimuovere un telefono vecchio.", codeRemoved:'Questo telefono è stato scollegato dal viaggio. Inserisci di nuovo il codice.', codeNetwork:'Nessuna connessione. Controlla internet e riprova.', codeChecking:'Verifica…', pasteLink:"Incolla il link dell'agenzia", gpsHere:'La tua posizione (GPS)', navOpen:'Navigazione passo passo', fromHotel:"{d} dall'hotel" });
+Object.assign(T.en, { codeInvalid:'Invalid code. Check the code from your travel agency.', codeExpired:'This code has expired. Please contact your travel agency.', codeRevoked:'Access has been blocked by your travel agency.', codeDevices:'This code is already used on 6 phones. Ask your agency to remove an old phone.', codeRemoved:'This phone was disconnected from the trip. Enter the code again.', codeNetwork:'No connection. Check your internet and try again.', codeChecking:'Checking…', pasteLink:'Paste the link from your agency', gpsHere:'Your position (GPS)', navOpen:'Turn-by-turn navigation', fromHotel:'{d} from the hotel' });
 
 // State that survives app restarts (everything else is per-session UI state).
-const KEEP = ['lang','onbDone','code','tripLoaded','rodo','locMode','tickets','bStatus','msgs','stage','strikeHidden','safetyHidden','shareDocs','autoDel','agencyShare','alarmMode','alarmDist','groupAlert','groupRadius','crowdOff','people','docIds','filter','codeLabel'];
+const KEEP = ['lang','onbDone','code','tripLoaded','rodo','locMode','tickets','bStatus','msgs','stage','strikeHidden','safetyHidden','shareDocs','autoDel','agencyShare','alarmMode','alarmDist','groupAlert','groupRadius','crowdOff','people','docIds','filter','codeLabel','tripToken','booking','lastMsgId','unread'];
 function restore(){
   const p = loadState(); if (!p) return {};
   const o = {}; KEEP.forEach(k => { if (k in p) o[k] = p[k]; });
@@ -81,7 +88,7 @@ export default class App extends React.Component {
   }
   mapPush(s){ if (s === 'map' && !this.pushShown) { this.pushShown = true; this.later(() => this.setState({ pushOn:true }), 1500); this.later(() => this.setState({ pushOn:false }), 8000); } }
   go = (s) => this.mapPush(s) || this.setState(st => st.screen === s ? null : ({ screen:s, history:[...st.history, st.screen], citySheet:false }));
-  tab = (s) => this.mapPush(s) || this.setState({ screen:s, history:[] });
+  tab = (s) => this.mapPush(s) || this.setState(s === 'chat' ? { screen:s, history:[], unread:0 } : { screen:s, history:[] });
   back = () => this.setState(st => { const h = [...st.history]; const p = h.pop() || 'home'; return { screen:p, history:h }; });
   martaReply(text, delay=1600, extra){
     this.later(() => this.setState({ typing:true }), 500);
@@ -89,17 +96,63 @@ export default class App extends React.Component {
   }
   send(text){
     if (!text.trim()) return;
+    if (BACKEND && this.state.tripToken) {
+      const lid = 'l' + Date.now() + Math.random().toString(36).slice(2);
+      this.setState(st => ({ msgs:[...st.msgs, { from:'u', text, time:now(), pending:true, lid }], draft:'' }), () => this.syncMessages());
+      const ph = tripView(this.state.booking, this.state.lang, T[this.state.lang]).assistantPhone;
+      if (this.state.offline && ph) window.location.href = 'sms:' + ph.replace(/\s/g, '') + '?&body=' + encodeURIComponent(text);
+      return;
+    }
     this.setState(st => ({ msgs:[...st.msgs, { from:'u', text, time:now() }], draft:'' }));
     this.martaReply(this.state.offline ? 'Dostałam Twój SMS. Nie masz internetu — zadzwonię do Ciebie za minutę na zwykły numer.' : 'Rozumiem, już się tym zajmuję. Odezwę się za 2 minuty — jeśli wolisz, mogę też zadzwonić.');
   }
-  startCall(name, initials, video){
+  startCall(name, initials, video, phone){
+    if (phone) { const p = phone.replace(/[^\d+]/g, ''); window.location.href = video ? 'https://wa.me/' + p.replace(/^\+/, '') : 'tel:' + p; return; }
     this.setState({ calling:{ name, initials, video }, callUp:false });
     this.later(() => this.setState(st => st.calling ? { callUp:true } : null), 1800);
   }
   cleanup = [];
   H(){ const r = this.screenRef.current; return r ? r.clientHeight : window.innerHeight; }
+  lock(err){ this.setState({ onbDone:false, tripLoaded:false, tripToken:null, booking:null, screen:'onb', onb:1, history:[], codeErr:err, guide:false, calling:null, pay:null }); }
+  activate(code, fromLink){
+    if (this.state.checking) return;
+    this.setState({ checking:true, codeErr:null });
+    rpc('trip_activate', { p_code:normCode(code), p_device:deviceId(), p_label:deviceLabel() }).then(r => {
+      if (!r.ok) return this.setState({ tripLoaded:false, codeErr:r.error, checking:false, ...(fromLink ? { screen:'onb', onb:1 } : {}) });
+      const bk = r.booking;
+      this.setState(st => ({ code:bk.code, codeLabel:bk.code, tripLoaded:true, checking:false, tripToken:r.token, booking:bk, msgs:[], lastMsgId:0, unread:0,
+        tickets:[trfTicket(bk), ...st.tickets.filter(k => k.id !== 'trf')],
+        ...(fromLink ? (st.onbDone ? { screen:'home', history:[] } : { screen:'onb', onb:Math.max(st.onb, 1) }) : {}) }), () => this.syncMessages());
+    }).catch(() => this.setState({ codeErr:'network', checking:false }));
+  }
+  refreshTrip(){
+    if (!BACKEND || !this.state.tripToken || navigator.onLine === false) return;
+    rpc('trip_get', { p_token:this.state.tripToken }).then(r => { if (r.ok) this.setState({ booking:r.booking }); else if (LOCK_ERR.includes(r.error)) this.lock(r.error); }).catch(() => {});
+  }
+  async syncMessages(){
+    if (!BACKEND || !this.state.tripToken || navigator.onLine === false || this.syncing) return;
+    this.syncing = true;
+    try {
+      const tok = this.state.tripToken;
+      for (const m of this.state.msgs.filter(m => m.pending)) {
+        const r = await rpc('trip_send', { p_token:tok, p_body:m.text });
+        if (r.ok) this.setState(st => ({ msgs:st.msgs.filter(x => x.lid !== m.lid) }));
+        else if (LOCK_ERR.includes(r.error)) return this.lock(r.error);
+      }
+      const r = await rpc('trip_messages', { p_token:tok, p_after:this.state.lastMsgId || 0 });
+      if (!r.ok) { if (LOCK_ERR.includes(r.error)) this.lock(r.error); return; }
+      if (r.messages.length) this.setState(st => {
+        const have = new Set(st.msgs.map(m => m.sid));
+        const add = r.messages.filter(m => !have.has(m.id)).map(m => ({ sid:m.id, from:m.from === 'traveller' ? 'u' : 'm', text:m.text, time:hm(m.at) }));
+        const fresh = add.filter(m => m.from === 'm').length;
+        return { msgs:[...st.msgs.filter(m => !m.pending), ...add, ...st.msgs.filter(m => m.pending)], lastMsgId:Math.max(st.lastMsgId || 0, ...r.messages.map(m => m.id)),
+          unread: st.screen === 'chat' ? 0 : (st.unread || 0) + fresh };
+      });
+    } catch {} finally { this.syncing = false; }
+  }
   verify(code){
     if (this.state.checking) return;
+    if (BACKEND && !isSigned(normCode(code))) return this.activate(code);
     this.setState({ checking:true, codeErr:null });
     checkCode(code).then(r => this.setState(r.ok ? { code:normCode(code), codeLabel:r.label, tripLoaded:true, checking:false } : { tripLoaded:false, codeErr:r.reason, checking:false }));
   }
@@ -109,9 +162,22 @@ export default class App extends React.Component {
   componentDidMount(){
     // Invitation link from the agency (…/#k=RZM1.…): unlock straight away.
     const inv = normCode(location.hash);
-    if (/[#&]k=/.test(location.hash)) checkCode(inv).then(r => { if (r.ok) this.setState(st => ({ code:inv, codeLabel:r.label, tripLoaded:true, codeErr:null, ...(st.onbDone ? { screen:'home', history:[] } : { screen:'onb', onb:Math.max(st.onb, 1) }) })); else this.setState({ codeErr:r.reason, screen:'onb', onb:1 }); });
+    const hasInvite = /[#&][kc]=/.test(location.hash);
+    // Read the invitation once, then drop it from the address so reopening the app never re-uses it silently.
+    if (hasInvite) try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+    if (BACKEND && hasInvite && !isSigned(inv)) this.activate(inv, true);
+    if (BACKEND) {
+      let n = 0;
+      const tick = () => { if (document.visibilityState !== 'visible') return; n++; if (this.state.screen === 'chat' || n % 4 === 0) this.syncMessages(); if (n % 15 === 0) this.refreshTrip(); };
+      const iv = setInterval(tick, 4000); this.cleanup.push(() => clearInterval(iv));
+      const wake = () => { if (document.visibilityState === 'visible') { this.refreshTrip(); this.syncMessages(); } };
+      document.addEventListener('visibilitychange', wake); window.addEventListener('online', wake);
+      this.cleanup.push(() => { document.removeEventListener('visibilitychange', wake); window.removeEventListener('online', wake); });
+      this.refreshTrip(); this.syncMessages();
+    }
+    if (hasInvite && isSigned(inv)) checkCode(inv).then(r => { if (r.ok) this.setState(st => ({ code:inv, codeLabel:r.label, tripLoaded:true, codeErr:null, ...(st.onbDone ? { screen:'home', history:[] } : { screen:'onb', onb:Math.max(st.onb, 1) }) })); else this.setState({ codeErr:r.reason, screen:'onb', onb:1 }); });
     // Re-check the saved trip code at every launch: expired or removed codes lose access.
-    if (!/[#&]k=/.test(location.hash) && (this.state.onbDone || this.state.tripLoaded)) checkCode(this.state.code).then(r => { if (!r.ok) this.setState({ onbDone:false, tripLoaded:false, screen:'onb', onb:1, history:[], codeErr:r.reason }); });
+    if (!hasInvite && !this.state.tripToken && (this.state.onbDone || this.state.tripLoaded)) checkCode(this.state.code).then(r => { if (!r.ok) this.setState({ onbDone:false, tripLoaded:false, screen:'onb', onb:1, history:[], codeErr:r.reason }); });
     const net = () => this.setState({ offline: navigator.onLine === false });
     window.addEventListener('online', net); window.addEventListener('offline', net);
     this.cleanup.push(() => { window.removeEventListener('online', net); window.removeEventListener('offline', net); });
@@ -127,17 +193,19 @@ export default class App extends React.Component {
       () => {}, { enableHighAccuracy:true, maximumAge:10000, timeout:20000 });
     this.cleanup.push(() => navigator.geolocation.clearWatch(this.gpsId));
   }
-  mapVals(t){
+  mapVals(t, tv){
     const g = this.state.gps, real = !!(g && this.state.locMode !== 'off' && inRome(g.ll));
-    const ll = real ? g.ll : DEMO_POS, d = dist(ll, HOTEL);
+    const custom = tv.custom && (tv.hotelLL || tv.hotelName !== 'Hotel Artemide'), H = tv.hotelLL || HOTEL;
+    const ll = real ? g.ll : DEMO_POS, d = dist(ll, H);
     const km = d < 1000 ? Math.round(d/10)*10 + ' m' : (d/1000).toFixed(1).replace('.', this.state.lang==='en' ? '.' : ',') + ' km';
     return {
       mapPos: { ll, acc: real ? g.acc : 35, real },
       placeName: real ? t.gpsHere : 'Fontanna di Trevi',
-      placeSub: real ? fmt(t.fromHotel, { d:km }) : 'Piazza di Trevi · ' + t.toHotel,
-      routeHead: real ? Math.max(1, Math.round(d * 1.3 / 80)) + ' min · ' + km : '14 min · 1,1 km',
-      demoRoute: !real,
-      navHref: 'https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=' + HOTEL.join(',') + (real ? '&origin=' + ll.join(',') : ''),
+      placeSub: (real || custom) ? (custom && !tv.hotelLL ? tv.hotelName : fmt(t.fromHotel, { d:km })) : 'Piazza di Trevi · ' + t.toHotel,
+      routeHead: (real || custom) ? (custom && !tv.hotelLL ? '' : Math.max(1, Math.round(d * 1.3 / 80)) + ' min · ' + km) : '14 min · 1,1 km',
+      demoRoute: !real && !custom,
+      mapHotel: custom ? (tv.hotelLL ? { ll:tv.hotelLL, label:tv.hotelShort } : null) : { ll:HOTEL, label:'Artemide' },
+      navHref: 'https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=' + (custom && !tv.hotelLL ? encodeURIComponent(tv.hotelName + ', ' + tv.hotelAddrLine) : H.join(',')) + (real ? '&origin=' + ll.join(',') : ''),
     };
   }
   armMotion(){
@@ -162,7 +230,7 @@ export default class App extends React.Component {
   }
   render(){ return <View v={this.renderVals()} />; }
   renderVals(){
-    const s = this.state, lang = s.lang, t = T[lang];
+    const s = this.state, lang = s.lang, tv = tripView(s.booking, lang, T[lang]), t = tv.t;
     const sc = s.screen;
     const dark = sc === 'sos';
     const subTitles = { transfer:t.transfer, tour:t.tabExplore, sos:t.sosT, hotel:t.hotel, transport:t.transport, tips:t.tips, phrases:t.phrases, trip:t.trip, docs:t.vaultT, privacy:t.privacy, protect:t.protect, tickets:t.tickets };
@@ -170,13 +238,15 @@ export default class App extends React.Component {
     const activeTab = tabOf[sc];
     const tabDefs = [['home','',t.tabToday],['map','',t.tabMap],['explore','',t.tabExplore],['help','',t.tabHelp],['chat','',t.tabChat]];
     const icons = { home:'●', map:'◇', explore:'◎', help:'!', chat:'···' };
-    const tabs = tabDefs.map(([id,code,label]) => ({ code: icons[id], label, onClick:()=>this.tab(id), fg: activeTab===id ? '#16181D' : '#8A8D96', bg: activeTab===id ? (id==='help' ? '#C8102E' : '#16181D') : 'transparent', iconFg: activeTab===id ? '#fff' : (id==='help' ? '#C8102E' : '#8A8D96') }));
+    const tabs = tabDefs.map(([id,code,label]) => ({ code: id==='chat' && s.unread && sc!=='chat' ? String(s.unread) : icons[id], label, onClick:()=>this.tab(id), fg: activeTab===id ? '#16181D' : '#8A8D96', bg: activeTab===id ? (id==='help' ? '#C8102E' : '#16181D') : 'transparent', iconFg: activeTab===id ? '#fff' : (id==='help' ? '#C8102E' : '#8A8D96') }));
+    if (s.unread && sc!=='chat') Object.assign(tabs[4], { bg:'#C8102E', iconFg:'#fff' });
     const langs = ['pl','it','en'].map(c => ({ code:c.toUpperCase(), onClick:()=>this.setState({lang:c}), bg: c===lang ? '#16181D' : 'transparent', fg: c===lang ? '#fff' : '#5E6068' }));
     const stageDefs = [[t.st0,t.st0s],[t.st1,t.st1s],[t.st2,t.st2s],[t.st3,t.st3s]];
     const stages = stageDefs.map(([label,sub],i) => { const done = i < s.stage, cur = i === s.stage; return { label, sub, mark: done ? '✓' : String(i+1), dotBg: done ? '#1F8A5B' : cur ? '#F2B33D' : '#E4DFD4', dotFg: done ? '#fff' : '#16181D', lineBg: i===3 ? 'transparent' : done ? '#1F8A5B' : '#E4DFD4', color: done ? '#5E6068' : '#16181D', weight: cur ? 700 : 500 }; });
     const stageLabel = s.stage >= 4 ? t.st4 : stageDefs[s.stage][0] + ' · ' + stageDefs[s.stage][1];
     const tiles = [['TRF',t.transfer,'transfer'],['HTL',t.hotel,'hotel'],['BUS',t.transport,'transport'],['TUR',t.tours,'x:tours'],['MUZ',t.museums,'x:museums'],['VAT',t.vatican,'x:vatican'],['MAP',t.map,'map'],['DOC',t.docs,'docs'],['TIP',t.tips,'tips'],['ABC',t.phrases,'phrases'],['PRV',t.privacy,'privacy'],['ALR',t.protect,'protect']].map(([code,label,dest]) => ({ code, label, fg: code==='VAT' ? '#C8102E' : code==='MAP' ? '#1C5FB8' : '#16181D', onClick:()=>{ if (dest.startsWith('x:')) { this.setState({ filter:dest.slice(2) }); this.go('explore'); } else this.go(dest); } }));
-    const planToday = PLAN.map((p,i) => { const done = i===0 || (i===1 && s.stage>=4); const now_ = i===1 && s.stage<4; return { time:p.time, title:L(p.t,lang), sub:p.s, color: done ? '#8A8D96' : '#16181D', timeColor: now_ ? '#C8102E' : done ? '#8A8D96' : '#16181D', badge: done ? 'OK' : now_ ? '●' : '', badgeColor: done ? '#1F8A5B' : '#C8102E' }; });
+    const plan = tv.plan || PLAN, firstOpen = tv.plan ? tv.planDone.indexOf(false) : -1;
+    const planToday = plan.map((p,i) => { const done = tv.plan ? tv.planDone[i] : (i===0 || (i===1 && s.stage>=4)); const now_ = tv.plan ? (i === firstOpen && tv.planDone.some(Boolean)) : (i===1 && s.stage<4); return { time:p.time, title:L(p.t,lang), sub:p.s, color: done ? '#8A8D96' : '#16181D', timeColor: now_ ? '#C8102E' : done ? '#8A8D96' : '#16181D', badge: done ? 'OK' : now_ ? '●' : '', badgeColor: done ? '#1F8A5B' : '#C8102E' }; });
     const filters = [['all',t.all],['tours',t.tours],['museums',t.museums],['vatican',t.vatican]].map(([id,label]) => ({ label, onClick:()=>this.setState({filter:id}), bg: s.filter===id ? '#16181D' : '#fff', fg: s.filter===id ? '#fff' : '#16181D', border: s.filter===id ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)' }));
     const statusOf = (id) => s.bStatus[id];
     const tourList = TOURS.filter(x => s.filter==='all' || x.cat===s.filter).map(x => { const st = statusOf(x.id); const first = DATES.map(d => [d, TIMES.reduce((a,tm)=>a+avail(x.id,d,tm),0)]).find(([,n]) => n>0) || ['—',0]; const low = first[1] < 10;
@@ -187,10 +257,11 @@ export default class App extends React.Component {
     const opt = (v, cur, key) => ({ label:v, onClick:()=>this.setState({[key]:v}), bg: v===cur ? '#16181D' : '#fff', fg: v===cur ? '#fff' : '#16181D', border: v===cur ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)' });
     const priceNum = parseInt(tx.price);
     const cats = CATS.map(c => { const on = s.helpCat===c.id; return { code:c.code, label:L(c.t,lang), onClick:()=>this.setState({helpCat:c.id}), bg: on ? '#16181D' : '#fff', fg: on ? '#fff' : '#16181D', border: on ? '1.5px solid #16181D' : '1.5px solid rgba(22,24,29,.1)' }; });
-    const msgs = s.msgs.map(m => ({ ...m, align: m.from==='u' ? 'flex-end' : 'flex-start', bg: m.from==='u' ? '#16181D' : '#fff', fg: m.from==='u' ? '#fff' : '#16181D' }));
+    const shown = BACKEND && s.tripToken && !s.msgs.length ? [{ from:'m', text:{ pl:'Dzień dobry! Jestem '+tv.assistantName.split(' ')[0]+', Twoja opiekunka w Rzymie. Pisz o każdej porze.', it:'Buongiorno! Sono '+tv.assistantName.split(' ')[0]+', la tua assistente a Roma. Scrivimi quando vuoi.', en:'Hello! I am '+tv.assistantName.split(' ')[0]+', your assistant in Rome. Message me any time.' }[lang], time:'' }] : s.msgs;
+    const msgs = shown.map(m => ({ ...m, align: m.from==='u' ? 'flex-end' : 'flex-start', bg: m.from==='u' ? '#16181D' : '#fff', fg: m.from==='u' ? '#fff' : '#16181D' }));
     const phraseList = PHRASES.map(([pl,it,say],i) => { const big = s.bigPhrase===i; return { pl: lang==='pl' ? pl : (lang==='en' ? ['Good morning','Thank you','How much is it?','Where is the toilet?','The bill, please','I need help',"I don't speak Italian"][i] : pl), it, say, size: big ? '32px' : '19px', bg: big ? '#16181D' : '#fff', fg: big ? '#fff' : '#16181D', onClick:()=>this.setState({ bigPhrase: big ? null : i }) }; });
     return {
-      t, langs, tabs, tiles, planToday, stages, stageLabel, filters, tourList, tour, cats, msgs, phraseList,
+      trip: tv, t, langs, tabs, tiles, planToday, stages, stageLabel, filters, tourList, tour, cats, msgs, phraseList,
       scrollRef:this.scrollRef,
       statusBg: dark ? '#C8102E' : '#F4F1EA', statusFg: dark ? '#fff' : '#16181D',
       contentBottom: sc==='onb' || sc==='welcome' ? '0px' : 'calc(64px + var(--sab))',
@@ -201,7 +272,7 @@ export default class App extends React.Component {
       pasteLink: ()=>this.pasteLink(), canPaste: !!(navigator.clipboard && navigator.clipboard.readText) && !s.tripLoaded,
       showDemo: SHOW_DEMO, useDemo: ()=>this.verify(DEMO_CODE),
       fetchTrip: ()=>this.verify(this.state.code),
-      codeErr: s.codeErr ? (s.codeErr==='expired' ? t.codeExpired : t.codeInvalid) : '', fetchLabel: s.checking ? t.codeChecking : t.fetch,
+      codeErr: s.codeErr ? ({ expired:t.codeExpired, revoked:t.codeRevoked, too_many_devices:t.codeDevices, device_removed:t.codeRemoved, network:t.codeNetwork }[s.codeErr] || t.codeInvalid) : '', fetchLabel: s.checking ? t.codeChecking : t.fetch,
       onbNext: ()=>this.setState(st => st.onb<3 ? { onb:st.onb+1 } : { screen:'welcome', history:[] }),
       isWelcome: sc==='welcome', welcomeImg: 'linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 45%),url("https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent("St_Peter's_Square,_Vatican_City_-_April_2007.jpg") + '?width=1000") center/cover',
       goMapTab: ()=>this.tab('map'),
@@ -236,7 +307,7 @@ export default class App extends React.Component {
       futureCities: lang==='it' ? ['Firenze','Milano','Venezia'] : lang==='en' ? ['Florence','Milan','Venice'] : ['Florencja','Mediolan','Wenecja'],
       nextStage: ()=>this.setState(st => ({ stage: st.stage>=4 ? 0 : st.stage+1 })),
       stageBars: [0,1,2,3].map(i => ({ bg: i < s.stage ? '#3DBE7A' : i===s.stage ? '#F2B33D' : 'rgba(255,255,255,.18)' })),
-      callMarta: ()=>this.startCall('Marta Kowalska','MK',false), videoMarta: ()=>this.startCall('Marta Kowalska','MK',true), callDriver: ()=>this.startCall('Giorgio R.','GR',false),
+      callMarta: ()=>this.startCall(tv.assistantName, tv.assistantIni, false, tv.assistantPhone), videoMarta: ()=>this.startCall(tv.assistantName, tv.assistantIni, true, tv.assistantPhone), callDriver: ()=>this.startCall(tv.driver, tv.driver.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(), false, tv.driverPhone),
       isCalling: !!s.calling, callName: s.calling ? s.calling.name : '', callInitials: s.calling ? s.calling.initials : '',
       callStatus: s.calling ? (s.callUp ? (s.calling.video ? t.videoCall+' · ' : '') + t.connected : t.calling) : '',
       endCall: ()=>this.setState({ calling:null, callUp:false }),
@@ -253,6 +324,7 @@ export default class App extends React.Component {
       bookingLine: s.bDate+' · '+s.bTime+' · '+s.people+' × '+tx.price,
       sendRequest: ()=>{
         const id = s.tourId, title = L(tx.t,'pl');
+        if (BACKEND && s.tripToken) { this.setState(st => ({ bStatus:{ ...st.bStatus, [id]:'pending' } })); this.send('Prośba: '+title+' · '+s.bDate+' '+s.bTime+' · '+s.people+' os.'); return; }
         this.setState(st => ({ bStatus:{ ...st.bStatus, [id]:'pending' }, msgs:[...st.msgs, { from:'u', text:'Prośba: '+title+' · '+st.bDate+' '+st.bTime+' · '+st.people+' os.', time:now() }] }));
         const vcode = 'RZM-V-'+(4000+Math.floor(Math.random()*900));
         this.martaReply('Potwierdzone! '+title+', '+s.bDate+' o '+s.bTime+'. Voucher: '+vcode+' — jest już w „Moje bilety”. Przewodniczka Ewa będzie czekać 15 min wcześniej.', 3200, st => ({ bStatus:{ ...st.bStatus, [id]:'confirmed' }, tickets:[{ id:vcode, kind:tx.code, t:tx.t, sub:s.bDate+' · '+s.bTime+' · '+s.people+' × PL', code:vcode, auto:true }, ...st.tickets] }));
@@ -260,7 +332,7 @@ export default class App extends React.Component {
       helpText: s.helpText, onHelpText: (e)=>this.setState({helpText:e.target.value}), noCat: !s.helpCat, helpBtnBg: s.helpCat ? '#16181D' : '#B9B2A3',
       sendHelp: ()=>{ if (!s.helpCat) return; const c = CATS.find(x=>x.id===s.helpCat); const txt = L(c.t,'pl') + (s.helpText.trim() ? ': '+s.helpText.trim() : ''); this.setState({ helpCat:null, helpText:'', screen:'chat', history:[] }); this.send(txt); },
       hotelProblem: ()=>{ this.setState({ helpCat:'htl', screen:'help', history:[] }); },
-      chatStatus: s.typing ? 'Marta '+t.typing : t.online, typing: s.typing,
+      chatStatus: s.typing ? tv.assistantName.split(' ')[0]+' '+t.typing : t.online, typing: s.typing,
       draft: s.draft, onDraft: (e)=>this.setState({draft:e.target.value}), onDraftKey: (e)=>{ if (e.key==='Enter') this.send(this.state.draft); }, sendDraft: ()=>this.send(this.state.draft),
       locLabel: s.locShared ? t.shared : t.share, shareLoc: ()=>this.setState({locShared:true}),
       lines: [
@@ -277,7 +349,7 @@ export default class App extends React.Component {
       isMap: sc==='map', isDocs: sc==='docs', isPrivacy: sc==='privacy',
       goPrivacy: ()=>this.go('privacy'), goDocs: ()=>this.go('docs'), goHotel: ()=>this.go('hotel'),
       mapRef: this.mapRef, onMapLoad: ()=>this.postMap({ route:this.state.routeOn, crowd:!this.state.crowdOff }), recenter: ()=>this.postMap({ recenter:true }),
-      routeOn: s.routeOn, noRoute: !s.routeOn, ...this.mapVals(t), startRoute: ()=>this.setState({routeOn:true}), endRoute: ()=>this.setState({routeOn:false}),
+      routeOn: s.routeOn, noRoute: !s.routeOn, ...this.mapVals(t, tv), startRoute: ()=>this.setState({routeOn:true}), endRoute: ()=>this.setState({routeOn:false}),
       routeSteps: ROUTE_STEPS[lang].map(([arrow,text,dist],i) => ({ arrow, text, dist, bg: i===0 ? '#16181D' : '#F4F1EA', fg: i===0 ? '#fff' : '#16181D', weight: i===0 ? 700 : 500 })),
       lostHelp: ()=>{ this.setState({ screen:'chat', history:[] }); this.send('Zgubiłam się. Jestem przy Fontannie di Trevi — widzisz moją lokalizację?'); },
       vaultLocked: s.vault!=='open', vaultOpen: s.vault==='open', unlockLabel: s.vault==='checking' ? t.unlocking : t.unlock,
@@ -306,12 +378,12 @@ export default class App extends React.Component {
       toggleGroup: ()=>this.setState(st=>({groupAlert:!st.groupAlert})), groupBg: s.groupAlert ? '#1F8A5B' : '#CFC9BC', groupJust: s.groupAlert ? 'flex-end' : 'flex-start',
       radiusOpts: [50,100,200].map(v => ({ label:v+' m', onClick:()=>this.setState({groupRadius:v}), bg: s.groupRadius===v ? '#16181D' : '#fff', fg: s.groupRadius===v ? '#fff' : '#16181D', border: s.groupRadius===v ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)' })),
       groupMembers: [
-        { ini:'EW', name:'Ewa Zielińska', role:t.guideRole, dist:'12 m', bg:'#1C5FB8', fg:'#fff', distColor:'#1F8A5B' },
+        { ini:tv.leaderIni, name:tv.leaderName, role:t.guideRole, dist:'12 m', bg:'#1C5FB8', fg:'#fff', distColor:'#1F8A5B' },
         { ini:'AN', name:t.you+' · Anna', role:t.youRole, dist:t.inGroup, bg:'#16181D', fg:'#fff', distColor:'#1F8A5B' },
         { ini:'PN', name:'Piotr Nowak', role:t.youRole, dist:'8 m', bg:'#E4DFD4', fg:'#16181D', distColor:'#1F8A5B' }
       ],
       simGroup: ()=>this.setState({ groupOn:true }), groupOn: s.groupOn,
-      callGuide: ()=>{ this.setState({ groupOn:false }); this.startCall('Ewa Zielińska','EW',false); },
+      callGuide: ()=>{ this.setState({ groupOn:false }); this.startCall(tv.leaderName, tv.leaderIni, false, tv.leaderPhone); },
       groupToMap: ()=>this.setState({ groupOn:false, screen:'map', history:[] }),
       groupOk: ()=>this.setState({ groupOn:false }),
       screenRef: this.screenRef,
@@ -332,7 +404,7 @@ export default class App extends React.Component {
         React.createElement('div', { style:{ position:'absolute', inset:0, borderRadius:'50%', background:'rgba(242,179,61,.55)', animation:'pulse 1.4s ease-out infinite' } }),
         React.createElement('div', { style:{ position:'absolute', inset:10, borderRadius:'50%', background:'#F2B33D', border:'2px solid #fff' } })) : null,
       tipList: TIPS[lang].map(([title,body],i) => ({ n:String(i+1).padStart(2,'0'), title, body })),
-      days: DAYS[lang].map(([title,date,items]) => ({ title, date, items }))
+      days: (tv.days || DAYS[lang]).map(([title,date,items]) => ({ title, date, items }))
     };
   }
 }

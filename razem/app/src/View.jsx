@@ -113,19 +113,19 @@ export default function View({ v }) {
                           <div style={css("margin-top:22px;background:#fff;border-radius:20px;padding:6px 18px;border:1px solid rgba(22,24,29,.08)")}>
                             <div style={css("display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.08)")}>
                               <span style={css("color:#5E6068;font-size:14px")}>{v.t.arrival}</span>
-                              <span style={css("font-weight:700;font-size:14px")}>12.10 · 11:40 · LO 319</span>
+                              <span style={css("font-weight:700;font-size:14px")}>{v.trip.arrival}</span>
                             </div>
                             <div style={css("display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.08)")}>
                               <span style={css("color:#5E6068;font-size:14px")}>{v.t.airport}</span>
-                              <span style={css("font-weight:700;font-size:14px")}>FCO · Fiumicino T3</span>
+                              <span style={css("font-weight:700;font-size:14px")}>{v.trip.airport}</span>
                             </div>
                             <div style={css("display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.08)")}>
                               <span style={css("color:#5E6068;font-size:14px")}>{v.t.hotelLbl}</span>
-                              <span style={css("font-weight:700;font-size:14px")}>Hotel Artemide</span>
+                              <span style={css("font-weight:700;font-size:14px")}>{v.trip.hotelName}</span>
                             </div>
                             <div style={css("display:flex;justify-content:space-between;padding:14px 0")}>
                               <span style={css("color:#5E6068;font-size:14px")}>{v.t.agency}</span>
-                              <span style={css("font-weight:700;font-size:14px")}>Wakacje z Rzymem</span>
+                              <span style={css("font-weight:700;font-size:14px")}>{v.trip.agency}</span>
                             </div>
                           </div>
                         </>
@@ -220,10 +220,10 @@ export default function View({ v }) {
                               "width:72px;height:72px;border-radius:50%;background:#F2B33D;color:#16181D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px",
                             )}
                           >
-                            MK
+                            {v.trip.assistantIni}
                           </div>
                           <div>
-                            <div style={css("font-size:21px;font-weight:700")}>Marta Kowalska</div>
+                            <div style={css("font-size:21px;font-weight:700")}>{v.trip.assistantName}</div>
                             <div style={css("font-size:13px;color:#C9CBD1;margin-top:3px")}>{v.t.martaLangs}</div>
                             <div style={css("display:flex;align-items:center;gap:6px;font-size:13px;color:#6FD39F;margin-top:6px")}>
                               <span style={css("width:8px;height:8px;border-radius:50%;background:#3DBE7A")}></span>
@@ -297,7 +297,7 @@ export default function View({ v }) {
                     </div>
                     <div>
                       <div style={css("font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E")}>{v.t.wFrom}</div>
-                      <div style={css("font-weight:800;font-size:17px")}>Wakacje z Rzymem</div>
+                      <div style={css("font-weight:800;font-size:17px")}>{v.trip.agency}</div>
                     </div>
                   </div>
                   <div style={css("font-size:15px;line-height:1.5;margin-top:12px;color:#33353C")}>{v.t.wThanks}</div>
@@ -515,7 +515,7 @@ export default function View({ v }) {
                     ))}
                   </div>
                   <div style={css("display:flex;justify-content:space-between;align-items:center;margin-top:16px")}>
-                    <span style={css("font-size:13px;color:#C9CBD1")}>Giorgio · AB 123 CD</span>
+                    <span style={css("font-size:13px;color:#C9CBD1")}>{v.trip.driverShort} · {v.trip.plate}</span>
                     <span style={css("background:#F2B33D;color:#16181D;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px")}>
                       {v.t.open}
                       {" →"}
@@ -587,11 +587,11 @@ export default function View({ v }) {
                         "width:46px;height:46px;border-radius:50%;background:#F2B33D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px",
                       )}
                     >
-                      MK
+                      {v.trip.assistantIni}
                     </div>
                     <div style={css("flex:1")}>
                       <div style={css("font-size:12px;color:#5E6068")}>{v.t.assistantLbl}</div>
-                      <div style={css("font-weight:700;font-size:16px")}>Marta Kowalska</div>
+                      <div style={css("font-weight:700;font-size:16px")}>{v.trip.assistantName}</div>
                     </div>
                     <div style={css("display:flex;align-items:center;gap:6px;font-size:12px;color:#1F8A5B;font-weight:600")}>
                       <span style={css("width:8px;height:8px;border-radius:50%;background:#3DBE7A")}></span>
@@ -735,7 +735,7 @@ export default function View({ v }) {
                 </div>
                 <div style={css("margin-top:12px;background:#fff;border-radius:22px;padding:18px;border:2px solid #F2B33D;text-align:center")}>
                   <div style={css("font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068")}>{v.t.waitsWith}</div>
-                  <div style={css("font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:8px")}>RAZEM · A. NOWAK</div>
+                  <div style={css("font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:8px")}>{v.trip.sign}</div>
                 </div>
                 <div style={css("margin-top:12px;background:#16181D;color:#fff;border-radius:22px;padding:18px")}>
                   <div style={css("display:flex;gap:14px;align-items:center")}>
@@ -747,13 +747,12 @@ export default function View({ v }) {
                       FOTO
                     </div>
                     <div style={css("flex:1")}>
-                      <div style={css("font-size:17px;font-weight:700")}>Giorgio R.</div>
+                      <div style={css("font-size:17px;font-weight:700")}>{v.trip.driver}</div>
                       <div style={css("font-size:13px;color:#C9CBD1;margin-top:2px")}>
-                        {"Mercedes Klasa V · "}
-                        {v.t.black}
+                        {v.trip.car === null ? "Mercedes Klasa V · " + v.t.black : v.trip.car}
                       </div>
                     </div>
-                    <div style={css("background:#fff;color:#16181D;border-radius:8px;padding:6px 8px;font:700 13px 'JetBrains Mono',monospace")}>AB 123 CD</div>
+                    <div style={css("background:#fff;color:#16181D;border-radius:8px;padding:6px 8px;font:700 13px 'JetBrains Mono',monospace")}>{v.trip.plate}</div>
                   </div>
                   <div
                     style={css(
@@ -993,7 +992,7 @@ export default function View({ v }) {
                           "width:30px;height:30px;flex:none;border-radius:50%;background:#F2B33D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#16181D",
                         )}
                       >
-                        MK
+                        {v.trip.assistantIni}
                       </div>
                       {v.t.reqNote}
                     </div>
@@ -1134,10 +1133,10 @@ export default function View({ v }) {
                       "width:42px;height:42px;border-radius:50%;background:#F2B33D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px",
                     )}
                   >
-                    MK
+                    {v.trip.assistantIni}
                   </div>
                   <div style={css("flex:1")}>
-                    <div style={css("font-weight:700;font-size:16px")}>Marta Kowalska</div>
+                    <div style={css("font-weight:700;font-size:16px")}>{v.trip.assistantName}</div>
                     <div style={css("font-size:12px;color:#1F8A5B")}>{v.chatStatus}</div>
                   </div>
                   <button
@@ -1234,11 +1233,11 @@ export default function View({ v }) {
                       "width:48px;height:48px;border-radius:50%;background:#F2B33D;color:#16181D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none",
                     )}
                   >
-                    MK
+                    {v.trip.assistantIni}
                   </span>
                   <span>
                     <span style={css("display:block;font-weight:700;font-size:16px")}>{v.t.asst24}</span>
-                    <span style={css("display:block;font-size:13px;color:#C9CBD1;margin-top:2px")}>Marta Kowalska · PL / IT</span>
+                    <span style={css("display:block;font-size:13px;color:#C9CBD1;margin-top:2px")}>{v.trip.assistantName} · PL / IT</span>
                   </span>
                 </button>
                 <button
@@ -1272,7 +1271,7 @@ export default function View({ v }) {
                 </div>
                 <div style={css("margin-top:10px;background:rgba(255,255,255,.12);border-radius:22px;padding:18px")}>
                   <div style={css("font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#FFD0D7")}>{v.t.yourPos}</div>
-                  <div style={css("font-weight:700;font-size:16px;margin-top:6px")}>Via Nazionale, 22 · Roma</div>
+                  <div style={css("font-weight:700;font-size:16px;margin-top:6px")}>{v.trip.hotelAddrLine}</div>
                   <button
                     onClick={v.shareLoc}
                     style={css(
@@ -1290,22 +1289,20 @@ export default function View({ v }) {
               <div style={css("padding:4px 20px 28px")}>
                 <div style={css("background:#fff;border-radius:22px;padding:20px;border:2px solid #16181D")}>
                   <div style={css("font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E")}>{v.t.showDriver}</div>
-                  <div style={css("font-size:28px;font-weight:800;letter-spacing:-.02em;margin-top:10px;line-height:1.1")}>Hotel Artemide</div>
+                  <div style={css("font-size:28px;font-weight:800;letter-spacing:-.02em;margin-top:10px;line-height:1.1")}>{v.trip.hotelName}</div>
                   <div style={css("font-size:20px;font-weight:600;margin-top:6px;line-height:1.3")}>
-                    Via Nazionale, 22
-                    <br />
-                    00184 Roma
+                    {v.trip.hotelAddr.split("\n").map((l, i) => (<Fragment key={i}>{i > 0 && <br />}{l}</Fragment>))}
                   </div>
                   <div style={css("font-size:15px;color:#4A4C54;margin-top:12px")}>«Mi porti a questo indirizzo, per favore.»</div>
                 </div>
                 <div style={css("display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px")}>
                   <div style={css("background:#fff;border-radius:16px;padding:14px")}>
                     <div style={css("font-size:12px;color:#5E6068")}>Check-in</div>
-                    <div style={css("font:700 20px 'JetBrains Mono',monospace;margin-top:2px")}>14:00</div>
+                    <div style={css("font:700 20px 'JetBrains Mono',monospace;margin-top:2px")}>{v.trip.checkin}</div>
                   </div>
                   <div style={css("background:#fff;border-radius:16px;padding:14px")}>
                     <div style={css("font-size:12px;color:#5E6068")}>Check-out</div>
-                    <div style={css("font:700 20px 'JetBrains Mono',monospace;margin-top:2px")}>11:00</div>
+                    <div style={css("font:700 20px 'JetBrains Mono',monospace;margin-top:2px")}>{v.trip.checkout}</div>
                   </div>
                 </div>
                 <div style={css("background:#fff;border-radius:16px;padding:14px 16px;margin-top:8px;font-size:14px;line-height:1.5;color:#4A4C54")}>
@@ -1436,19 +1433,17 @@ export default function View({ v }) {
                 <div style={css("background:#16181D;color:#fff;border-radius:22px;padding:18px")}>
                   <div style={css("font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D")}>
                     {v.t.planBy}
-                    {" · Wakacje z Rzymem"}
+                    {" · " + v.trip.agency}
                   </div>
                   <div style={css("display:flex;gap:12px;align-items:center;margin-top:12px")}>
                     <span
                       style={css(
                         "width:42px;height:42px;flex:none;border-radius:50%;background:#1C5FB8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px",
                       )}
-                    >
-                      EW
-                    </span>
+                    >{v.trip.leaderIni}</span>
                     <div>
                       <div style={css("font-size:12px;color:#C9CBD1")}>{v.t.leader}</div>
-                      <div style={css("font-weight:700;font-size:16px")}>Ewa Zielińska</div>
+                      <div style={css("font-weight:700;font-size:16px")}>{v.trip.leaderName}</div>
                     </div>
                   </div>
                   <div style={css("font-size:13px;color:#E3E4E8;margin-top:10px;line-height:1.45")}>{v.t.leaderSub}</div>
@@ -1486,7 +1481,7 @@ export default function View({ v }) {
           {v.isMap && (
             <>
               <div style={css("position:relative;height:100%;overflow:hidden")}>
-                <MapView ref={v.mapRef} route={v.routeOn} crowd={!v.crowdOff} pos={v.mapPos} />
+                <MapView ref={v.mapRef} route={v.routeOn} crowd={!v.crowdOff} pos={v.mapPos} hotel={v.mapHotel} direct={!v.demoRoute} />
                 <div style={css("position:absolute;top:8px;left:12px;right:12px;display:flex;gap:8px;align-items:center;pointer-events:none")}>
                   <button
                     onClick={v.openCity}
@@ -1561,7 +1556,7 @@ export default function View({ v }) {
                   {v.routeOn && (
                     <>
                       <div style={css("display:flex;justify-content:space-between;align-items:baseline")}>
-                        <span style={css("font-size:18px;font-weight:800")}>Hotel Artemide</span>
+                        <span style={css("font-size:18px;font-weight:800")}>{v.trip.hotelName}</span>
                         <span style={css("font:700 14px 'JetBrains Mono',monospace")}>{v.routeHead}</span>
                       </div>
                       {v.demoRoute && (<div style={css("display:flex;flex-direction:column;margin-top:10px;background:#fff;border-radius:16px;padding:2px 14px")}>
