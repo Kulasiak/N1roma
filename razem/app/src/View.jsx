@@ -94,6 +94,12 @@ export default function View({ v }) {
                         </button>
                       </div>
                       {v.codeErr && (<div role="alert" style={css("margin-top:10px;background:#FDECEF;color:#8E0B21;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;line-height:1.35")}>{v.codeErr}</div>)}
+                      {v.canPaste && (<button
+                        onClick={v.pasteLink}
+                        style={css("align-self:flex-start;margin-top:12px;height:40px;padding:0 14px;border:1px solid rgba(22,24,29,.15);border-radius:12px;background:#fff;font:600 13px 'Onest';color:#16181D;cursor:pointer")}
+                      >
+                        {v.t.pasteLink}
+                      </button>)}
                       {v.showDemo && (<button
                         onClick={v.useDemo}
                         style={css(

@@ -6,12 +6,12 @@ import { checkCode, SHOW_DEMO, DEMO_CODE, normCode } from './access.js';
 import { T, ROUTE_STEPS, PH, IMGS, GUIDE_DEST, L, TOURS, CATS, PHRASES, TIPS, DATES, TIMES, avail, fmt, CROWD, WEATHER, qrFor, PLAN, DAYS, now } from './data.js';
 
 // Extra strings for PWA-only features (live GPS + hand-off to native navigation).
-Object.assign(T.pl, { codeInvalid:'Nieprawidłowy kod. Sprawdź kod od biura podróży.', codeExpired:'Ten kod wygasł. Skontaktuj się z biurem podróży.', codeChecking:'Sprawdzanie…', gpsHere:'Twoja pozycja (GPS)', navOpen:'Nawigacja krok po kroku', fromHotel:'{d} od hotelu' });
-Object.assign(T.it, { codeInvalid:"Codice non valido. Controlla il codice dell'agenzia.", codeExpired:"Questo codice è scaduto. Contatta l'agenzia.", codeChecking:'Verifica…', gpsHere:'La tua posizione (GPS)', navOpen:'Navigazione passo passo', fromHotel:"{d} dall'hotel" });
-Object.assign(T.en, { codeInvalid:'Invalid code. Check the code from your travel agency.', codeExpired:'This code has expired. Please contact your travel agency.', codeChecking:'Checking…', gpsHere:'Your position (GPS)', navOpen:'Turn-by-turn navigation', fromHotel:'{d} from the hotel' });
+Object.assign(T.pl, { codeInvalid:'Nieprawidłowy kod. Sprawdź kod od biura podróży.', codeExpired:'Ten kod wygasł. Skontaktuj się z biurem podróży.', codeChecking:'Sprawdzanie…', pasteLink:'Wklej link od biura podróży', gpsHere:'Twoja pozycja (GPS)', navOpen:'Nawigacja krok po kroku', fromHotel:'{d} od hotelu' });
+Object.assign(T.it, { codeInvalid:"Codice non valido. Controlla il codice dell'agenzia.", codeExpired:"Questo codice è scaduto. Contatta l'agenzia.", codeChecking:'Verifica…', pasteLink:"Incolla il link dell'agenzia", gpsHere:'La tua posizione (GPS)', navOpen:'Navigazione passo passo', fromHotel:"{d} dall'hotel" });
+Object.assign(T.en, { codeInvalid:'Invalid code. Check the code from your travel agency.', codeExpired:'This code has expired. Please contact your travel agency.', codeChecking:'Checking…', pasteLink:'Paste the link from your agency', gpsHere:'Your position (GPS)', navOpen:'Turn-by-turn navigation', fromHotel:'{d} from the hotel' });
 
 // State that survives app restarts (everything else is per-session UI state).
-const KEEP = ['lang','onbDone','code','tripLoaded','rodo','locMode','tickets','bStatus','msgs','stage','strikeHidden','safetyHidden','shareDocs','autoDel','agencyShare','alarmMode','alarmDist','groupAlert','groupRadius','crowdOff','people','docIds','filter'];
+const KEEP = ['lang','onbDone','code','tripLoaded','rodo','locMode','tickets','bStatus','msgs','stage','strikeHidden','safetyHidden','shareDocs','autoDel','agencyShare','alarmMode','alarmDist','groupAlert','groupRadius','crowdOff','people','docIds','filter','codeLabel'];
 function restore(){
   const p = loadState(); if (!p) return {};
   const o = {}; KEEP.forEach(k => { if (k in p) o[k] = p[k]; });
@@ -101,11 +101,17 @@ export default class App extends React.Component {
   verify(code){
     if (this.state.checking) return;
     this.setState({ checking:true, codeErr:null });
-    checkCode(code).then(r => this.setState(r.ok ? { code:normCode(code), tripLoaded:true, checking:false } : { tripLoaded:false, codeErr:r.reason, checking:false }));
+    checkCode(code).then(r => this.setState(r.ok ? { code:normCode(code), codeLabel:r.label, tripLoaded:true, checking:false } : { tripLoaded:false, codeErr:r.reason, checking:false }));
+  }
+  pasteLink(){
+    if (navigator.clipboard && navigator.clipboard.readText) navigator.clipboard.readText().then(txt => { this.setState({ code:normCode(txt), codeLabel:null }); this.verify(txt); }).catch(() => {});
   }
   componentDidMount(){
+    // Invitation link from the agency (…/#k=RZM1.…): unlock straight away.
+    const inv = normCode(location.hash);
+    if (/[#&]k=/.test(location.hash)) checkCode(inv).then(r => { if (r.ok) this.setState(st => ({ code:inv, codeLabel:r.label, tripLoaded:true, codeErr:null, ...(st.onbDone ? { screen:'home', history:[] } : { screen:'onb', onb:Math.max(st.onb, 1) }) })); else this.setState({ codeErr:r.reason, screen:'onb', onb:1 }); });
     // Re-check the saved trip code at every launch: expired or removed codes lose access.
-    if (this.state.onbDone || this.state.tripLoaded) checkCode(this.state.code).then(r => { if (!r.ok) this.setState({ onbDone:false, tripLoaded:false, screen:'onb', onb:1, history:[], codeErr:r.reason }); });
+    if (!/[#&]k=/.test(location.hash) && (this.state.onbDone || this.state.tripLoaded)) checkCode(this.state.code).then(r => { if (!r.ok) this.setState({ onbDone:false, tripLoaded:false, screen:'onb', onb:1, history:[], codeErr:r.reason }); });
     const net = () => this.setState({ offline: navigator.onLine === false });
     window.addEventListener('online', net); window.addEventListener('offline', net);
     this.cleanup.push(() => { window.removeEventListener('online', net); window.removeEventListener('offline', net); });
@@ -190,8 +196,9 @@ export default class App extends React.Component {
       contentBottom: sc==='onb' || sc==='welcome' ? '0px' : 'calc(64px + var(--sab))',
       isOnb: sc==='onb', onb0: s.onb===0, onb1: s.onb===1, onb2: s.onb===2, onb3: s.onb===3,
       onbDots: [0,1,2,3].map(i => ({ bg: i<=s.onb ? '#C8102E' : '#DCD6C9' })),
-      code: s.code, tripLoaded: s.tripLoaded, notLoaded: !s.tripLoaded, onbBtnBg: s.tripLoaded ? '#16181D' : '#B9B2A3',
-      onCode: (e)=>this.setState({ code:e.target.value.toUpperCase(), tripLoaded:false, codeErr:null }),
+      code: s.codeLabel || s.code, tripLoaded: s.tripLoaded, notLoaded: !s.tripLoaded, onbBtnBg: s.tripLoaded ? '#16181D' : '#B9B2A3',
+      onCode: (e)=>this.setState({ code:e.target.value.startsWith('RZM1.') ? e.target.value : e.target.value.toUpperCase(), codeLabel:null, tripLoaded:false, codeErr:null }),
+      pasteLink: ()=>this.pasteLink(), canPaste: !!(navigator.clipboard && navigator.clipboard.readText) && !s.tripLoaded,
       showDemo: SHOW_DEMO, useDemo: ()=>this.verify(DEMO_CODE),
       fetchTrip: ()=>this.verify(this.state.code),
       codeErr: s.codeErr ? (s.codeErr==='expired' ? t.codeExpired : t.codeInvalid) : '', fetchLabel: s.checking ? t.codeChecking : t.fetch,

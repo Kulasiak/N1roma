@@ -22,6 +22,14 @@ On the phone: open the URL, then **Share → Add to Home Screen** (iOS Safari) o
 
 ## Access (trip codes)
 
+**Normal flow, no rebuild needed.** The agency opens `/agenzia` on the published site, enters the agency password, sets the return date (access is valid until 30 days after it by default) and gets a personal link + QR code. It can send them by WhatsApp or email, with a ready-made message in Polish. The traveller opens the link and the app unlocks. Each link is digitally signed (ECDSA P-256): the app checks it offline with the public key, and it can't be forged or have its date changed.
+
+- Change the agency password (the same links keep working): `node scripts/setup-keys.mjs "<new>" --rekey-from "<old>"`, then rebuild.
+- New keys (**all issued links stop working**): `node scripts/setup-keys.mjs "<password>"`, then rebuild.
+- Block a link before it expires: add its label (e.g. `RZM-ZYV334`) to `"revoked"` in `src/access-codes.json`, then rebuild.
+
+**Fixed codes (optional).**
+
 The app opens only with a valid trip code from the agency. Each code has an expiry date. The code is checked when it's entered and again at every launch, so an expired or removed code loses access. The "Use demo code" button is hidden.
 
 ```bash

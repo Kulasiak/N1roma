@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  build: { rollupOptions: { input: { main: 'index.html', agenzia: 'agenzia.html' } } },
   plugins: [
     react(),
     VitePWA({
@@ -28,6 +29,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/agenzia/],
+        globIgnores: ['agenzia.html', 'assets/agenzia-*'],
         runtimeCaching: [
           // Rome map tiles: cached as you browse, so the map keeps working offline.
           { urlPattern: /^https:\/\/tile\.openstreetmap\.org\//, handler: 'CacheFirst',

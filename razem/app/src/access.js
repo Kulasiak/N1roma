@@ -1,23 +1,44 @@
 // Access control: the app opens only with a trip code issued by the agency.
-// Codes live in access-codes.json as SHA-256 hashes with an expiry date; manage them with scripts/add-code.mjs.
-// This is a client-side gate: it keeps casual users out, but real enforcement (revoking codes, device limits)
-// needs the booking backend described in the design handoff.
+// 1) Signed codes (normal case): created on the agency page (/agenzia.html), sent as a link/QR,
+//    verified offline with the public key in access-keys.json. Expiry is inside the code.
+// 2) Fixed codes (optional): SHA-256 hashes in access-codes.json, managed with scripts/add-code.mjs.
+// Revoke a signed code by adding its label (e.g. "RZM-AB12CD") to "revoked" in access-codes.json and republishing.
+// Client-side gate: real enforcement (device limits, instant revocation) needs the booking backend.
 import cfg from './access-codes.json';
+import keys from './access-keys.json';
+import { isSigned, verifyCode } from './signedCode.js';
 
 export const SHOW_DEMO = !!cfg.showDemoButton;
 export const DEMO_CODE = 'RZM-2481';
-export const normCode = (c) => (c || '').toUpperCase().replace(/\s+/g, '');
+
+// Accepts a code, or a whole invitation link (…/#k=RZM1.xxxx) pasted from a message.
+export function normCode(c) {
+  const s = (c || '').trim();
+  const m = s.match(/[#?&]k=([A-Za-z0-9._-]+)/);
+  if (m) return m[1];
+  const sig = s.match(/RZM1\.[A-Za-z0-9_-]+/);
+  if (sig) return sig[0];
+  return s.toUpperCase().replace(/\s+/g, '');
+}
 
 async function sha256(s) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
+const expired = (until) => new Date() > new Date(until + 'T23:59:59');
 
-// -> { ok:true, entry } | { ok:false, reason:'invalid'|'expired' }
+// -> { ok:true, until, label } | { ok:false, reason:'invalid'|'expired' }
 export async function checkCode(code) {
-  const h = await sha256('razem:' + normCode(code));
-  const entry = cfg.codes.find(c => c.hash === h);
+  const c = normCode(code);
+  if (isSigned(c)) {
+    const r = await verifyCode(keys.publicKey, c);
+    if (!r.valid || (cfg.revoked || []).includes(r.label)) return { ok: false, reason: 'invalid' };
+    if (expired(r.until)) return { ok: false, reason: 'expired' };
+    return { ok: true, until: r.until, label: r.label };
+  }
+  const h = await sha256('razem:' + c);
+  const entry = cfg.codes.find(e => e.hash === h);
   if (!entry) return { ok: false, reason: 'invalid' };
-  if (new Date() > new Date(entry.until + 'T23:59:59')) return { ok: false, reason: 'expired' };
-  return { ok: true, entry };
+  if (expired(entry.until)) return { ok: false, reason: 'expired' };
+  return { ok: true, until: entry.until, label: c };
 }
