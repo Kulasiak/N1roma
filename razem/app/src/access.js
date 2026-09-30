@@ -13,11 +13,11 @@ export const DEMO_CODE = 'RZM-2481';
 
 // Accepts a code, or a whole invitation link (…/#k=RZM1.xxxx) pasted from a message.
 export function normCode(c) {
-  const s = (c || '').trim();
+  const s = (c || '').replace(/[\s\u200B-\u200D\uFEFF\u00A0]+/g, '');
   const m = s.match(/[#?&][kc]=([A-Za-z0-9._-]+)/);
   if (m) return m[1].startsWith('RZM1.') ? m[1] : m[1].toUpperCase();
-  const sig = s.match(/RZM1\.[A-Za-z0-9_-]+/);
-  if (sig) return sig[0];
+  const sig = s.match(/RZM1\.[A-Za-z0-9_-]+/i);
+  if (sig) return 'RZM1.' + sig[0].slice(5);
   return s.toUpperCase().replace(/\s+/g, '');
 }
 
@@ -36,6 +36,7 @@ export async function checkCode(code) {
     if (expired(r.until)) return { ok: false, reason: 'expired' };
     return { ok: true, until: r.until, label: r.label };
   }
+  if (/^RZM-[A-Z0-9]{6}$/.test(c) && !cfg.codes.length) return { ok: false, reason: 'short' };
   const h = await sha256('razem:' + c);
   const entry = cfg.codes.find(e => e.hash === h);
   if (!entry) return { ok: false, reason: 'invalid' };
