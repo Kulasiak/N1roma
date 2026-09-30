@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><script src="./doc-page.js"></script><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"><style>body{margin:0;font-family:'Onest',system-ui,sans-serif;color:#16181D}a{color:#C8102E}a:hover{color:#16181D}doc-page:not(:defined){visibility:hidden}</style></helmet>
+<doc-page size="a4" margin="0.7in">
+<div style="font-size:14px;line-height:1.6;color:#2A2C33">
+
+<div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #16181D;padding-bottom:10px">
+<span style="font-weight:800;font-size:22px;letter-spacing:-.03em">razem<span style="color:#C8102E">.</span></span>
+<span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">GUIDA OPERATIVA · AGENZIE E GUIDE · v1</span>
+</div>
+
+<h1 style="font-size:34px;line-height:1.1;letter-spacing:-.03em;margin:28px 0 8px;color:#16181D">Come collegare l'agenzia all'app Razem</h1>
+<p style="font-size:16px;color:#4A4C54;margin:0 0 24px">Guida per le agenzie di viaggio polacche e per le guide/assistenti in Italia. Spiega i codici, il benvenuto al turista, dove arrivano chiamate e messaggi, gli avvisi antifurto e le regole sulla privacy. La guida ai codici è alla fine, su pagine separate.</p>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">1. Come funziona in breve</h2>
+<p style="margin:0 0 12px">L'app è inclusa nel pacchetto dell'agenzia. Il turista non compra nulla in app: riceve un codice, apre l'app e trova già volo, hotel, transfer e programma. Per ogni problema scrive o chiama la sua guida, che parla polacco e si trova nella città del viaggio.</p>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 6px;break-inside:avoid">
+<div style="border:1.5px solid #16181D;border-radius:10px;padding:12px"><div style="font:700 10px 'JetBrains Mono',monospace;color:#C8102E">01 · AGENZIA PL</div><div style="font-weight:700;margin-top:4px">Vende il viaggio</div><div style="font-size:12px;color:#5E6068;line-height:1.45;margin-top:4px">Carica le prenotazioni e crea i codici viaggio.</div></div>
+<div style="border:1.5px solid #16181D;border-radius:10px;padding:12px"><div style="font:700 10px 'JetBrains Mono',monospace;color:#C8102E">02 · RAZEM</div><div style="font-weight:700;margin-top:4px">Collega tutti</div><div style="font-size:12px;color:#5E6068;line-height:1.45;margin-top:4px">App turista, app guida, pannello agenzia.</div></div>
+<div style="border:1.5px solid #16181D;border-radius:10px;padding:12px"><div style="font:700 10px 'JetBrains Mono',monospace;color:#C8102E">03 · GUIDA</div><div style="font-weight:700;margin-top:4px">Risolve i problemi</div><div style="font-size:12px;color:#5E6068;line-height:1.45;margin-top:4px">Riceve chat, chiamate, SOS e richieste.</div></div>
+<div style="border:1.5px solid #16181D;border-radius:10px;padding:12px;background:#16181D;color:#fff"><div style="font:700 10px 'JetBrains Mono',monospace;color:#F2B33D">04 · TURISTA</div><div style="font-weight:700;margin-top:4px">Viaggia tranquillo</div><div style="font-size:12px;color:#C9CBD1;line-height:1.45;margin-top:4px">Un'app dalla A alla Z, in PL/IT/EN.</div></div>
+</div>
+<p style="font-size:12px;color:#5E6068;margin:0 0 8px">Schema 1 — i quattro attori del servizio.</p>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">2. Collegare l'agenzia in 5 passi</h2>
+<ol style="margin:0;padding-left:20px">
+<li style="margin-bottom:8px"><b>Contratto e accordo privacy.</b> L'agenzia firma il contratto di servizio e l'accordo sul trattamento dei dati (art. 28 GDPR).</li>
+<li style="margin-bottom:8px"><b>Account agenzia.</b> Razem crea il codice agenzia e l'accesso al pannello web per le persone dell'ufficio. Nel pannello l'agenzia carica logo, nome e messaggio di ringraziamento (capitolo 3).</li>
+<li style="margin-bottom:8px"><b>Guide.</b> L'agenzia indica le sue guide (o usa quelle di Razem). Ogni guida riceve un codice guida personale e installa la stessa app su iPhone o Android.</li>
+<li style="margin-bottom:8px"><b>Caricare le prenotazioni.</b> Inserimento manuale nel pannello, file Excel/CSV, oppure collegamento automatico (API) con il gestionale dell'agenzia. Per ogni prenotazione il sistema crea un codice viaggio.</li>
+<li style="margin-bottom:8px"><b>Consegnare il codice al turista.</b> Il codice parte da solo via e-mail e SMS ed è stampato con un QR sul voucher (vedi Guida ai codici).</li>
+</ol>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">3. Benvenuto in città e ringraziamento dell'agenzia</h2>
+<p style="margin:0 0 10px">Quando il turista atterra, l'app riconosce la città e gli dà il benvenuto: «Witaj w Rzymie!», «Witaj we Florencji!», «Witaj w Mediolanie!». Subito sotto compare il ringraziamento dell'agenzia, con il suo logo:</p>
+<div style="border:1.5px solid #16181D;border-radius:12px;padding:16px 18px;margin:0 0 10px;break-inside:avoid">
+<div style="font:700 10px 'JetBrains Mono',monospace;color:#C8102E;letter-spacing:.06em">ESEMPIO DI MESSAGGIO (MODIFICABILE DALL'AGENZIA)</div>
+<div style="font-size:18px;font-weight:800;margin-top:6px">Witaj w Rzymie, Anno!</div>
+<div style="margin-top:4px">«Dziękujemy, że podróżujesz z <b>Wakacje z Rzymem</b>. Cały zespół życzy Ci wspaniałego pobytu. Marta czeka na Ciebie przy wyjściu B.»</div>
+</div>
+<p style="margin:0">Il messaggio si scrive una volta nel pannello, in polacco, e vale per tutti i viaggi. L'agenzia può anche aggiungere un messaggio diverso per ogni città e un saluto finale il giorno del rientro («Dziękujemy i do zobaczenia!»).</p>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">3b. Programmare il percorso per il capogruppo</h2>
+<p style="margin:0 0 10px">Nel pannello (<b>Prenotazioni → Programma</b>) l'agenzia prepara, giorno per giorno, il programma del gruppo e lo assegna al capogruppo.</p>
+<ol style="margin:0;padding-left:20px">
+<li style="margin-bottom:6px"><b>Tappe:</b> per ogni giorno si aggiungono le tappe con orario e punto sulla mappa (es. 10:00 Musei Vaticani → 13:00 pranzo → 15:00 San Pietro).</li>
+<li style="margin-bottom:6px"><b>Percorso:</b> tra una tappa e l'altra si sceglie a piedi, bus o pullman; l'app calcola il percorso e i tempi.</li>
+<li style="margin-bottom:6px"><b>Punto di ritrovo:</b> per ogni tappa si indica dove si ritrova il gruppo, con foto del luogo.</li>
+<li style="margin-bottom:6px"><b>Capogruppo:</b> vede il programma nell'app Staff, guida il gruppo e può cambiare orari o tappe durante il viaggio. I turisti vedono subito le modifiche e ricevono una notifica.</li>
+<li style="margin-bottom:6px"><b>Modelli:</b> un programma già fatto (es. «Roma 5 giorni») si salva come modello e si riusa per i gruppi successivi.</li>
+</ol>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">4. Dove arrivano chiamate e messaggi</h2>
+<p style="margin:0 0 12px">Tutto ciò che il turista fa nell'app arriva alla <b>sua guida assegnata</b>, nell'app Staff. Le chiamate passano dall'app: il numero personale della guida resta privato.</p>
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+<thead><tr style="text-align:left;border-bottom:1.5px solid #16181D"><th style="padding:8px 8px 8px 0">Dal turista</th><th style="padding:8px">Arriva a</th><th style="padding:8px">Risposta entro</th><th style="padding:8px 0 8px 8px">Se nessuno risponde</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:9px 8px 9px 0;font-weight:700">Chat</td><td style="padding:9px 8px">Guida assegnata</td><td style="padding:9px 8px">2 min</td><td style="padding:9px 0 9px 8px">Guida di riserva, poi ufficio agenzia</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:9px 8px 9px 0;font-weight:700">Chiamata / video</td><td style="padding:9px 8px">Guida assegnata</td><td style="padding:9px 8px">subito</td><td style="padding:9px 0 9px 8px">Dopo 30 s passa alla guida di riserva</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:9px 8px 9px 0;font-weight:700">Richiesta tour / museo</td><td style="padding:9px 8px">Guida + pannello agenzia</td><td style="padding:9px 8px">15 min</td><td style="padding:9px 0 9px 8px">Promemoria all'agenzia</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:9px 8px 9px 0;font-weight:700">SOS</td><td style="padding:9px 8px">Guida + riserva + agenzia insieme</td><td style="padding:9px 8px">subito</td><td style="padding:9px 0 9px 8px">Il turista vede sempre il tasto 112</td></tr>
+<tr><td style="padding:9px 8px 9px 0;font-weight:700">Allarme furto / fuori dal gruppo</td><td style="padding:9px 8px">Guida del tour</td><td style="padding:9px 8px">subito</td><td style="padding:9px 0 9px 8px">Ultima posizione salvata per la guida</td></tr>
+</tbody>
+</table>
+<div style="margin-top:14px;background:#F4F1EA;border-radius:10px;padding:14px 16px;break-inside:avoid"><b>Turni 24/7.</b> Ogni guida imposta i suoi orari nell'app Staff. Fuori turno, messaggi e chiamate passano in automatico alla guida di riserva. Se il turista non ha internet, c'è un numero italiano di emergenza Razem (+39) che squilla sulla stessa catena.</div>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">5. Avvisi al turista per prevenire il furto</h2>
+<p style="margin:0 0 10px">L'app avvisa il turista <b>prima</b> che succeda qualcosa, soprattutto per il telefono:</p>
+<ul style="margin:0;padding-left:20px">
+<li style="margin-bottom:6px"><b>Avvisi di zona:</b> vicino a Termini, Fontana di Trevi, Colosseo, Piazza San Pietro e sul bus 64 arriva una notifica: «Zona affollata: metti il telefono nella tasca davanti».</li>
+<li style="margin-bottom:6px"><b>Regole fisse nella home:</b> telefono e portafoglio davanti, mai nella tasca dietro; zaino davanti in metro e bus; il telefono non si lascia sul tavolino del bar; foto lontano dal bordo della strada (scooter).</li>
+<li style="margin-bottom:6px"><b>Allarme antifurto:</b> sirena forte se il telefono viene sollevato dal tavolo o si allontana dall'orologio del turista.</li>
+<li style="margin-bottom:6px"><b>Uscita dal gruppo:</b> durante i tour, turista e guida ricevono un avviso se la distanza supera 50/100/200 m.</li>
+<li style="margin-bottom:6px"><b>Cassaforte documenti:</b> foto cifrate di passaporto e carta d'identità, da condividere con la guida per 24 h in caso di furto.</li>
+</ul>
+<p style="margin:10px 0 0">La guida può anche mandare avvisi a tutto il gruppo dall'app Staff (per esempio: «Domani sciopero dei mezzi»).</p>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">6. Privacy (GDPR / RODO)</h2>
+<ul style="margin:0;padding-left:20px">
+<li style="margin-bottom:6px">Razem e l'agenzia firmano l'accordo sul trattamento dei dati; i server sono nell'Unione Europea.</li>
+<li style="margin-bottom:6px">Il turista dà il consenso nell'app e sceglie la posizione: sempre durante il viaggio, solo SOS o spenta.</li>
+<li style="margin-bottom:6px">La guida vede la posizione solo nei giorni del viaggio. Le foto dei documenti restano sul telefono del turista e si condividono solo con il suo permesso.</li>
+<li style="margin-bottom:6px">Tutti i dati si cancellano da soli 30 giorni dopo il rientro. L'agenzia riceve solo nome, cognome e numero di prenotazione.</li>
+</ul>
+
+<h2 style="font-size:20px;margin:28px 0 8px;color:#16181D">7. Checklist prima del primo gruppo</h2>
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+<tbody>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 10px 8px 0;width:22px;font-family:'JetBrains Mono',monospace">☐</td><td style="padding:8px 0">Contratto e accordo GDPR firmati</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 10px 8px 0;font-family:'JetBrains Mono',monospace">☐</td><td style="padding:8px 0">Logo e messaggio di ringraziamento caricati nel pannello</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 10px 8px 0;font-family:'JetBrains Mono',monospace">☐</td><td style="padding:8px 0">Almeno 2 guide per città (titolare + riserva) con codice guida attivo</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 10px 8px 0;font-family:'JetBrains Mono',monospace">☐</td><td style="padding:8px 0">Turni 24/7 impostati nell'app Staff</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 10px 8px 0;font-family:'JetBrains Mono',monospace">☐</td><td style="padding:8px 0">Prenotazioni caricate e codici viaggio inviati</td></tr>
+<tr><td style="padding:8px 10px 8px 0;font-family:'JetBrains Mono',monospace">☐</td><td style="padding:8px 0">Prova completa: chat, chiamata e SOS con un codice di test</td></tr>
+</tbody>
+</table>
+
+<div style="break-before:page"></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #16181D;padding-bottom:10px">
+<span style="font-weight:800;font-size:22px;letter-spacing:-.03em">razem<span style="color:#C8102E">.</span></span>
+<span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">GUIDA AI CODICI · DOCUMENTO A PARTE</span>
+</div>
+<h1 style="font-size:30px;line-height:1.1;letter-spacing:-.03em;margin:24px 0 8px;color:#16181D">Guida ai codici</h1>
+<p style="font-size:15px;color:#4A4C54;margin:0 0 18px">Come si creano, si consegnano e si usano i codici dell'agenzia, delle guide e dei turisti.</p>
+
+<h2 style="font-size:18px;margin:22px 0 8px;color:#16181D">A. Codice agenzia · AG-0000</h2>
+<p style="margin:0">Lo crea Razem alla firma del contratto. Serve solo per il pannello web dell'agenzia. Ogni persona dell'ufficio ha il suo accesso con e-mail e password; il codice agenzia collega tutto il personale alla stessa agenzia.</p>
+
+<h2 style="font-size:18px;margin:22px 0 8px;color:#16181D">B. Codice guida · GD-CITTÀ-000</h2>
+<ol style="margin:0;padding-left:20px">
+<li style="margin-bottom:6px">Nel pannello: <b>Guide → Aggiungi guida</b>. Inserisci nome, telefono, città e lingue.</li>
+<li style="margin-bottom:6px">Il sistema crea il codice (es. <span style="font-family:'JetBrains Mono',monospace">GD-ROMA-017</span>) e lo invia alla guida via SMS.</li>
+<li style="margin-bottom:6px">La guida installa l'app Razem, sceglie «Sono una guida» e inserisce il codice. L'app passa in modalità Staff.</li>
+<li style="margin-bottom:6px">Da quel momento, <b>tutte le chat, chiamate, richieste e SOS</b> dei turisti assegnati arrivano a lei.</li>
+<li style="margin-bottom:6px">Per assegnare i turisti: <b>Prenotazioni → Guida</b>. Una guida di riserva si indica nello stesso campo.</li>
+</ol>
+<p style="margin:8px 0 0">Il codice guida funziona su un solo telefono alla volta. Se la guida cambia telefono o lascia l'agenzia, il codice si blocca dal pannello con un clic.</p>
+
+<h2 style="font-size:18px;margin:22px 0 8px;color:#16181D">C. Codice viaggio del turista · RZM-0000</h2>
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+<thead><tr style="text-align:left;border-bottom:1.5px solid #16181D"><th style="padding:8px 8px 8px 0">Voce</th><th style="padding:8px 0 8px 8px">Regola</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 8px 8px 0;font-weight:700">Quando nasce</td><td style="padding:8px 0 8px 8px">Automaticamente, quando la prenotazione è caricata</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 8px 8px 0;font-weight:700">Contiene</td><td style="padding:8px 0 8px 8px">Volo, città, hotel, transfer, programma, guida assegnata, messaggio dell'agenzia</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 8px 8px 0;font-weight:700">Consegna</td><td style="padding:8px 0 8px 8px">E-mail + SMS 7 giorni prima della partenza; QR sul voucher</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 8px 8px 0;font-weight:700">Più persone</td><td style="padding:8px 0 8px 8px">Un codice per prenotazione, fino a 6 telefoni (famiglia o coppia)</td></tr>
+<tr style="border-bottom:1px solid #DDD8CD"><td style="padding:8px 8px 8px 0;font-weight:700">Validità</td><td style="padding:8px 0 8px 8px">Dalla consegna fino a 30 giorni dopo il rientro, poi i dati si cancellano</td></tr>
+<tr><td style="padding:8px 8px 8px 0;font-weight:700">Codice perso</td><td style="padding:8px 0 8px 8px">«Non ho il codice» nell'app: si riceve di nuovo via SMS al numero della prenotazione</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:18px;margin:22px 0 8px;color:#16181D">D. Cosa riceve il turista (testo in polacco)</h2>
+<div style="border:2px dashed #16181D;border-radius:12px;padding:18px;display:flex;gap:18px;align-items:center;break-inside:avoid">
+<div style="width:92px;height:92px;flex:none;border:1.5px solid #16181D;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 10px 'JetBrains Mono',monospace;color:#5E6068">QR</div>
+<div>
+<div style="font-weight:800;font-size:17px">Twój kod podróży: <span style="font-family:'JetBrains Mono',monospace;color:#C8102E">RZM-2481</span></div>
+<div style="margin-top:4px;font-size:13px;line-height:1.5">1. Pobierz aplikację <b>Razem</b> z App Store lub Google Play.<br>2. Wpisz kod albo zeskanuj QR.<br>3. Gotowe — lot, hotel, transfer i Twoja opiekunka są już w aplikacji.<br>Dziękujemy, że podróżujesz z nami! — <i>Wakacje z Rzymem</i></div>
+</div>
+</div>
+
+</div>
+</doc-page>
+</x-dc>
+</body>
+</html>

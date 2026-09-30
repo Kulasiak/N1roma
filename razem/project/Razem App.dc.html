@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#E7E3DA;font-family:'Onest',system-ui,sans-serif;color:#16181D;-webkit-font-smoothing:antialiased}a{color:#C8102E}a:hover{color:#16181D}*{box-sizing:border-box}textarea,input{font-family:inherit}@keyframes flash{0%,49%{background:#C8102E}50%,100%{background:#16181D}}@keyframes pulse{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.6);opacity:0}}</style></helmet>
+<section id="t1" style="padding:44px 48px 40px;scroll-margin-top:16px">
+<div style="display:flex;align-items:baseline;gap:10px;margin:0 0 24px"><a href="#t1" style="font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#16181D;color:#fff;border-radius:4px;text-decoration:none">1</a><span style="font:600 14px/1.2 'Onest';color:#16181D">Razem — prototipo + 2 direzioni della home</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start">
+
+<div id="1a" style="display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px">
+<div style="display:flex;align-items:baseline;gap:8px;font-size:12px;color:#5E6068"><a href="#1a" style="font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:#16181D;color:#fff;border-radius:5px;text-decoration:none">1a</a>Prototipo interattivo — tocca tutto</div>
+<div style="width:412px;height:866px;border-radius:60px;background:#0C0D10;padding:11px;box-shadow:0 30px 60px -20px rgba(0,0,0,.35)">
+<div ref="{{ screenRef }}" style="position:relative;width:390px;height:844px;border-radius:49px;overflow:hidden;background:#F4F1EA">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 36px;font-weight:600;font-size:15px;z-index:30;background:{{ statusBg }};color:{{ statusFg }}"><span>9:41</span><button onClick="{{ toggleNet }}" title="Demo: internet on/off" style="border:0;background:{{ netBg }};color:inherit;border-radius:6px;padding:2px 6px;cursor:pointer;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.04em">{{ netLabel }}</button></div>
+<div style="position:absolute;top:11px;left:50%;margin-left:-62px;width:124px;height:35px;border-radius:20px;background:#000;z-index:31"></div>
+<div ref="{{ scrollRef }}" style="position:absolute;top:50px;left:0;right:0;bottom:{{ contentBottom }};overflow-y:auto;overflow-x:hidden;scrollbar-width:none">
+
+<sc-if value="{{ isOnb }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:794px;display:flex;flex-direction:column;padding:12px 24px 40px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+<div style="font-weight:800;font-size:22px;letter-spacing:-.03em">razem<span style="color:#C8102E">.</span></div>
+<div style="display:flex;gap:2px;background:#E4DFD4;border-radius:9px;padding:3px"><sc-for list="{{ langs }}" as="l" hint-placeholder-count="3"><button onClick="{{ l.onClick }}" style="border:0;border-radius:7px;padding:5px 9px;font:700 11px 'JetBrains Mono',monospace;cursor:pointer;background:{{ l.bg }};color:{{ l.fg }}">{{ l.code }}</button></sc-for></div>
+</div>
+<div style="display:flex;gap:6px;margin-bottom:26px"><sc-for list="{{ onbDots }}" as="d" hint-placeholder-count="4"><div style="height:4px;flex:1;border-radius:2px;background:{{ d.bg }}"></div></sc-for></div>
+
+<sc-if value="{{ onb0 }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="height:300px;border-radius:24px;background:{{ heroImg }};background-color:#DCD6C9;display:flex;align-items:flex-end;padding:16px;font:600 11px 'JetBrains Mono',monospace;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7)">COLOSSEO · ROMA</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E;margin:28px 0 10px">PL ⇄ IT</div>
+<div style="font-size:34px;font-weight:800;line-height:1.05;letter-spacing:-.03em;text-wrap:balance">{{ t.onb0t }}</div>
+<div style="font-size:16px;line-height:1.45;color:#4A4C54;margin-top:12px;text-wrap:pretty">{{ t.onb0s }}</div>
+<div style="flex:1"></div>
+<button onClick="{{ onbNext }}" style="margin-top:28px;height:56px;border:0;border-radius:16px;background:#16181D;color:#fff;font:700 17px 'Onest';cursor:pointer" style-hover="background:#2A2D35">{{ t.start }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ onb1 }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="font-size:30px;font-weight:800;letter-spacing:-.03em">{{ t.onb1t }}</div>
+<div style="font-size:15px;line-height:1.45;color:#4A4C54;margin-top:8px">{{ t.onb1s }}</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#5E6068;margin:26px 0 8px">{{ t.codeLbl }}</div>
+<div style="display:flex;gap:8px">
+<input value="{{ code }}" onChange="{{ onCode }}" placeholder="RZM-0000" style="flex:1;min-width:0;height:54px;border-radius:14px;border:1.5px solid #CFC9BC;background:#fff;padding:0 16px;font:700 18px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#16181D;outline:none"></input>
+<button onClick="{{ fetchTrip }}" style="height:54px;padding:0 18px;border:0;border-radius:14px;background:#16181D;color:#fff;font:700 15px 'Onest';cursor:pointer">{{ t.fetch }}</button>
+</div>
+<button onClick="{{ useDemo }}" style="align-self:flex-start;margin-top:10px;border:0;background:none;padding:0;color:#C8102E;font:600 13px 'Onest';cursor:pointer;text-decoration:underline">{{ t.demo }}</button>
+<sc-if value="{{ tripLoaded }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:22px;background:#fff;border-radius:20px;padding:6px 18px;border:1px solid rgba(22,24,29,.08)">
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.08)"><span style="color:#5E6068;font-size:14px">{{ t.arrival }}</span><span style="font-weight:700;font-size:14px">12.10 · 11:40 · LO 319</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.08)"><span style="color:#5E6068;font-size:14px">{{ t.airport }}</span><span style="font-weight:700;font-size:14px">FCO · Fiumicino T3</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.08)"><span style="color:#5E6068;font-size:14px">{{ t.hotelLbl }}</span><span style="font-weight:700;font-size:14px">Hotel Artemide</span></div>
+<div style="display:flex;justify-content:space-between;padding:14px 0"><span style="color:#5E6068;font-size:14px">{{ t.agency }}</span><span style="font-weight:700;font-size:14px">Wakacje z Rzymem</span></div>
+</div>
+</sc-if>
+<div style="flex:1"></div>
+<button onClick="{{ onbNext }}" disabled="{{ notLoaded }}" style="margin-top:24px;height:56px;border:0;border-radius:16px;font:700 17px 'Onest';cursor:pointer;background:{{ onbBtnBg }};color:#fff">{{ t.continue }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ onb2 }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="font-size:30px;font-weight:800;letter-spacing:-.03em">{{ t.onbPt }}</div>
+<div style="font-size:15px;line-height:1.45;color:#4A4C54;margin-top:8px">{{ t.onbPs }}</div>
+<div style="margin-top:22px;background:#fff;border-radius:20px;padding:16px 18px;border:1px solid rgba(22,24,29,.08)">
+<div style="font-weight:700;font-size:15px">{{ t.locTitle }}</div>
+<div style="font-size:13px;color:#5E6068;margin-top:3px;line-height:1.4">{{ t.locSub }}</div>
+<div style="display:flex;gap:2px;background:#F4F1EA;border-radius:12px;padding:3px;margin-top:12px"><sc-for list="{{ locOpts }}" as="lo" hint-placeholder-count="3"><button onClick="{{ lo.onClick }}" style="flex:1;border:0;border-radius:10px;height:38px;font:600 12px 'Onest';cursor:pointer;background:{{ lo.bg }};color:{{ lo.fg }}">{{ lo.label }}</button></sc-for></div>
+</div>
+<div style="margin-top:8px;background:#fff;border-radius:20px;padding:16px 18px;border:1px solid rgba(22,24,29,.08);display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.4;color:#33353C">
+<div style="display:flex;gap:10px"><span style="font:700 11px 'JetBrains Mono',monospace;color:#1F8A5B;padding-top:1px">DOC</span>{{ t.pDocsSub }}</div>
+<div style="display:flex;gap:10px"><span style="font:700 11px 'JetBrains Mono',monospace;color:#1F8A5B;padding-top:1px">DEL</span>{{ t.pDelSub }}</div>
+</div>
+<button onClick="{{ toggleRodo }}" style="margin-top:14px;display:flex;gap:12px;align-items:flex-start;text-align:left;border:0;background:none;padding:0;cursor:pointer;font:500 14px/1.4 'Onest';color:#16181D"><span style="width:24px;height:24px;flex:none;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;background:{{ rodoBg }};border:{{ rodoBorder }}">{{ rodoMark }}</span>{{ t.accept }}</button>
+<div style="flex:1"></div>
+<button onClick="{{ onbNext }}" disabled="{{ noRodo }}" style="margin-top:24px;height:56px;border:0;border-radius:16px;font:700 17px 'Onest';cursor:pointer;background:{{ rodoBtnBg }};color:#fff">{{ t.continue }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ onb3 }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="font-size:30px;font-weight:800;letter-spacing:-.03em;text-wrap:balance">{{ t.onb2t }}</div>
+<div style="font-size:15px;line-height:1.45;color:#4A4C54;margin-top:8px">{{ t.onb2s }}</div>
+<div style="margin-top:26px;background:#16181D;color:#fff;border-radius:24px;padding:22px">
+<div style="display:flex;gap:14px;align-items:center">
+<div style="width:72px;height:72px;border-radius:50%;background:#F2B33D;color:#16181D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px">MK</div>
+<div><div style="font-size:21px;font-weight:700">Marta Kowalska</div><div style="font-size:13px;color:#C9CBD1;margin-top:3px">{{ t.martaLangs }}</div><div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#6FD39F;margin-top:6px"><span style="width:8px;height:8px;border-radius:50%;background:#3DBE7A"></span>{{ t.online }}</div></div>
+</div>
+<div style="font-size:14px;line-height:1.5;color:#E3E4E8;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14)">{{ t.martaQuote }}</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px">
+<div style="background:#fff;border-radius:14px;padding:12px;font-size:12px;color:#5E6068"><div style="font-weight:700;font-size:15px;color:#16181D">24/7</div>{{ t.chat }}</div>
+<div style="background:#fff;border-radius:14px;padding:12px;font-size:12px;color:#5E6068"><div style="font-weight:700;font-size:15px;color:#16181D">&lt; 2 min</div>{{ t.response }}</div>
+<div style="background:#fff;border-radius:14px;padding:12px;font-size:12px;color:#5E6068"><div style="font-weight:700;font-size:15px;color:#16181D">PL · IT</div>{{ t.languages }}</div>
+</div>
+<div style="flex:1"></div>
+<button onClick="{{ onbNext }}" style="margin-top:24px;height:56px;border:0;border-radius:16px;background:#C8102E;color:#fff;font:700 17px 'Onest';cursor:pointer" style-hover="background:#A70D26">{{ t.enter }}</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isWelcome }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;min-height:794px;display:flex;flex-direction:column;color:#fff;background:{{ welcomeImg }};background-color:#16181D">
+<div style="padding:28px 24px 0">
+<div style="font:700 12px 'JetBrains Mono',monospace;letter-spacing:.1em;color:#F2B33D;text-shadow:0 1px 6px rgba(0,0,0,.6)">{{ t.wLanded }}</div>
+<div style="font-size:22px;font-weight:700;margin-top:18px;text-shadow:0 2px 10px rgba(0,0,0,.6)">{{ t.wHello }}</div>
+<div style="font-size:64px;font-weight:800;letter-spacing:-.04em;line-height:.95;margin-top:4px;text-shadow:0 2px 16px rgba(0,0,0,.6)">{{ t.wCity }}</div>
+<div style="font-size:15px;margin-top:12px;text-shadow:0 1px 8px rgba(0,0,0,.7)">{{ t.wSub }}</div>
+</div>
+<div style="flex:1"></div>
+<div style="margin:0 14px 22px;background:#F4F1EA;color:#16181D;border-radius:26px;padding:18px">
+<div style="display:flex;gap:12px;align-items:center">
+<div style="width:52px;height:52px;flex:none;border-radius:14px;border:1.5px dashed #B9B2A3;display:flex;align-items:center;justify-content:center;font:700 10px 'JetBrains Mono',monospace;color:#5E6068;background:#fff">LOGO</div>
+<div><div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E">{{ t.wFrom }}</div><div style="font-weight:800;font-size:17px">Wakacje z Rzymem</div></div>
+</div>
+<div style="font-size:15px;line-height:1.5;margin-top:12px;color:#33353C">{{ t.wThanks }}</div>
+<button onClick="{{ enterHome }}" style="width:100%;margin-top:16px;height:56px;border:0;border-radius:16px;background:#C8102E;color:#fff;font:700 16px 'Onest';cursor:pointer" style-hover="background:#A70D26">{{ t.wStart }}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+<div style="padding:8px 20px 28px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;align-items:center;gap:6px"><div style="font-weight:800;font-size:21px;letter-spacing:-.03em">razem<span style="color:#C8102E">.</span></div><button onClick="{{ openCity }}" style="flex:none;white-space:nowrap;border:1px solid rgba(22,24,29,.15);background:#fff;border-radius:999px;padding:5px 10px;font:600 13px 'Onest';cursor:pointer;color:#16181D">{{ t.cityRome }} ▾</button></div>
+<div style="display:flex;gap:6px;align-items:center"><div data-guide="lang" style="display:flex;gap:2px;background:#E4DFD4;border-radius:9px;padding:3px"><sc-for list="{{ langs }}" as="l" hint-placeholder-count="3"><button onClick="{{ l.onClick }}" style="border:0;border-radius:7px;padding:5px 7px;font:700 11px 'JetBrains Mono',monospace;cursor:pointer;background:{{ l.bg }};color:{{ l.fg }}">{{ l.code }}</button></sc-for></div><button data-guide="help" onClick="{{ openGuide }}" title="?" style="width:34px;height:34px;border-radius:50%;border:2px solid #16181D;background:#F2B33D;font:800 16px 'Onest';cursor:pointer;color:#16181D">?</button></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;margin:22px 0 16px">
+<div><div style="font-size:30px;font-weight:800;letter-spacing:-.03em">{{ t.greet }}</div><div style="font-size:14px;color:#5E6068;margin-top:4px">{{ t.dayOf }}</div><button onClick="{{ goPrivacy }}" style="display:flex;align-items:center;gap:6px;margin-top:8px;border:0;background:none;padding:0;cursor:pointer;font:500 12px 'Onest';color:#33353C"><span style="width:7px;height:7px;border-radius:50%;background:{{ locDot }}"></span>{{ locLine }}</button></div>
+<button data-guide="sos" onClick="{{ goSos }}" style="width:58px;height:58px;border-radius:50%;border:0;background:#C8102E;color:#fff;font:800 14px 'JetBrains Mono',monospace;cursor:pointer;box-shadow:0 8px 18px -6px rgba(200,16,46,.6)">SOS</button>
+</div>
+<div style="background:#fff;border-radius:20px;padding:12px 14px;margin-bottom:12px;border:1px solid rgba(22,24,29,.07)">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">{{ t.weatherT }}</span><span style="font:700 10px 'JetBrains Mono',monospace;color:#1C5FB8">{{ t.weatherSrc }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:10px">
+<sc-for list="{{ weather }}" as="w" hint-placeholder-count="5"><div style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0;border-radius:12px;background:{{ w.cardBg }}"><span style="font-size:11px;font-weight:600;color:#5E6068">{{ w.day }}</span><span style="width:20px;height:{{ w.iconH }};border-radius:{{ w.iconR }};background:{{ w.iconBg }};box-shadow:{{ w.iconShadow }}"></span><span style="font:700 13px 'JetBrains Mono',monospace">{{ w.hi }}°</span><span style="font:500 10px 'JetBrains Mono',monospace;color:#8A8D96">{{ w.lo }}°</span></div></sc-for>
+</div>
+<div style="font-size:12px;color:#33353C;margin-top:8px;line-height:1.4">{{ t.rainTip }}</div>
+</div>
+<sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+<div style="background:#16181D;color:#fff;border-radius:20px;padding:16px;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D">● {{ t.offTag }}</span><button onClick="{{ toggleNet }}" style="border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:8px;padding:4px 8px;font:600 11px 'Onest';cursor:pointer">{{ t.offRetry }}</button></div>
+<div style="font-size:16px;font-weight:800;margin-top:6px">{{ t.offTitle }}</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px">
+<sc-for list="{{ offList }}" as="ol" hint-placeholder-count="8"><div style="display:flex;gap:6px;align-items:baseline;font-size:12px;line-height:1.35;color:{{ ol.fg }}"><span style="font:700 10px 'JetBrains Mono',monospace;color:{{ ol.mark }}">{{ ol.icon }}</span>{{ ol.label }}</div></sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ showSafety }}" hint-placeholder-val="{{ true }}">
+<div style="background:#F2B33D;border-radius:20px;padding:14px 16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start">
+<div style="width:40px;height:40px;flex:none;border-radius:12px;background:#16181D;color:#F2B33D;display:flex;align-items:center;justify-content:center;font:800 16px 'Onest'">!</div>
+<div style="flex:1"><div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em">{{ t.sfTag }}</div><div style="font-size:16px;font-weight:800;margin-top:3px;line-height:1.2">{{ t.sfTitle }}</div><div style="font-size:13px;margin-top:4px;line-height:1.4;color:#3A2E0E">{{ t.sfSub }}</div><button onClick="{{ goTips }}" style="margin-top:8px;border:0;background:none;padding:0;font:700 13px 'Onest';color:#16181D;cursor:pointer;text-decoration:underline">{{ t.sfMore }}</button></div>
+<button onClick="{{ hideSafety }}" style="width:32px;height:32px;flex:none;border-radius:10px;border:0;background:rgba(22,24,29,.12);font:600 13px 'Onest';cursor:pointer;color:#16181D">✕</button>
+</div>
+</sc-if>
+<sc-if value="{{ showStrike }}" hint-placeholder-val="{{ true }}">
+<div style="background:#fff;border:2px solid #C8102E;border-radius:20px;padding:14px 16px;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E">● {{ t.strikeTag }}</span><button onClick="{{ hideStrike }}" style="width:28px;height:28px;border-radius:8px;border:0;background:#F4F1EA;font:600 12px 'Onest';cursor:pointer;color:#16181D">✕</button></div>
+<div style="font-size:16px;font-weight:800;margin-top:4px;line-height:1.2">{{ t.strikeTitle }}</div>
+<div style="font-size:13px;color:#33353C;margin-top:4px;line-height:1.4">{{ t.strikeSub }}</div>
+<div style="font-size:13px;margin-top:8px;line-height:1.4;background:#E4F4EB;color:#1E4D35;border-radius:10px;padding:8px 10px"><b>✓</b> {{ t.strikeFix }}</div>
+<button onClick="{{ goTransport }}" style="margin-top:10px;height:40px;padding:0 14px;border:0;border-radius:10px;background:#16181D;color:#fff;font:700 13px 'Onest';cursor:pointer">{{ t.strikePlan }} →</button>
+</div>
+</sc-if>
+<div data-guide="next" onClick="{{ goTransfer }}" style="background:#16181D;color:#fff;border-radius:24px;padding:20px;cursor:pointer">
+<div style="display:flex;justify-content:space-between;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D"><span>{{ t.next }}</span><span>FCO → HTL</span></div>
+<div style="font-size:23px;font-weight:700;margin-top:10px;letter-spacing:-.02em">{{ t.transfer }}</div>
+<div style="font-size:14px;color:#C9CBD1;margin-top:4px">{{ stageLabel }}</div>
+<div style="display:flex;gap:4px;margin-top:16px"><sc-for list="{{ stageBars }}" as="b" hint-placeholder-count="4"><div style="height:5px;flex:1;border-radius:3px;background:{{ b.bg }}"></div></sc-for></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px"><span style="font-size:13px;color:#C9CBD1">Giorgio · AB 123 CD</span><span style="background:#F2B33D;color:#16181D;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px">{{ t.open }} →</span></div>
+</div>
+<div style="margin-top:12px;background:#fff;border-radius:20px;padding:14px 16px;border:1px solid rgba(22,24,29,.07)">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">{{ t.crowdNow }}</span><span style="font:700 10px 'JetBrains Mono',monospace;color:#1F8A5B">● {{ t.crowdAlways }}</span></div>
+<div style="display:flex;flex-direction:column;margin-top:6px">
+<sc-for list="{{ crowdList }}" as="cr" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(22,24,29,.06)"><span style="font:700 9px 'JetBrains Mono',monospace;min-width:52px;text-align:center;border-radius:6px;padding:4px 0;color:#fff;background:{{ cr.color }}">{{ cr.level }}</span><span style="flex:1;font-size:14px;font-weight:600">{{ cr.name }}</span><span style="font-size:11px;color:#5E6068;text-align:right">{{ cr.best }}</span></div>
+</sc-for>
+</div>
+<button onClick="{{ goMapTab }}" style="margin-top:10px;border:0;background:none;padding:0;color:#C8102E;font:600 13px 'Onest';cursor:pointer">{{ t.crowdMap }} →</button>
+</div>
+<button onClick="{{ goTickets }}" style="width:100%;margin-top:12px;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(22,24,29,.07);border-radius:20px;padding:14px 16px;cursor:pointer;text-align:left;font-family:'Onest';color:#16181D">
+<span style="width:44px;height:44px;flex:none;border-radius:12px;background:#16181D;color:#F2B33D;display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono',monospace">BLT</span>
+<span style="flex:1"><span style="display:block;font-weight:700;font-size:16px">{{ t.tickets }}</span><span style="display:block;font-size:12px;color:#5E6068;margin-top:2px">{{ ticketsLine }}</span></span>
+<span style="min-width:28px;height:28px;border-radius:14px;background:#C8102E;color:#fff;display:flex;align-items:center;justify-content:center;font:700 13px 'JetBrains Mono',monospace;padding:0 8px">{{ ticketCount }}</span>
+</button>
+<div data-guide="marta" style="background:#fff;border-radius:22px;padding:16px;margin-top:12px;border:1px solid rgba(22,24,29,.07)">
+<div style="display:flex;gap:12px;align-items:center">
+<div style="width:46px;height:46px;border-radius:50%;background:#F2B33D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px">MK</div>
+<div style="flex:1"><div style="font-size:12px;color:#5E6068">{{ t.assistantLbl }}</div><div style="font-weight:700;font-size:16px">Marta Kowalska</div></div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#1F8A5B;font-weight:600"><span style="width:8px;height:8px;border-radius:50%;background:#3DBE7A"></span>{{ t.onlineShort }}</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px">
+<button onClick="{{ goChat }}" style="height:44px;border:0;border-radius:12px;background:#F4F1EA;font:600 14px 'Onest';color:#16181D;cursor:pointer" style-hover="background:#E9E4D9">{{ t.write }}</button>
+<button onClick="{{ callMarta }}" style="height:44px;border:0;border-radius:12px;background:#F4F1EA;font:600 14px 'Onest';color:#16181D;cursor:pointer" style-hover="background:#E9E4D9">{{ t.call }}</button>
+<button onClick="{{ videoMarta }}" style="height:44px;border:0;border-radius:12px;background:#F4F1EA;font:600 14px 'Onest';color:#16181D;cursor:pointer" style-hover="background:#E9E4D9">{{ t.video }}</button>
+</div>
+</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:26px 0 12px">{{ t.everything }}</div>
+<div data-guide="tiles" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 8px">
+<sc-for list="{{ tiles }}" as="it" hint-placeholder-count="12">
+<button onClick="{{ it.onClick }}" style="border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;color:#16181D">
+<div style="width:62px;height:62px;border-radius:18px;background:#fff;border:1px solid rgba(22,24,29,.08);display:flex;align-items:center;justify-content:center;font:700 13px 'JetBrains Mono',monospace;color:{{ it.fg }}">{{ it.code }}</div>
+<span style="font-size:12px;font-weight:500;text-align:center;line-height:1.2">{{ it.label }}</span>
+</button>
+</sc-for>
+</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:28px 0 10px">{{ t.inspire }}</div>
+<div style="display:flex;gap:10px;margin:0 -20px;padding:0 20px;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ inspo }}" as="ip" hint-placeholder-count="4"><button onClick="{{ ip.onClick }}" style="flex:none;width:200px;height:250px;border:0;border-radius:22px;padding:14px;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;color:#fff;font-family:'Onest';background:{{ ip.img }};background-color:#DCD6C9"><span style="font-size:18px;font-weight:800;line-height:1.1;text-shadow:0 1px 8px rgba(0,0,0,.9)">{{ ip.name }}</span><span style="font:600 11px 'JetBrains Mono',monospace;margin-top:4px;text-shadow:0 1px 6px rgba(0,0,0,.9)">{{ ip.sub }}</span></button></sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin:28px 0 10px"><span style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">{{ t.plan }}</span><button onClick="{{ goTrip }}" style="border:0;background:none;color:#C8102E;font:600 13px 'Onest';cursor:pointer;padding:0">{{ t.seeTrip }} →</button></div>
+<div style="background:#fff;border-radius:22px;padding:4px 16px;border:1px solid rgba(22,24,29,.07)">
+<sc-for list="{{ planToday }}" as="p" hint-placeholder-count="5">
+<div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(22,24,29,.07);align-items:center">
+<span style="font:700 13px 'JetBrains Mono',monospace;width:44px;color:{{ p.timeColor }}">{{ p.time }}</span>
+<div style="flex:1"><div style="font-size:14px;font-weight:600;color:{{ p.color }}">{{ p.title }}</div><div style="font-size:12px;color:#5E6068;margin-top:2px">{{ p.sub }}</div></div>
+<span style="font:700 10px 'JetBrains Mono',monospace;color:{{ p.badgeColor }}">{{ p.badge }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasSubHeader }}" hint-placeholder-val="{{ false }}">
+<div style="position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:8px 16px 10px;background:{{ subHeaderBg }};color:{{ subHeaderFg }}">
+<button onClick="{{ back }}" style="width:40px;height:40px;border-radius:12px;border:0;background:{{ backBg }};color:{{ subHeaderFg }};font:600 18px 'Onest';cursor:pointer">←</button>
+<div style="font-size:18px;font-weight:700;flex:1">{{ subTitle }}</div>
+<button onClick="{{ openGuide }}" style="width:34px;height:34px;border-radius:50%;border:2px solid {{ subHeaderFg }};background:transparent;color:{{ subHeaderFg }};font:800 15px 'Onest';cursor:pointer">?</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTransfer }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px">
+<div style="background:#fff;border-radius:22px;padding:18px;border:1px solid rgba(22,24,29,.07)">
+<sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 11px 'JetBrains Mono',monospace;background:{{ s.dotBg }};color:{{ s.dotFg }}">{{ s.mark }}</div><div style="width:2px;flex:1;min-height:18px;background:{{ s.lineBg }}"></div></div>
+<div style="padding-bottom:16px;flex:1"><div style="font-size:15px;font-weight:{{ s.weight }};color:{{ s.color }}">{{ s.label }}</div><div style="font-size:12px;color:#5E6068;margin-top:2px">{{ s.sub }}</div></div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:12px;background:#fff;border-radius:22px;padding:18px;border:2px solid #F2B33D;text-align:center">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">{{ t.waitsWith }}</div>
+<div style="font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:8px">RAZEM · A. NOWAK</div>
+</div>
+<div style="margin-top:12px;background:#16181D;color:#fff;border-radius:22px;padding:18px">
+<div style="display:flex;gap:14px;align-items:center">
+<div style="width:56px;height:56px;border-radius:16px;background:repeating-linear-gradient(135deg,#2A2D35 0 6px,#33363F 6px 12px);display:flex;align-items:center;justify-content:center;font:500 9px 'JetBrains Mono',monospace;color:#8A8D96">FOTO</div>
+<div style="flex:1"><div style="font-size:17px;font-weight:700">Giorgio R.</div><div style="font-size:13px;color:#C9CBD1;margin-top:2px">Mercedes Klasa V · {{ t.black }}</div></div>
+<div style="background:#fff;color:#16181D;border-radius:8px;padding:6px 8px;font:700 13px 'JetBrains Mono',monospace">AB 123 CD</div>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14);font-size:14px;color:#E3E4E8"><span style="font:700 11px 'JetBrains Mono',monospace;color:#F2B33D;padding-top:2px">{{ t.meetAtLbl }}</span><span>{{ t.meetAt }}</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
+<button onClick="{{ callDriver }}" style="height:46px;border:0;border-radius:12px;background:#F2B33D;color:#16181D;font:700 14px 'Onest';cursor:pointer">{{ t.callDriver }}</button>
+<button onClick="{{ goChat }}" style="height:46px;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:transparent;color:#fff;font:600 14px 'Onest';cursor:pointer">{{ t.writeMarta }}</button>
+</div>
+</div>
+<button onClick="{{ nextStage }}" style="width:100%;margin-top:14px;height:48px;border:1.5px dashed #B9B2A3;border-radius:14px;background:transparent;font:600 14px 'Onest';color:#4A4C54;cursor:pointer">{{ t.nextStage }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isExplore }}" hint-placeholder-val="{{ false }}">
+<div style="padding:8px 20px 28px">
+<div style="font-size:30px;font-weight:800;letter-spacing:-.03em">{{ t.tabExplore }}</div>
+<div style="font-size:14px;color:#5E6068;margin-top:4px">{{ t.exploreSub }}</div>
+<div style="display:flex;gap:6px;margin:18px -20px 16px;padding:0 20px;overflow-x:auto;scrollbar-width:none"><sc-for list="{{ filters }}" as="f" hint-placeholder-count="4"><button onClick="{{ f.onClick }}" style="flex:none;height:38px;padding:0 16px;border-radius:999px;font:600 14px 'Onest';cursor:pointer;background:{{ f.bg }};color:{{ f.fg }};border:{{ f.border }}">{{ f.label }}</button></sc-for></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ tourList }}" as="x" hint-placeholder-count="4">
+<div onClick="{{ x.onClick }}" style="background:#fff;border-radius:22px;overflow:hidden;border:1px solid rgba(22,24,29,.07);cursor:pointer">
+<div style="height:150px;background:{{ x.img }};background-color:#DCD6C9;position:relative;display:flex;align-items:flex-end;padding:10px 12px;font:600 10px 'JetBrains Mono',monospace;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8)">{{ x.photo }}<span style="position:absolute;top:10px;left:12px;background:#16181D;color:#fff;border-radius:6px;padding:4px 7px;font:700 11px 'JetBrains Mono',monospace">{{ x.code }}</span><span style="position:absolute;top:10px;right:12px;border-radius:6px;padding:4px 7px;font:700 10px 'JetBrains Mono',monospace;background:{{ x.statusBg }};color:{{ x.statusFg }}">{{ x.status }}</span></div>
+<div style="padding:14px 16px 16px"><div style="font-size:16px;font-weight:700;line-height:1.25">{{ x.title }}</div><div style="font-size:13px;color:#5E6068;margin-top:4px">{{ x.desc }}</div>
+<div style="display:flex;gap:12px;margin-top:10px;font:700 12px 'JetBrains Mono',monospace;color:#16181D"><span>{{ x.dur }}</span><span style="color:#1F8A5B">{{ t.guidePl }}</span><span style="margin-left:auto">{{ t.from }} {{ x.price }}</span></div><div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:600;color:{{ x.availFg }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ x.availDot }}"></span>{{ x.availText }}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTour }}" hint-placeholder-val="{{ false }}">
+<div style="padding:0 20px 28px">
+<div style="height:220px;border-radius:22px;background:{{ tour.img }};background-color:#DCD6C9;display:flex;align-items:flex-end;padding:14px;font:600 11px 'JetBrains Mono',monospace;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8)">{{ tour.photo }}</div>
+<div style="font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin-top:16px;text-wrap:balance">{{ tour.title }}</div>
+<div style="font-size:14px;color:#4A4C54;margin-top:6px;line-height:1.45">{{ tour.desc }}</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px">
+<div style="background:#fff;border-radius:14px;padding:10px 12px"><div style="font-size:11px;color:#5E6068">{{ t.duration }}</div><div style="font-weight:700;font-size:15px">{{ tour.dur }}</div></div>
+<div style="background:#fff;border-radius:14px;padding:10px 12px"><div style="font-size:11px;color:#5E6068">{{ t.guide }}</div><div style="font-weight:700;font-size:15px">PL</div></div>
+<div style="background:#fff;border-radius:14px;padding:10px 12px"><div style="font-size:11px;color:#5E6068">{{ t.perPerson }}</div><div style="font-weight:700;font-size:15px">{{ tour.price }}</div></div>
+</div>
+<sc-if value="{{ tourIdle }}" hint-placeholder-val="{{ true }}">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:22px 0 8px">{{ t.date }}</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ dateOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.onClick }}" style="flex:1;height:54px;border-radius:12px;font:700 14px 'JetBrains Mono',monospace;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:{{ o.bg }};color:{{ o.fg }};border:{{ o.border }}">{{ o.label }}<span style="display:flex;align-items:center;gap:4px;font:700 9px 'JetBrains Mono',monospace;color:{{ o.subFg }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ o.dot }}"></span>{{ o.sub }}</span></button></sc-for></div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:16px 0 8px">{{ t.time }}</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ timeOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.onClick }}" disabled="{{ o.disabled }}" style="flex:1;height:54px;border-radius:12px;font:700 14px 'JetBrains Mono',monospace;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:{{ o.bg }};color:{{ o.fg }};border:{{ o.border }};cursor:{{ o.cursor }};text-decoration:{{ o.strike }}">{{ o.label }}<span style="font:700 9px 'JetBrains Mono',monospace;letter-spacing:.02em;color:{{ o.subFg }}">{{ o.sub }}</span></button></sc-for></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;background:#fff;border-radius:14px;padding:8px 8px 8px 16px">
+<span style="font-weight:600;font-size:15px">{{ t.people }}</span>
+<div style="display:flex;align-items:center;gap:14px"><button onClick="{{ decP }}" style="width:44px;height:44px;border-radius:12px;border:0;background:#F4F1EA;font:600 20px 'Onest';cursor:pointer;color:#16181D">−</button><span style="font:700 17px 'JetBrains Mono',monospace;min-width:14px;text-align:center">{{ people }}</span><button onClick="{{ incP }}" style="width:44px;height:44px;border-radius:12px;border:0;background:#F4F1EA;font:600 20px 'Onest';cursor:pointer;color:#16181D">+</button></div>
+</div>
+<div style="display:flex;gap:10px;align-items:center;margin-top:12px;border-radius:14px;padding:12px 14px;background:{{ availBg }};color:{{ availFg }}"><span style="width:10px;height:10px;flex:none;border-radius:50%;background:{{ availDot }}"></span><span style="flex:1;font-size:13px;font-weight:600;line-height:1.35">{{ availLine }}</span><span style="font:700 10px 'JetBrains Mono',monospace;opacity:.8">{{ t.live }}</span></div>
+<sc-if value="{{ tourHasTicket }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:14px;background:#16181D;color:#fff;border-radius:18px;padding:14px 16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D">{{ t.ticketOnly }}</span><span style="font:700 15px 'JetBrains Mono',monospace">{{ tour.tprice }} / os.</span></div>
+<div style="font-size:13px;color:#C9CBD1;margin-top:4px;line-height:1.4">{{ t.ticketOnlySub }}</div>
+<button onClick="{{ buyTourTicket }}" disabled="{{ cantBook }}" style="width:100%;margin-top:10px;height:48px;border:0;border-radius:12px;opacity:{{ bookOpacity }};background:#F2B33D;color:#16181D;font:700 15px 'Onest';cursor:pointer">{{ t.buyWithPhone }} · {{ ticketTotal }}</button>
+</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#5E6068;margin:16px 0 0;text-align:center">{{ t.guidedOr }}</div>
+</sc-if>
+<div style="display:flex;gap:10px;align-items:center;margin-top:14px;font-size:13px;color:#4A4C54;line-height:1.4"><div style="width:30px;height:30px;flex:none;border-radius:50%;background:#F2B33D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#16181D">MK</div>{{ t.reqNote }}</div>
+<button onClick="{{ sendRequest }}" disabled="{{ cantBook }}" style="width:100%;margin-top:16px;height:56px;border:0;border-radius:16px;opacity:{{ bookOpacity }};background:#16181D;color:#fff;font:700 16px 'Onest';cursor:pointer" style-hover="background:#2A2D35">{{ t.sendReq }} · {{ total }}</button>
+</sc-if>
+<sc-if value="{{ tourPending }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:22px;background:#FFF6DF;border:1.5px solid #F2B33D;border-radius:20px;padding:18px">
+<div style="display:flex;align-items:center;gap:10px"><span style="position:relative;width:12px;height:12px"><span style="position:absolute;inset:0;border-radius:50%;background:#E0A21F"></span></span><span style="font-weight:700;font-size:16px">{{ t.pending }}</span></div>
+<div style="font-size:14px;color:#4A4C54;margin-top:8px;line-height:1.45">{{ t.pendingSub }}</div>
+<div style="font:700 13px 'JetBrains Mono',monospace;margin-top:12px">{{ bookingLine }}</div>
+</div>
+</sc-if>
+<sc-if value="{{ tourConfirmed }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:22px;background:#E4F4EB;border:1.5px solid #3DBE7A;border-radius:20px;padding:18px">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:24px;height:24px;border-radius:50%;background:#1F8A5B;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">✓</span><span style="font-weight:700;font-size:16px">{{ t.confirmed }}</span></div>
+<div style="font-size:14px;color:#2F4A3B;margin-top:8px;line-height:1.45">{{ t.confirmedSub }}</div>
+<div style="font:700 13px 'JetBrains Mono',monospace;margin-top:12px">{{ bookingLine }}</div>
+<button onClick="{{ goChat }}" style="margin-top:14px;height:44px;padding:0 16px;border:0;border-radius:12px;background:#1F8A5B;color:#fff;font:700 14px 'Onest';cursor:pointer">{{ t.openVoucher }} →</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHelp }}" hint-placeholder-val="{{ false }}">
+<div style="padding:8px 20px 28px">
+<div style="font-size:30px;font-weight:800;letter-spacing:-.03em">{{ t.helpT }}</div>
+<div style="font-size:14px;color:#5E6068;margin-top:4px">{{ t.helpS }}</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+<button onClick="{{ c.onClick }}" style="min-height:76px;border-radius:16px;padding:12px 14px;text-align:left;font:600 14px/1.25 'Onest';cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:8px;background:{{ c.bg }};color:{{ c.fg }};border:{{ c.border }}"><span style="font:700 11px 'JetBrains Mono',monospace;opacity:.7">{{ c.code }}</span>{{ c.label }}</button>
+</sc-for>
+</div>
+<textarea value="{{ helpText }}" onChange="{{ onHelpText }}" placeholder="{{ t.describe }}" style="width:100%;margin-top:12px;height:88px;border-radius:16px;border:1.5px solid #CFC9BC;background:#fff;padding:12px 14px;font-size:15px;resize:none;outline:none;color:#16181D"></textarea>
+<button onClick="{{ sendHelp }}" disabled="{{ noCat }}" style="width:100%;margin-top:12px;height:56px;border:0;border-radius:16px;color:#fff;font:700 16px 'Onest';cursor:pointer;background:{{ helpBtnBg }}">{{ t.connect }}</button>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+<button onClick="{{ callMarta }}" style="height:48px;border:1px solid rgba(22,24,29,.15);border-radius:14px;background:#fff;font:600 14px 'Onest';color:#16181D;cursor:pointer">{{ t.call }}</button>
+<button onClick="{{ videoMarta }}" style="height:48px;border:1px solid rgba(22,24,29,.15);border-radius:14px;background:#fff;font:600 14px 'Onest';color:#16181D;cursor:pointer">{{ t.video }}</button>
+</div>
+<button onClick="{{ goSos }}" style="width:100%;margin-top:18px;height:56px;border:0;border-radius:16px;background:#C8102E;color:#fff;font:700 16px 'Onest';cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px"><span style="font:800 13px 'JetBrains Mono',monospace;background:#fff;color:#C8102E;border-radius:6px;padding:3px 6px">SOS</span>{{ t.sosT }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:710px;display:flex;flex-direction:column">
+<div style="position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:8px 16px 12px;background:#F4F1EA;border-bottom:1px solid rgba(22,24,29,.08)">
+<div style="width:42px;height:42px;border-radius:50%;background:#F2B33D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">MK</div>
+<div style="flex:1"><div style="font-weight:700;font-size:16px">Marta Kowalska</div><div style="font-size:12px;color:#1F8A5B">{{ chatStatus }}</div></div>
+<button onClick="{{ callMarta }}" style="height:38px;padding:0 12px;border:0;border-radius:10px;background:#fff;font:600 13px 'Onest';cursor:pointer;color:#16181D">{{ t.call }}</button>
+<button onClick="{{ videoMarta }}" style="height:38px;padding:0 12px;border:0;border-radius:10px;background:#fff;font:600 13px 'Onest';cursor:pointer;color:#16181D">{{ t.video }}</button>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;padding:16px">
+<div style="align-self:center;font:700 10px 'JetBrains Mono',monospace;color:#5E6068;letter-spacing:.06em">{{ t.todayUpper }}</div>
+<sc-for list="{{ msgs }}" as="m" hint-placeholder-count="2">
+<div style="max-width:80%;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.4;align-self:{{ m.align }};background:{{ m.bg }};color:{{ m.fg }}">{{ m.text }}<div style="font:500 10px 'JetBrains Mono',monospace;opacity:.6;margin-top:4px;text-align:right">{{ m.time }}</div></div>
+</sc-for>
+<sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}"><div style="align-self:flex-start;padding:10px 14px;border-radius:18px;background:#fff;font-size:13px;color:#5E6068">Marta {{ t.typing }}</div></sc-if>
+</div>
+<sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}"><div style="position:sticky;bottom:66px;margin:0 12px 6px;background:#16181D;color:#fff;border-radius:12px;padding:8px 12px;font-size:12px;line-height:1.35">{{ t.offChat }}</div></sc-if>
+<div style="position:sticky;bottom:0;display:flex;gap:8px;padding:10px 12px;background:#F4F1EA;border-top:1px solid rgba(22,24,29,.08)">
+<input value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onDraftKey }}" placeholder="{{ t.typeMsg }}" style="flex:1;min-width:0;height:46px;border-radius:23px;border:1px solid rgba(22,24,29,.12);background:#fff;padding:0 16px;font-size:15px;outline:none;color:#16181D"></input>
+<button onClick="{{ sendDraft }}" style="height:46px;padding:0 18px;border:0;border-radius:23px;background:#16181D;color:#fff;font:700 14px 'Onest';cursor:pointer">{{ t.send }}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSos }}" hint-placeholder-val="{{ false }}">
+<div style="padding:0 20px 28px;background:#C8102E;min-height:794px;color:#fff">
+<div style="font-size:15px;line-height:1.45;color:#FFE3E7;margin-top:4px">{{ t.sosSub }}</div>
+<a href="tel:112" style="display:flex;align-items:center;gap:16px;margin-top:20px;background:#fff;color:#16181D;border-radius:22px;padding:18px;text-decoration:none"><span style="font:800 30px 'JetBrains Mono',monospace;color:#C8102E">112</span><span><span style="display:block;font-weight:700;font-size:16px">{{ t.e112 }}</span><span style="display:block;font-size:13px;color:#5E6068;margin-top:2px">{{ t.e112s }}</span></span></a>
+<button onClick="{{ callMarta }}" style="width:100%;display:flex;align-items:center;gap:14px;margin-top:10px;background:#16181D;color:#fff;border:0;border-radius:22px;padding:18px;text-align:left;cursor:pointer;font-family:'Onest'"><span style="width:48px;height:48px;border-radius:50%;background:#F2B33D;color:#16181D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none">MK</span><span><span style="display:block;font-weight:700;font-size:16px">{{ t.asst24 }}</span><span style="display:block;font-size:13px;color:#C9CBD1;margin-top:2px">Marta Kowalska · PL / IT</span></span></button>
+<button onClick="{{ goDocs }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:10px;background:#fff;color:#16181D;border:0;border-radius:22px;padding:16px 18px;text-align:left;cursor:pointer;font-family:'Onest'"><span><span style="display:block;font-weight:700;font-size:16px">{{ t.theftT }}</span><span style="display:block;font-size:13px;color:#5E6068;margin-top:2px">{{ t.vaultT }}</span></span><span style="font:700 12px 'JetBrains Mono',monospace;color:#C8102E">DOC →</span></button>
+<button onClick="{{ goProtect }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:10px;background:#fff;color:#16181D;border:0;border-radius:22px;padding:16px 18px;text-align:left;cursor:pointer;font-family:'Onest'"><span><span style="display:block;font-weight:700;font-size:16px">{{ t.alarmT }}</span><span style="display:block;font-size:13px;color:#5E6068;margin-top:2px">{{ t.groupT }}</span></span><span style="font:700 12px 'JetBrains Mono',monospace;color:#C8102E">ALR →</span></button>
+<div style="margin-top:10px;background:rgba(255,255,255,.12);border-radius:22px;padding:18px">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#FFD0D7">{{ t.emb }}</div>
+<div style="font-weight:700;font-size:16px;margin-top:6px">Ambasada RP w Rzymie</div>
+<div style="font-size:14px;color:#FFE3E7;margin-top:2px">Via Pietro Paolo Rubens, 20 · 00197 Roma</div>
+</div>
+<div style="margin-top:10px;background:rgba(255,255,255,.12);border-radius:22px;padding:18px">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#FFD0D7">{{ t.yourPos }}</div>
+<div style="font-weight:700;font-size:16px;margin-top:6px">Via Nazionale, 22 · Roma</div>
+<button onClick="{{ shareLoc }}" style="margin-top:12px;height:44px;padding:0 16px;border:0;border-radius:12px;background:#fff;color:#C8102E;font:700 14px 'Onest';cursor:pointer">{{ locLabel }}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHotel }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px">
+<div style="background:#fff;border-radius:22px;padding:20px;border:2px solid #16181D">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E">{{ t.showDriver }}</div>
+<div style="font-size:28px;font-weight:800;letter-spacing:-.02em;margin-top:10px;line-height:1.1">Hotel Artemide</div>
+<div style="font-size:20px;font-weight:600;margin-top:6px;line-height:1.3">Via Nazionale, 22<br>00184 Roma</div>
+<div style="font-size:15px;color:#4A4C54;margin-top:12px">«Mi porti a questo indirizzo, per favore.»</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+<div style="background:#fff;border-radius:16px;padding:14px"><div style="font-size:12px;color:#5E6068">Check-in</div><div style="font:700 20px 'JetBrains Mono',monospace;margin-top:2px">14:00</div></div>
+<div style="background:#fff;border-radius:16px;padding:14px"><div style="font-size:12px;color:#5E6068">Check-out</div><div style="font:700 20px 'JetBrains Mono',monospace;margin-top:2px">11:00</div></div>
+</div>
+<div style="background:#fff;border-radius:16px;padding:14px 16px;margin-top:8px;font-size:14px;line-height:1.5;color:#4A4C54">{{ t.hotelInfo }}</div>
+<button onClick="{{ hotelProblem }}" style="width:100%;margin-top:14px;height:54px;border:0;border-radius:16px;background:#16181D;color:#fff;font:700 15px 'Onest';cursor:pointer">{{ t.hotelProblem }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTransport }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px">
+<div style="background:#fff;border:2px solid #C8102E;border-radius:20px;padding:14px 16px;margin-bottom:12px">
+<div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E">● {{ t.strikeTag }}</div>
+<div style="font-size:15px;font-weight:800;margin-top:4px">{{ t.strikeTitle }}</div>
+<div style="font-size:13px;color:#33353C;margin-top:4px;line-height:1.4">{{ t.strikeSub }}</div>
+<div style="font-size:13px;color:#33353C;margin-top:6px;line-height:1.4">{{ t.strikeAlt }}</div>
+<div style="font-size:13px;margin-top:8px;line-height:1.4;background:#E4F4EB;color:#1E4D35;border-radius:10px;padding:8px 10px"><b>✓</b> {{ t.strikeFix }}</div>
+</div>
+<div style="background:#16181D;color:#fff;border-radius:22px;padding:20px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D">BIT · ATAC</span><span style="font:700 26px 'JetBrains Mono',monospace">1,50 €</span></div>
+<div style="font-size:15px;margin-top:8px;color:#E3E4E8">{{ t.ticketSub }}</div>
+<div style="font-size:14px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14);color:#C9CBD1;line-height:1.45">{{ t.tap }}</div>
+</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:22px 0 10px">{{ t.transportBuy }}</div>
+<div style="background:#fff;border-radius:22px;padding:4px 16px">
+<sc-for list="{{ transitTickets }}" as="tt" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(22,24,29,.07)"><span style="font:700 12px 'JetBrains Mono',monospace;min-width:74px">{{ tt.name }}</span><span style="flex:1;font-size:12px;color:#5E6068">{{ tt.valid }}</span><button onClick="{{ tt.onClick }}" style="height:38px;padding:0 12px;border:0;border-radius:10px;background:#16181D;color:#fff;font:700 13px 'JetBrains Mono',monospace;cursor:pointer">{{ tt.price }}</button></div>
+</sc-for>
+</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:22px 0 10px">{{ t.lines }}</div>
+<div style="background:#fff;border-radius:22px;padding:4px 16px">
+<sc-for list="{{ lines }}" as="ln" hint-placeholder-count="4">
+<div style="display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid rgba(22,24,29,.07)"><span style="min-width:42px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 13px 'JetBrains Mono',monospace;color:#fff;background:{{ ln.color }}">{{ ln.code }}</span><div><div style="font-size:14px;font-weight:600">{{ ln.route }}</div><div style="font-size:12px;color:#5E6068;margin-top:2px">{{ ln.use }}</div></div></div>
+</sc-for>
+</div>
+<div style="margin-top:12px;background:#FFF6DF;border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.45;color:#4A3B12"><b>{{ t.watch }}</b> {{ t.pickpocket }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTips }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ tipList }}" as="tp" hint-placeholder-count="6">
+<div style="background:#fff;border-radius:18px;padding:16px;display:flex;gap:14px"><span style="font:700 13px 'JetBrains Mono',monospace;color:#C8102E">{{ tp.n }}</span><div><div style="font-size:15px;font-weight:700">{{ tp.title }}</div><div style="font-size:13px;color:#4A4C54;margin-top:3px;line-height:1.45">{{ tp.body }}</div></div></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPhrases }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px;display:flex;flex-direction:column;gap:8px">
+<div style="font-size:14px;color:#5E6068;margin-bottom:4px">{{ t.phrasesSub }}</div>
+<sc-for list="{{ phraseList }}" as="ph" hint-placeholder-count="7">
+<button onClick="{{ ph.onClick }}" style="border:0;text-align:left;cursor:pointer;border-radius:18px;padding:14px 16px;font-family:'Onest';background:{{ ph.bg }};color:{{ ph.fg }}">
+<div style="font-size:13px;opacity:.75">{{ ph.pl }}</div>
+<div style="font-weight:800;margin-top:3px;letter-spacing:-.01em;font-size:{{ ph.size }}">{{ ph.it }}</div>
+<div style="font:500 12px 'JetBrains Mono',monospace;opacity:.7;margin-top:4px">[{{ ph.say }}]</div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTrip }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px;display:flex;flex-direction:column;gap:10px">
+<div style="background:#16181D;color:#fff;border-radius:22px;padding:18px">
+<div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D">{{ t.planBy }} · Wakacje z Rzymem</div>
+<div style="display:flex;gap:12px;align-items:center;margin-top:12px"><span style="width:42px;height:42px;flex:none;border-radius:50%;background:#1C5FB8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">EW</span><div><div style="font-size:12px;color:#C9CBD1">{{ t.leader }}</div><div style="font-weight:700;font-size:16px">Ewa Zielińska</div></div></div>
+<div style="font-size:13px;color:#E3E4E8;margin-top:10px;line-height:1.45">{{ t.leaderSub }}</div>
+<button onClick="{{ goMapTab }}" style="width:100%;margin-top:12px;height:44px;border:0;border-radius:12px;background:#F2B33D;color:#16181D;font:700 14px 'Onest';cursor:pointer">{{ t.followGroup }}</button>
+</div>
+<sc-for list="{{ days }}" as="dy" hint-placeholder-count="5">
+<div style="background:#fff;border-radius:20px;padding:16px;border:1px solid rgba(22,24,29,.07)">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:700;font-size:16px">{{ dy.title }}</span><span style="font:700 12px 'JetBrains Mono',monospace;color:#5E6068">{{ dy.date }}</span></div>
+<div style="font-size:13px;color:#4A4C54;margin-top:6px;line-height:1.5">{{ dy.items }}</div>
+</div>
+</sc-for>
+<button onClick="{{ goChat }}" style="height:50px;border:1.5px dashed #B9B2A3;border-radius:14px;background:transparent;font:600 14px 'Onest';color:#4A4C54;cursor:pointer">{{ t.changePlan }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMap }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;height:710px;overflow:hidden">
+<iframe ref="{{ mapRef }}" src="map.html" onLoad="{{ onMapLoad }}" title="Mapa" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+<div style="position:absolute;top:8px;left:12px;right:12px;display:flex;gap:8px;align-items:center;pointer-events:none">
+<button onClick="{{ openCity }}" style="pointer-events:auto;height:40px;padding:0 14px;border:0;border-radius:12px;background:#16181D;color:#fff;font:700 14px 'Onest';cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)">{{ t.cityRome }} ▾</button>
+<div style="pointer-events:auto;flex:1;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:12px;color:#33353C;box-shadow:0 4px 12px rgba(0,0,0,.12)"><span style="width:8px;height:8px;border-radius:50%;background:{{ locDot }}"></span>{{ mapLine }}</div>
+</div>
+<button onClick="{{ toggleCrowd }}" style="position:absolute;left:12px;top:58px;height:44px;padding:0 12px;border-radius:12px;border:0;box-shadow:0 4px 12px rgba(0,0,0,.15);font:700 12px 'Onest';cursor:pointer;display:flex;align-items:center;gap:8px;background:{{ crowdBtnBg }};color:{{ crowdBtnFg }}"><span style="display:flex;gap:3px"><span style="width:8px;height:8px;border-radius:50%;background:#C8102E"></span><span style="width:8px;height:8px;border-radius:50%;background:#E0A21F"></span><span style="width:8px;height:8px;border-radius:50%;background:#1F8A5B"></span></span>{{ t.crowdLayer }}</button>
+<button onClick="{{ recenter }}" style="position:absolute;right:12px;top:58px;width:44px;height:44px;border-radius:12px;border:0;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);font:700 18px 'Onest';color:#1C5FB8;cursor:pointer">◎</button>
+<div style="position:absolute;left:10px;right:10px;bottom:22px;background:#F4F1EA;border-radius:24px;padding:16px;box-shadow:0 10px 30px -8px rgba(0,0,0,.35)">
+<sc-if value="{{ noRoute }}" hint-placeholder-val="{{ true }}">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#1C5FB8">{{ t.youAreHere }}</div>
+<div style="font-size:20px;font-weight:800;letter-spacing:-.02em;margin-top:4px">Fontanna di Trevi</div>
+<div style="font-size:13px;color:#5E6068;margin-top:2px">Piazza di Trevi · {{ t.toHotel }}</div>
+<button onClick="{{ startRoute }}" style="width:100%;margin-top:14px;height:54px;border:0;border-radius:16px;background:#16181D;color:#fff;font:700 16px 'Onest';cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px"><span style="font:700 10px 'JetBrains Mono',monospace;background:#C8102E;border-radius:5px;padding:3px 6px">HTL</span>{{ t.backHotel }}</button>
+<button onClick="{{ lostHelp }}" style="width:100%;margin-top:8px;height:46px;border:1px solid rgba(22,24,29,.15);border-radius:14px;background:#fff;font:600 14px 'Onest';color:#16181D;cursor:pointer">{{ t.lostBtn }}</button>
+</sc-if>
+<sc-if value="{{ routeOn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:18px;font-weight:800">Hotel Artemide</span><span style="font:700 14px 'JetBrains Mono',monospace">14 min · 1,1 km</span></div>
+<div style="display:flex;flex-direction:column;margin-top:10px;background:#fff;border-radius:16px;padding:2px 14px">
+<sc-for list="{{ routeSteps }}" as="rs" hint-placeholder-count="4">
+<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(22,24,29,.07)"><span style="width:28px;height:28px;flex:none;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 14px 'Onest';background:{{ rs.bg }};color:{{ rs.fg }}">{{ rs.arrow }}</span><span style="flex:1;font-size:13px;font-weight:{{ rs.weight }};line-height:1.3">{{ rs.text }}</span><span style="font:700 11px 'JetBrains Mono',monospace;color:#5E6068">{{ rs.dist }}</span></div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+<button onClick="{{ goHotel }}" style="height:46px;border:0;border-radius:14px;background:#F2B33D;color:#16181D;font:700 13px 'Onest';cursor:pointer">{{ t.taxiShow }}</button>
+<button onClick="{{ endRoute }}" style="height:46px;border:1px solid rgba(22,24,29,.15);border-radius:14px;background:#fff;color:#16181D;font:600 13px 'Onest';cursor:pointer">{{ t.endRoute }}</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDocs }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px">
+<div style="font-size:14px;color:#4A4C54;line-height:1.45">{{ t.vaultS }}</div>
+<sc-if value="{{ vaultLocked }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:18px;background:#16181D;color:#fff;border-radius:24px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center">
+<div style="width:64px;height:64px;border-radius:20px;border:2px solid #F2B33D;display:flex;align-items:center;justify-content:center;font:700 13px 'JetBrains Mono',monospace;color:#F2B33D">ID</div>
+<div style="font-size:18px;font-weight:700;margin-top:14px">{{ t.locked }}</div>
+<div style="font-size:13px;color:#C9CBD1;margin-top:4px">{{ t.lockedSub }}</div>
+<button onClick="{{ unlockVault }}" style="margin-top:18px;height:50px;padding:0 24px;border:0;border-radius:14px;background:#F2B33D;color:#16181D;font:700 15px 'Onest';cursor:pointer">{{ unlockLabel }}</button>
+</div>
+</sc-if>
+<sc-if value="{{ vaultOpen }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
+<sc-for list="{{ docList }}" as="dc" hint-placeholder-count="4">
+<label style="display:flex;flex-direction:column;background:#fff;border-radius:18px;overflow:hidden;cursor:pointer;border:1px solid rgba(22,24,29,.08)">
+<input type="file" accept="image/*" capture="environment" onChange="{{ dc.onFile }}" style="display:none"></input>
+<div style="height:96px;display:flex;align-items:flex-end;padding:8px;font:500 10px 'JetBrains Mono',monospace;color:#5E6068;background:{{ dc.bg }};background-size:cover;background-position:center">{{ dc.hint }}</div>
+<div style="padding:10px 12px"><div style="font-size:14px;font-weight:700">{{ dc.label }}</div><div style="font:700 10px 'JetBrains Mono',monospace;margin-top:3px;color:{{ dc.stColor }}">{{ dc.st }}</div></div>
+</label>
+</sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;background:#fff;border-radius:16px;padding:14px 16px">
+<div style="flex:1;padding-right:12px"><div style="font-size:14px;font-weight:700">{{ t.shareOnce }}</div><div style="font-size:12px;color:#5E6068;margin-top:2px;line-height:1.35">{{ shareDocsSub }}</div></div>
+<button onClick="{{ toggleShareDocs }}" style="width:52px;height:32px;flex:none;border-radius:16px;border:0;padding:3px;cursor:pointer;display:flex;background:{{ shareDocsBg }};justify-content:{{ shareDocsJust }}"><span style="width:26px;height:26px;border-radius:50%;background:#fff"></span></button>
+</div>
+<button onClick="{{ lockVault }}" style="margin-top:8px;border:0;background:none;padding:6px 0;font:600 13px 'Onest';color:#5E6068;cursor:pointer">{{ t.lock }}</button>
+</sc-if>
+<div style="margin-top:18px;background:#FDECEF;border:1.5px solid #C8102E;border-radius:22px;padding:18px">
+<div style="font-size:17px;font-weight:800;color:#8E0B21">{{ t.theftT }}</div>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+<sc-for list="{{ theftSteps }}" as="ts" hint-placeholder-count="3"><div style="display:flex;gap:12px;font-size:13px;line-height:1.4;color:#33353C"><span style="font:700 12px 'JetBrains Mono',monospace;color:#C8102E">{{ ts.n }}</span>{{ ts.text }}</div></sc-for>
+</div>
+<button onClick="{{ reportTheft }}" style="width:100%;margin-top:14px;height:50px;border:0;border-radius:14px;background:#C8102E;color:#fff;font:700 15px 'Onest';cursor:pointer">{{ t.reportTheft }}</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPrivacy }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px">
+<div style="font-size:14px;color:#4A4C54;line-height:1.45">{{ t.privS }}</div>
+<div style="margin-top:16px;background:#fff;border-radius:20px;padding:16px 18px">
+<div style="font-weight:700;font-size:15px">{{ t.locTitle }}</div>
+<div style="font-size:13px;color:#5E6068;margin-top:3px;line-height:1.4">{{ t.locSub }}</div>
+<div style="display:flex;gap:2px;background:#F4F1EA;border-radius:12px;padding:3px;margin-top:12px"><sc-for list="{{ locOpts }}" as="lo" hint-placeholder-count="3"><button onClick="{{ lo.onClick }}" style="flex:1;border:0;border-radius:10px;height:38px;font:600 12px 'Onest';cursor:pointer;background:{{ lo.bg }};color:{{ lo.fg }}">{{ lo.label }}</button></sc-for></div>
+</div>
+<div style="margin-top:8px;background:#fff;border-radius:20px;padding:4px 18px">
+<sc-for list="{{ privRows }}" as="pr" hint-placeholder-count="3">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid rgba(22,24,29,.07)">
+<div style="flex:1"><div style="font-size:14px;font-weight:700">{{ pr.title }}</div><div style="font-size:12px;color:#5E6068;margin-top:2px;line-height:1.35">{{ pr.sub }}</div></div>
+<button onClick="{{ pr.onClick }}" style="width:52px;height:32px;flex:none;border-radius:16px;border:0;padding:3px;cursor:pointer;display:flex;background:{{ pr.bg }};justify-content:{{ pr.just }}"><span style="width:26px;height:26px;border-radius:50%;background:#fff"></span></button>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:8px;background:#fff;border-radius:20px;padding:4px 18px">
+<button onClick="{{ exportData }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 0;border:0;border-bottom:1px solid rgba(22,24,29,.07);background:none;cursor:pointer;font:600 14px 'Onest';color:#16181D"><span>{{ t.download }}</span><span style="font:700 11px 'JetBrains Mono',monospace;color:#1F8A5B">{{ exportLabel }}</span></button>
+<button onClick="{{ goChat }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 0;border:0;border-bottom:1px solid rgba(22,24,29,.07);background:none;cursor:pointer;font:600 14px 'Onest';color:#16181D"><span>{{ t.dpo }}</span><span style="color:#5E6068">→</span></button>
+<button onClick="{{ askDelete }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 0;border:0;background:none;cursor:pointer;font:600 14px 'Onest';color:#C8102E"><span>{{ deleteLabel }}</span><span>→</span></button>
+</div>
+<div style="font-size:12px;color:#5E6068;line-height:1.5;margin-top:14px">{{ t.legal }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProtect }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px">
+<div style="background:#16181D;color:#fff;border-radius:24px;padding:20px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#F2B33D">ALR · {{ t.alarmTag }}</span><span style="font:700 11px 'JetBrains Mono',monospace;color:{{ armColor }}">{{ armState }}</span></div>
+<div style="font-size:21px;font-weight:800;margin-top:8px;letter-spacing:-.02em">{{ t.alarmT }}</div>
+<div style="font-size:13px;color:#C9CBD1;margin-top:4px;line-height:1.45">{{ t.alarmS }}</div>
+<div style="display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:12px;padding:3px;margin-top:14px"><sc-for list="{{ alarmModes }}" as="am" hint-placeholder-count="2"><button onClick="{{ am.onClick }}" style="flex:1;border:0;border-radius:10px;height:40px;font:600 12px 'Onest';cursor:pointer;background:{{ am.bg }};color:{{ am.fg }}">{{ am.label }}</button></sc-for></div>
+<div style="font-size:13px;color:#E3E4E8;margin-top:10px;line-height:1.45">{{ alarmModeText }}</div>
+<sc-if value="{{ watchMode }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:6px;margin-top:10px"><sc-for list="{{ distOpts }}" as="dz" hint-placeholder-count="3"><button onClick="{{ dz.onClick }}" style="flex:1;height:40px;border-radius:10px;font:700 13px 'JetBrains Mono',monospace;cursor:pointer;background:{{ dz.bg }};color:{{ dz.fg }};border:{{ dz.border }}">{{ dz.label }}</button></sc-for></div>
+</sc-if>
+<button onClick="{{ toggleArm }}" style="width:100%;margin-top:16px;height:54px;border:0;border-radius:16px;font:700 16px 'Onest';cursor:pointer;background:{{ armBtnBg }};color:{{ armBtnFg }}">{{ armBtnLabel }}</button>
+<button onClick="{{ simTheft }}" style="width:100%;margin-top:8px;height:42px;border:1.5px dashed rgba(255,255,255,.3);border-radius:12px;background:transparent;color:#C9CBD1;font:600 13px 'Onest';cursor:pointer">{{ t.simTheft }}</button>
+</div>
+<div style="margin-top:12px;background:#fff;border-radius:24px;padding:18px;border:1px solid rgba(22,24,29,.07)">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+<div style="flex:1"><div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#1C5FB8">GRP · {{ t.groupTag }}</div><div style="font-size:19px;font-weight:800;margin-top:6px;letter-spacing:-.02em">{{ t.groupT }}</div></div>
+<button onClick="{{ toggleGroup }}" style="width:52px;height:32px;flex:none;border-radius:16px;border:0;padding:3px;cursor:pointer;display:flex;background:{{ groupBg }};justify-content:{{ groupJust }}"><span style="width:26px;height:26px;border-radius:50%;background:#fff"></span></button>
+</div>
+<div style="font-size:13px;color:#4A4C54;margin-top:4px;line-height:1.45">{{ t.groupS }}</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#5E6068;margin:14px 0 6px">{{ t.groupRadius }}</div>
+<div style="display:flex;gap:6px"><sc-for list="{{ radiusOpts }}" as="ro" hint-placeholder-count="3"><button onClick="{{ ro.onClick }}" style="flex:1;height:40px;border-radius:10px;font:700 13px 'JetBrains Mono',monospace;cursor:pointer;background:{{ ro.bg }};color:{{ ro.fg }};border:{{ ro.border }}">{{ ro.label }}</button></sc-for></div>
+<div style="margin-top:14px;background:#F4F1EA;border-radius:16px;padding:4px 14px">
+<sc-for list="{{ groupMembers }}" as="gm" hint-placeholder-count="3">
+<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(22,24,29,.07)"><span style="width:34px;height:34px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;background:{{ gm.bg }};color:{{ gm.fg }}">{{ gm.ini }}</span><span style="flex:1"><span style="display:block;font-size:14px;font-weight:700">{{ gm.name }}</span><span style="display:block;font-size:12px;color:#5E6068">{{ gm.role }}</span></span><span style="font:700 12px 'JetBrains Mono',monospace;color:{{ gm.distColor }}">{{ gm.dist }}</span></div>
+</sc-for>
+</div>
+<button onClick="{{ simGroup }}" style="width:100%;margin-top:12px;height:42px;border:1.5px dashed #B9B2A3;border-radius:12px;background:transparent;color:#4A4C54;font:600 13px 'Onest';cursor:pointer">{{ t.simGroup }}</button>
+</div>
+<div style="font-size:12px;color:#5E6068;line-height:1.5;margin-top:14px">{{ t.protectPriv }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTickets }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 20px 28px;display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;color:#4A4C54;line-height:1.45">{{ t.ticketsSub }}</div>
+<sc-for list="{{ ticketList }}" as="tk" hint-placeholder-count="2">
+<div style="background:#fff;border-radius:22px;overflow:hidden;border:1px solid rgba(22,24,29,.08)">
+<button onClick="{{ tk.onClick }}" style="width:100%;border:0;background:#16181D;color:#fff;padding:14px 16px;text-align:left;cursor:pointer;display:flex;gap:12px;align-items:center;font-family:'Onest'">
+<span style="font:700 12px 'JetBrains Mono',monospace;color:#F2B33D;min-width:34px">{{ tk.kind }}</span>
+<span style="flex:1"><span style="display:block;font-weight:700;font-size:15px;line-height:1.25">{{ tk.title }}</span><span style="display:block;font-size:12px;color:#C9CBD1;margin-top:3px">{{ tk.sub }}</span></span>
+<span style="font:700 9px 'JetBrains Mono',monospace;border-radius:5px;padding:3px 5px;background:{{ tk.badgeBg }};color:#16181D">{{ tk.badge }}</span>
+</button>
+<div style="display:flex;justify-content:space-between;padding:10px 16px;font:700 12px 'JetBrains Mono',monospace;border-top:2px dashed #E4DFD4"><span>{{ tk.code }}</span><span style="color:#C8102E">{{ tk.toggle }}</span></div>
+<sc-if value="{{ tk.open }}" hint-placeholder-val="{{ false }}">
+<div style="padding:4px 16px 16px;display:flex;flex-direction:column;align-items:center">
+<div style="display:grid;grid-template-columns:repeat(25,8px);gap:0;padding:12px;background:#fff;border:1px solid rgba(22,24,29,.1);border-radius:12px"><sc-for list="{{ qrCells }}" as="q" hint-placeholder-count="0"><span style="width:8px;height:8px;background:{{ q }}"></span></sc-for></div>
+<div style="font-size:12px;color:#5E6068;margin-top:8px">{{ t.showQr }}</div>
+<button style="margin-top:10px;height:44px;padding:0 18px;border:0;border-radius:12px;background:#000;color:#fff;font:600 14px 'Onest';cursor:pointer">{{ t.addWallet }}</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ showTabs }}" hint-placeholder-val="{{ false }}">
+<div data-guide="tabs" style="position:absolute;left:0;right:0;bottom:0;height:84px;background:#fff;border-top:1px solid rgba(22,24,29,.08);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 6px 0;z-index:20">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="5">
+<button onClick="{{ tb.onClick }}" style="border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding-top:4px;color:{{ tb.fg }}"><span style="height:28px;min-width:44px;padding:0 8px;border-radius:9px;display:flex;align-items:center;justify-content:center;font:700 11px 'JetBrains Mono',monospace;background:{{ tb.bg }};color:{{ tb.iconFg }}">{{ tb.code }}</span><span style="font-size:11px;font-weight:600">{{ tb.label }}</span></button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ pushOn }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ hidePush }}" style="position:absolute;top:52px;left:10px;right:10px;z-index:35;background:rgba(250,249,246,.97);border-radius:22px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 12px 30px rgba(0,0,0,.28);cursor:pointer">
+<div style="width:38px;height:38px;flex:none;border-radius:10px;background:#16181D;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">r<span style="color:#C8102E">.</span></div>
+<div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:12px;color:#5E6068"><span style="font-weight:700;color:#16181D">Razem</span><span>{{ t.now }}</span></div><div style="font-size:14px;font-weight:700;margin-top:2px">{{ t.pushTitle }}</div><div style="font-size:13px;color:#33353C;margin-top:1px;line-height:1.35">{{ t.pushBody }}</div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ payOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(12,13,16,.5);z-index:48;display:flex;align-items:flex-end">
+<div style="width:100%;background:#fff;border-radius:28px 28px 0 0;padding:14px 20px 40px">
+<div style="width:40px;height:5px;border-radius:3px;background:#CFC9BC;margin:0 auto 16px"></div>
+<div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">{{ t.payTotal }}</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:4px"><span style="font-size:17px;font-weight:700;flex:1;padding-right:12px;line-height:1.25">{{ payTitle }}</span><span style="font:700 24px 'JetBrains Mono',monospace">{{ payPrice }}</span></div>
+<div style="font-size:13px;color:#5E6068;margin-top:4px">{{ paySub }}</div>
+<div style="display:flex;gap:10px;align-items:center;margin-top:16px;padding:12px 14px;background:#F4F1EA;border-radius:14px;font-size:13px;color:#33353C"><span style="font:700 11px 'JetBrains Mono',monospace;background:#16181D;color:#fff;border-radius:6px;padding:4px 6px">PAY</span>{{ t.payWith }}</div>
+<button onClick="{{ confirmPay }}" style="width:100%;margin-top:14px;height:56px;border:0;border-radius:16px;background:#000;color:#fff;font:700 16px 'Onest';cursor:pointer">{{ payBtn }}</button>
+<button onClick="{{ closePay }}" style="width:100%;margin-top:6px;height:44px;border:0;background:none;font:600 14px 'Onest';color:#5E6068;cursor:pointer">{{ t.cancel }}</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ toastOn }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ goTickets }}" style="position:absolute;left:20px;right:20px;bottom:100px;z-index:47;background:#1F8A5B;color:#fff;border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.25)"><span>✓ {{ t.added }}</span><span style="font:700 11px 'JetBrains Mono',monospace">BLT →</span></div>
+</sc-if>
+<sc-if value="{{ citySheet }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeCity }}" style="position:absolute;inset:0;background:rgba(12,13,16,.45);z-index:40;display:flex;align-items:flex-end">
+<div style="width:100%;background:#F4F1EA;border-radius:28px 28px 0 0;padding:14px 20px 40px">
+<div style="width:40px;height:5px;border-radius:3px;background:#CFC9BC;margin:0 auto 16px"></div>
+<div style="font-size:20px;font-weight:800">{{ t.cityTitle }}</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+<sc-for list="{{ cityCards }}" as="cc" hint-placeholder-count="4"><div style="height:150px;border-radius:18px;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:10px 12px;color:#fff;background:{{ cc.img }};background-color:#DCD6C9"><span style="align-self:flex-start;font:700 10px 'JetBrains Mono',monospace;border-radius:6px;padding:3px 6px;background:{{ cc.badgeBg }};color:{{ cc.badgeFg }}">{{ cc.badge }}</span><span style="font-size:18px;font-weight:800;text-shadow:0 1px 6px rgba(0,0,0,.8)">{{ cc.name }}</span></div></sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isCalling }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:#0C0D10;z-index:50;display:flex;flex-direction:column;align-items:center;padding:140px 30px 70px;color:#fff">
+<div style="position:relative;width:120px;height:120px">{{ pulseEl }}<div style="position:absolute;inset:0;border-radius:50%;background:#F2B33D;color:#16181D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:36px">{{ callInitials }}</div></div>
+<div style="font-size:26px;font-weight:700;margin-top:28px">{{ callName }}</div>
+<div style="font-size:15px;color:#C9CBD1;margin-top:6px">{{ callStatus }}</div>
+<div style="flex:1"></div>
+<button onClick="{{ endCall }}" style="width:72px;height:72px;border-radius:50%;border:0;background:#C8102E;color:#fff;font:700 13px 'Onest';cursor:pointer">{{ t.end }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ guide }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(12,13,16,.5);z-index:45;display:flex;align-items:flex-end">
+<div style="width:100%;max-height:780px;overflow-y:auto;background:#F4F1EA;border-radius:28px 28px 0 0;padding:14px 20px 36px;scrollbar-width:none">
+<div style="display:flex;justify-content:space-between;align-items:center"><div style="width:40px"></div><div style="width:40px;height:5px;border-radius:3px;background:#CFC9BC"></div><button onClick="{{ closeGuide }}" style="width:40px;height:40px;border-radius:12px;border:0;background:#fff;font:600 16px 'Onest';cursor:pointer;color:#16181D">✕</button></div>
+<div style="font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:6px">{{ t.guideT }}</div>
+<div style="font-size:14px;color:#4A4C54;margin-top:4px;line-height:1.45">{{ t.guideS }}</div>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:18px 0 8px">{{ t.gLang }}</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"><sc-for list="{{ bigLangs }}" as="bl" hint-placeholder-count="3"><button onClick="{{ bl.onClick }}" style="height:56px;border-radius:14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:{{ bl.bg }};color:{{ bl.fg }};border:{{ bl.border }}"><span style="font:700 13px 'JetBrains Mono',monospace">{{ bl.code }}</span><span style="font:500 12px 'Onest'">{{ bl.name }}</span></button></sc-for></div>
+<button onClick="{{ startTour }}" style="width:100%;margin-top:16px;height:56px;border:0;border-radius:16px;background:#16181D;color:#fff;font:700 16px 'Onest';cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px"><span style="width:22px;height:22px;border-radius:50%;border:2px solid #F2B33D;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:#F2B33D"></span></span>{{ t.showMe }}</button>
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068;margin:22px 0 8px">{{ t.gWhat }}</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ guideItems }}" as="gi" hint-placeholder-count="8">
+<button onClick="{{ gi.onClick }}" style="display:flex;gap:12px;align-items:flex-start;text-align:left;border:0;background:#fff;border-radius:16px;padding:12px 14px;cursor:pointer;font-family:'Onest';color:#16181D"><span style="width:44px;height:36px;flex:none;border-radius:10px;border:1px solid rgba(22,24,29,.1);display:flex;align-items:center;justify-content:center;font:700 11px 'JetBrains Mono',monospace;color:{{ gi.fg }}">{{ gi.code }}</span><span style="flex:1"><span style="display:block;font-weight:700;font-size:14px">{{ gi.title }}</span><span style="display:block;font-size:12px;color:#4A4C54;margin-top:2px;line-height:1.4">{{ gi.desc }}</span></span><span style="color:#5E6068;padding-top:8px">→</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ alarmOn }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;color:#fff;text-align:center">
+{{ flashEl }}
+<div style="position:relative;font:800 64px 'JetBrains Mono',monospace;letter-spacing:.04em">ALARM</div>
+<div style="position:relative;font-size:22px;font-weight:800;margin-top:10px;text-wrap:balance">{{ t.alarmFired }}</div>
+<div style="position:relative;font-size:15px;margin-top:10px;line-height:1.45;opacity:.9">{{ t.alarmFiredSub }}</div>
+<button onClick="{{ disarm }}" style="position:relative;margin-top:36px;height:60px;padding:0 28px;border:0;border-radius:18px;background:#fff;color:#16181D;font:800 17px 'Onest';cursor:pointer">{{ t.disarm }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ groupOn }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:65;background:rgba(12,13,16,.6);display:flex;align-items:flex-end">
+<div style="width:100%;background:#F2B33D;border-radius:28px 28px 0 0;padding:22px 20px 40px;color:#16181D">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em">GRP · {{ t.groupTag }}</div>
+<div style="font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:8px">{{ t.groupLost }}</div>
+<div style="font-size:15px;margin-top:6px;line-height:1.45">{{ t.groupLostSub }}</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:18px">
+<button onClick="{{ callGuide }}" style="height:54px;border:0;border-radius:16px;background:#16181D;color:#fff;font:700 16px 'Onest';cursor:pointer">{{ t.callGuide }}</button>
+<button onClick="{{ groupToMap }}" style="height:50px;border:0;border-radius:16px;background:#fff;color:#16181D;font:700 15px 'Onest';cursor:pointer">{{ t.showGroup }}</button>
+<button onClick="{{ groupOk }}" style="height:46px;border:1.5px solid #16181D;border-radius:16px;background:transparent;color:#16181D;font:600 14px 'Onest';cursor:pointer">{{ t.groupOkBtn }}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ touring }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:55">
+<div style="position:absolute;border-radius:18px;border:2px solid #F2B33D;box-shadow:0 0 0 9999px rgba(12,13,16,.74);transition:all .3s ease;left:{{ hlX }};top:{{ hlY }};width:{{ hlW }};height:{{ hlH }}"></div>
+{{ tapEl }}
+<div style="position:absolute;left:16px;right:16px;background:#fff;border-radius:20px;padding:16px 18px;box-shadow:0 12px 30px rgba(0,0,0,.3);top:{{ tipTop }};bottom:{{ tipBottom }}">
+<div style="display:flex;justify-content:space-between;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#C8102E"><span>{{ tourCount }}</span><span style="color:#5E6068">{{ t.tapHere }}</span></div>
+<div style="font-size:18px;font-weight:800;margin-top:6px">{{ tourTitle }}</div>
+<div style="font-size:14px;color:#4A4C54;margin-top:4px;line-height:1.45">{{ tourText }}</div>
+<div style="display:flex;gap:8px;margin-top:14px"><button onClick="{{ endTour }}" style="height:44px;padding:0 16px;border:1px solid rgba(22,24,29,.15);border-radius:12px;background:#fff;font:600 14px 'Onest';cursor:pointer;color:#16181D">{{ t.skip }}</button><button onClick="{{ nextTour }}" style="flex:1;height:44px;border:0;border-radius:12px;background:#16181D;color:#fff;font:700 14px 'Onest';cursor:pointer">{{ nextTourLabel }}</button></div>
+</div>
+</div>
+</sc-if>
+
+<div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:3px;background:#16181D;z-index:60;opacity:.85"></div>
+</div>
+</div>
+</div>
+
+<div id="1b" style="display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px">
+<div style="display:flex;align-items:baseline;gap:8px;font-size:12px;color:#5E6068"><a href="#1b" style="font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.1);color:#16181D;border-radius:5px;text-decoration:none">1b</a>Home «Tabellone» — il giorno come un tabellone partenze</div>
+<div style="width:412px;height:866px;border-radius:60px;background:#0C0D10;padding:11px;box-shadow:0 30px 60px -20px rgba(0,0,0,.35)">
+<div style="position:relative;width:390px;height:844px;border-radius:49px;overflow:hidden;background:#101114;color:#fff">
+<div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 36px;font-weight:600;font-size:15px"><span>9:41</span><span style="font:700 11px 'JetBrains Mono',monospace">5G ▮▮▮</span></div>
+<div style="position:absolute;top:11px;left:50%;margin-left:-62px;width:124px;height:35px;border-radius:20px;background:#000"></div>
+<div style="padding:10px 20px">
+<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:21px;letter-spacing:-.03em">razem<span style="color:#F2B33D">.</span></div><span style="font:700 11px 'JetBrains Mono',monospace;color:#8A8D96">ROMA · 12.10 · 11:52</span></div>
+<div style="margin-top:22px;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.1em;color:#F2B33D">TERAZ</div>
+<div style="font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:8px">Wyjście B.<br>Giorgio czeka.</div>
+<div style="font-size:15px;color:#A9ACB4;margin-top:10px">Tabliczka RAZEM · A. NOWAK · Mercedes AB 123 CD</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px"><div style="height:50px;border-radius:14px;background:#F2B33D;color:#16181D;display:flex;align-items:center;justify-content:center;font-weight:700">Zadzwoń do kierowcy</div><div style="height:50px;border-radius:14px;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:600">Marta · czat</div></div>
+<div style="margin-top:26px;border-top:1px solid rgba(255,255,255,.12)">
+<div style="display:grid;grid-template-columns:52px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);font:700 13px 'JetBrains Mono',monospace;color:#6D7079"><span>11:40</span><span>PRZYLOT LO 319</span><span style="color:#3DBE7A">OK</span></div>
+<div style="display:grid;grid-template-columns:52px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);font:700 13px 'JetBrains Mono',monospace;color:#F2B33D"><span>12:30</span><span>TRANSFER → HOTEL</span><span>TERAZ</span></div>
+<div style="display:grid;grid-template-columns:52px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);font:700 13px 'JetBrains Mono',monospace;color:#E3E4E8"><span>14:00</span><span>CHECK-IN ARTEMIDE</span><span style="color:#8A8D96">—</span></div>
+<div style="display:grid;grid-template-columns:52px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);font:700 13px 'JetBrains Mono',monospace;color:#E3E4E8"><span>17:00</span><span>TREVI · SCHODY HISZP.</span><span style="color:#8A8D96">PROP.</span></div>
+<div style="display:grid;grid-template-columns:52px 1fr auto;gap:12px;padding:12px 0;font:700 13px 'JetBrains Mono',monospace;color:#E3E4E8"><span>20:00</span><span>KOLACJA TRASTEVERE</span><span style="color:#8A8D96">PROP.</span></div>
+</div>
+<div style="display:flex;gap:6px;margin-top:18px;flex-wrap:wrap"><span style="padding:8px 12px;border-radius:10px;background:#1E2026;font:700 12px 'JetBrains Mono',monospace">HTL</span><span style="padding:8px 12px;border-radius:10px;background:#1E2026;font:700 12px 'JetBrains Mono',monospace">BUS</span><span style="padding:8px 12px;border-radius:10px;background:#1E2026;font:700 12px 'JetBrains Mono',monospace">TUR</span><span style="padding:8px 12px;border-radius:10px;background:#1E2026;font:700 12px 'JetBrains Mono',monospace">MUZ</span><span style="padding:8px 12px;border-radius:10px;background:#1E2026;font:700 12px 'JetBrains Mono',monospace">VAT</span><span style="padding:8px 12px;border-radius:10px;background:#1E2026;font:700 12px 'JetBrains Mono',monospace">ABC</span></div>
+</div>
+<div style="position:absolute;left:12px;right:12px;bottom:28px;height:60px;border-radius:18px;background:#C8102E;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-weight:700"><span>Potrzebuję pomocy</span><span style="font:800 13px 'JetBrains Mono',monospace;background:#fff;color:#C8102E;border-radius:6px;padding:4px 7px">SOS</span></div>
+<div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:3px;background:#fff;opacity:.8"></div>
+</div>
+</div>
+</div>
+
+<div id="1c" style="display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px">
+<div style="display:flex;align-items:baseline;gap:8px;font-size:12px;color:#5E6068"><a href="#1c" style="font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.1);color:#16181D;border-radius:5px;text-decoration:none">1c</a>Home «Marta prima» — la persona al centro</div>
+<div style="width:412px;height:866px;border-radius:60px;background:#0C0D10;padding:11px;box-shadow:0 30px 60px -20px rgba(0,0,0,.35)">
+<div style="position:relative;width:390px;height:844px;border-radius:49px;overflow:hidden;background:#F2B33D;color:#16181D">
+<div style="height:50px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 36px;font-weight:600;font-size:15px"><span>9:41</span><span style="font:700 11px 'JetBrains Mono',monospace">5G ▮▮▮</span></div>
+<div style="position:absolute;top:11px;left:50%;margin-left:-62px;width:124px;height:35px;border-radius:20px;background:#000"></div>
+<div style="padding:10px 22px">
+<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:21px;letter-spacing:-.03em">razem<span style="color:#C8102E">.</span></div><span style="font:700 11px 'JetBrains Mono',monospace">PL · IT · EN</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;margin-top:30px;text-align:center">
+<div style="width:132px;height:132px;border-radius:50%;background:repeating-linear-gradient(135deg,#E0A21F 0 8px,#D89A18 8px 16px);display:flex;align-items:center;justify-content:center;font:500 10px 'JetBrains Mono',monospace;color:#5A4308;border:4px solid #16181D">FOTO MARTA</div>
+<div style="font-size:13px;font-weight:600;margin-top:14px;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#1F8A5B"></span>Marta jest dostępna</div>
+<div style="font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-top:10px;text-wrap:balance">W czym mogę pomóc, Anno?</div>
+</div>
+<div style="margin-top:22px;height:64px;border-radius:20px;background:#16181D;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px">Porozmawiaj z Martą</div>
+<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;justify-content:center"><span style="padding:9px 13px;border-radius:999px;background:rgba(22,24,29,.1);font-size:13px;font-weight:600">Gdzie jest kierowca?</span><span style="padding:9px 13px;border-radius:999px;background:rgba(22,24,29,.1);font-size:13px;font-weight:600">Bilety do Watykanu</span><span style="padding:9px 13px;border-radius:999px;background:rgba(22,24,29,.1);font-size:13px;font-weight:600">Zgubiłam dokumenty</span></div>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:#F4F1EA;border-radius:30px 30px 0 0;padding:20px 22px 40px">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#5E6068">NASTĘPNIE · 12:30</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div><div style="font-size:18px;font-weight:700">Transfer do hotelu</div><div style="font-size:13px;color:#5E6068;margin-top:2px">Wyjście B · Giorgio · AB 123 CD</div></div><span style="width:44px;height:44px;border-radius:14px;background:#16181D;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">→</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px"><div style="height:54px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono',monospace">HTL</div><div style="height:54px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono',monospace">BUS</div><div style="height:54px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 12px 'JetBrains Mono',monospace">VAT</div><div style="height:54px;border-radius:14px;background:#C8102E;color:#fff;display:flex;align-items:center;justify-content:center;font:800 12px 'JetBrains Mono',monospace">SOS</div></div>
+</div>
+<div style="position:absolute;bottom:8px;left:50%;margin-left:-67px;width:134px;height:5px;border-radius:3px;background:#16181D;opacity:.85"></div>
+</div>
+</div>
+</div>
+
+<div style="width:340px;display:flex;flex-direction:column;gap:14px;padding-top:30px">
+<div style="background:#fff;border-radius:16px;padding:20px;font-size:13px;line-height:1.55;color:#33353C">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E;margin-bottom:8px">IPOTESI</div>
+Foto: Wikimedia Commons (licenze libere, da citare nell'app finale). Nome provvisorio <b>Razem</b> («insieme» in polacco). Il servizio è incluso nel pacchetto dell'agenzia polacca: il turista entra con il codice di prenotazione e trova già volo, hotel e transfer. L'app non vende voli: consiglia e invia richieste, l'assistente conferma. Roma attiva, altre città «in arrivo». Stile pratico da app trasporti: codici tipo aeroporto, tanto contrasto, rosso polacco + ocra romana.
+</div>
+<div style="background:#fff;border-radius:16px;padding:20px;font-size:13px;line-height:1.55;color:#33353C">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E;margin-bottom:8px">PIATTAFORMA</div>
+Solo <b>iOS e Android</b>, con un unico codice (React Native o Flutter). Mappa: su telefono si usano le mappe native (Apple/Google); nel prototipo OpenStreetMap.
+</div>
+<div style="background:#fff;border-radius:16px;padding:20px;font-size:13px;line-height:1.55;color:#33353C">
+<div style="font:700 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#C8102E;margin-bottom:8px">DA PROVARE IN 1A</div>
+Affollamento in tempo reale (home + livello sulla mappa) · Meteo + avviso sciopero in home · <b>Biglietti</b> (bus, musei, Vaticano) si comprano col telefono e finiscono in «Moje bilety». Tocca <b>5G</b> in alto per simulare <b>senza internet</b>. <b>ALR</b>: allarme antifurto (suona forte se il telefono si allontana) + avviso uscita dal gruppo. Icona <b>?</b> (in alto) → guida dell'app in PL/IT/EN + tour «dove toccare». Onboarding con «codice demo» → consenso privacy (RODO/GDPR) → Home → <b>Mapa</b>: «Wróć do hotelu» con percorso passo-passo → <b>DOC</b>: cassaforte documenti con Face ID, foto reali dal telefono, procedura furto → <b>PRV</b>: privacy e cancellazione dati · transfer · Vaticano · chat · SOS.
+</div>
+</div>
+
+</div>
+<p style="margin:26px 0 0;font-size:12px;color:#5E6068">Prossimi passi: "usa la home di <a href="#1b">1b</a> nel prototipo" · "aggiungi il pannello per gli assistenti" · "schermata Vaticano più dettagliata"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const T = {
+pl:{tabToday:'Dziś',tabExplore:'Odkrywaj',tabHelp:'Pomoc',tabChat:'Czat',greet:'Cześć, Anna',dayOf:'Rzym · dzień 1 z 5 · 12–16 paź',next:'NASTĘPNY KROK · 12:30',open:'Otwórz',everything:'WSZYSTKO NA MIEJSCU',assistantLbl:'Twoja opiekunka w Rzymie',online:'Dostępna teraz',onlineShort:'Online',write:'Napisz',call:'Zadzwoń',video:'Wideo',plan:'PLAN DNIA',seeTrip:'Cała podróż',cityRome:'Rzym',cityTitle:'Miasto',active:'AKTYWNE',soon:'WKRÓTCE',transfer:'Transfer z lotniska',hotel:'Hotel',transport:'Komunikacja',tours:'Wycieczki',museums:'Muzea',vatican:'Watykan',tips:'Porady',phrases:'Rozmówki',trip:'Moja podróż',all:'Wszystko',
+onb0t:'Witaj we Włoszech.',onb0s:'Od lotniska do Watykanu — wszystko w jednym miejscu, a obok zawsze człowiek, który mówi po polsku.',start:'Zaczynamy',onb1t:'Twoja podróż',onb1s:'Wpisz kod z biura podróży. Lot, hotel i transfer pobierzemy sami.',codeLbl:'KOD REZERWACJI',fetch:'Pobierz',demo:'Użyj kodu demo',arrival:'Przylot',airport:'Lotnisko',hotelLbl:'Hotel',agency:'Biuro podróży',continue:'Dalej',onb2t:'Poznaj swoją opiekunkę',onb2s:'Marta mieszka w Rzymie. Pomoże w każdej sprawie — od zgubionej walizki po rezerwację w Watykanie.',martaLangs:'Mówi po polsku, włosku i angielsku',martaQuote:'„Dzień dobry! Będę z Tobą przez cały pobyt. Napisz albo zadzwoń o każdej porze."',chat:'czat',response:'odpowiedź',languages:'języki',enter:'Przejdź do aplikacji',
+st0:'Wylądowałaś',st0s:'LO 319 · Fiumicino T3 · 11:40',st1:'Odbiór bagażu',st1s:'Taśma 7',st2:'Spotkanie z kierowcą',st2s:'Hala przylotów, wyjście B',st3:'W drodze do hotelu',st3s:'ok. 45 min · Hotel Artemide',st4:'Jesteś w hotelu',waitsWith:'KIEROWCA CZEKA Z TABLICZKĄ',black:'czarny',meetAtLbl:'GDZIE',meetAt:'Wyjdź z hali przylotów T3 wyjściem B. Giorgio stoi przy kawiarni.',callDriver:'Zadzwoń do kierowcy',writeMarta:'Napisz do Marty',nextStage:'Następny etap (demo)',
+exploreSub:'Wycieczki i muzea z przewodnikiem po polsku',guidePl:'PRZEWODNIK PL',from:'od',duration:'Czas',guide:'Przewodnik',perPerson:'Za osobę',date:'DATA',time:'GODZINA',people:'Osoby',reqNote:'Wysyłasz prośbę — Marta sprawdzi dostępność i potwierdzi w ciągu 15 minut. Płacisz dopiero po potwierdzeniu.',sendReq:'Wyślij prośbę',pending:'Czeka na potwierdzenie',pendingSub:'Marta sprawdza wolne miejsca. Dostaniesz powiadomienie.',confirmed:'Potwierdzone',confirmedSub:'Bilety i voucher są w czacie. Spotkanie 15 min przed wejściem.',openVoucher:'Zobacz voucher',reqStatus:'PROŚBA',okStatus:'OK',
+helpT:'Co się stało?',helpS:'Wybierz temat — Marta od razu dostanie wiadomość.',describe:'Opisz krótko (opcjonalnie)',connect:'Połącz z Martą',sosT:'Nagły wypadek',sosSub:'W zagrożeniu życia dzwoń najpierw na 112. Marta zostanie powiadomiona automatycznie.',e112:'Numer alarmowy',e112s:'Policja, pogotowie, straż',asst24:'Twoja opiekunka 24/7',emb:'AMBASADA',yourPos:'TWOJA LOKALIZACJA',share:'Udostępnij Marcie',shared:'Udostępniono ✓',
+showDriver:'POKAŻ TAKSÓWKARZOWI',hotelInfo:'Recepcja 24h. Śniadanie 7:00–10:30. Metro A Repubblica — 5 min pieszo. Podatek miejski płatny na miejscu.',hotelProblem:'Problem z hotelem',
+ticketSub:'100 minut na metro, autobusy i tramwaje (jedno wejście do metra).',tap:'Nie musisz kupować biletu: przyłóż kartę zbliżeniową do bramki metra lub czytnika w autobusie.',lines:'NAJWAŻNIEJSZE LINIE',watch:'Uwaga:',pickpocket:'w autobusie 64 i w metrze przy Termini często działają kieszonkowcy. Plecak noś z przodu.',
+phrasesSub:'Dotknij zwrotu, żeby pokazać go w dużym rozmiarze.',changePlan:'Chcę coś zmienić — napisz do Marty',todayUpper:'DZIŚ',typing:'pisze…',typeMsg:'Wiadomość',send:'Wyślij',calling:'Łączenie…',connected:'Połączono · po polsku',videoCall:'Wideorozmowa',end:'Zakończ'},
+it:{tabToday:'Oggi',tabExplore:'Scopri',tabHelp:'Aiuto',tabChat:'Chat',greet:'Ciao, Anna',dayOf:'Roma · giorno 1 di 5 · 12–16 ott',next:'PROSSIMO PASSO · 12:30',open:'Apri',everything:'TUTTO A PORTATA DI MANO',assistantLbl:'La tua assistente a Roma',online:'Disponibile ora',onlineShort:'Online',write:'Scrivi',call:'Chiama',video:'Video',plan:'PROGRAMMA DEL GIORNO',seeTrip:'Tutto il viaggio',cityRome:'Roma',cityTitle:'Città',active:'ATTIVA',soon:'PRESTO',transfer:'Transfer aeroporto',hotel:'Hotel',transport:'Trasporti',tours:'Tour',museums:'Musei',vatican:'Vaticano',tips:'Consigli',phrases:'Frasi utili',trip:'Il mio viaggio',all:'Tutto',
+onb0t:'Benvenuta in Italia.',onb0s:"Dall'aeroporto al Vaticano, tutto in un posto — e accanto sempre una persona che parla polacco.",start:'Iniziamo',onb1t:'Il tuo viaggio',onb1s:"Inserisci il codice dell'agenzia. Volo, hotel e transfer li carichiamo noi.",codeLbl:'CODICE PRENOTAZIONE',fetch:'Carica',demo:'Usa codice demo',arrival:'Arrivo',airport:'Aeroporto',hotelLbl:'Hotel',agency:'Agenzia',continue:'Avanti',onb2t:'Conosci la tua assistente',onb2s:'Marta vive a Roma. Ti aiuta in tutto — dalla valigia persa alla prenotazione in Vaticano.',martaLangs:'Parla polacco, italiano e inglese',martaQuote:'«Buongiorno! Sarò con te per tutto il soggiorno. Scrivimi o chiamami a qualsiasi ora.»',chat:'chat',response:'risposta',languages:'lingue',enter:"Entra nell'app",
+st0:'Sei atterrata',st0s:'LO 319 · Fiumicino T3 · 11:40',st1:'Ritiro bagagli',st1s:'Nastro 7',st2:"Incontro con l'autista",st2s:'Sala arrivi, uscita B',st3:"Verso l'hotel",st3s:'circa 45 min · Hotel Artemide',st4:'Sei in hotel',waitsWith:"L'AUTISTA TI ASPETTA CON IL CARTELLO",black:'nero',meetAtLbl:'DOVE',meetAt:"Esci dalla sala arrivi T3 all'uscita B. Giorgio è vicino al bar.",callDriver:"Chiama l'autista",writeMarta:'Scrivi a Marta',nextStage:'Fase successiva (demo)',
+exploreSub:'Tour e musei con guida in polacco',guidePl:'GUIDA PL',from:'da',duration:'Durata',guide:'Guida',perPerson:'A persona',date:'DATA',time:'ORARIO',people:'Persone',reqNote:'Invii una richiesta — Marta verifica la disponibilità e conferma entro 15 minuti. Paghi solo dopo la conferma.',sendReq:'Invia richiesta',pending:'In attesa di conferma',pendingSub:'Marta sta verificando i posti. Riceverai una notifica.',confirmed:'Confermato',confirmedSub:"Biglietti e voucher sono in chat. Ritrovo 15 min prima dell'ingresso.",openVoucher:'Vedi voucher',reqStatus:'RICHIESTA',okStatus:'OK',
+helpT:'Cosa è successo?',helpS:'Scegli il tema — Marta riceve subito il messaggio.',describe:'Descrivi in breve (facoltativo)',connect:'Collegati con Marta',sosT:'Emergenza',sosSub:"In pericolo di vita chiama prima il 112. Marta verrà avvisata automaticamente.",e112:"Numero d'emergenza",e112s:'Polizia, ambulanza, vigili del fuoco',asst24:'La tua assistente 24/7',emb:'AMBASCIATA',yourPos:'LA TUA POSIZIONE',share:'Condividi con Marta',shared:'Condivisa ✓',
+showDriver:'MOSTRA AL TASSISTA',hotelInfo:'Reception 24h. Colazione 7:00–10:30. Metro A Repubblica a 5 min a piedi. Tassa di soggiorno da pagare in hotel.',hotelProblem:"Problema con l'hotel",
+ticketSub:'100 minuti su metro, bus e tram (un solo ingresso in metro).',tap:'Non serve comprare il biglietto: avvicina la carta contactless al tornello o al validatore sul bus.',lines:'LINEE PRINCIPALI',watch:'Attenzione:',pickpocket:'sul bus 64 e in metro a Termini ci sono spesso borseggiatori. Porta lo zaino davanti.',
+phrasesSub:'Tocca una frase per mostrarla in grande.',changePlan:'Voglio cambiare qualcosa — scrivi a Marta',todayUpper:'OGGI',typing:'sta scrivendo…',typeMsg:'Messaggio',send:'Invia',calling:'Chiamata in corso…',connected:'Connessa · in polacco',videoCall:'Videochiamata',end:'Chiudi'},
+en:{tabToday:'Today',tabExplore:'Explore',tabHelp:'Help',tabChat:'Chat',greet:'Hi, Anna',dayOf:'Rome · day 1 of 5 · 12–16 Oct',next:'NEXT STEP · 12:30',open:'Open',everything:'EVERYTHING IN ONE PLACE',assistantLbl:'Your assistant in Rome',online:'Available now',onlineShort:'Online',write:'Message',call:'Call',video:'Video',plan:"TODAY'S PLAN",seeTrip:'Whole trip',cityRome:'Rome',cityTitle:'City',active:'ACTIVE',soon:'SOON',transfer:'Airport transfer',hotel:'Hotel',transport:'Transport',tours:'Tours',museums:'Museums',vatican:'Vatican',tips:'Tips',phrases:'Phrases',trip:'My trip',all:'All',
+onb0t:'Welcome to Italy.',onb0s:'From the airport to the Vatican, everything in one place — with a Polish-speaking person always by your side.',start:"Let's go",onb1t:'Your trip',onb1s:"Enter your travel agency code. We'll load your flight, hotel and transfer.",codeLbl:'BOOKING CODE',fetch:'Load',demo:'Use demo code',arrival:'Arrival',airport:'Airport',hotelLbl:'Hotel',agency:'Agency',continue:'Continue',onb2t:'Meet your assistant',onb2s:'Marta lives in Rome. She helps with anything — from lost luggage to Vatican bookings.',martaLangs:'Speaks Polish, Italian and English',martaQuote:'"Good morning! I\'ll be with you for your whole stay. Message or call me any time."',chat:'chat',response:'response',languages:'languages',enter:'Enter the app',
+st0:'You have landed',st0s:'LO 319 · Fiumicino T3 · 11:40',st1:'Baggage claim',st1s:'Belt 7',st2:'Meet your driver',st2s:'Arrivals hall, exit B',st3:'On the way to the hotel',st3s:'about 45 min · Hotel Artemide',st4:'You are at the hotel',waitsWith:'YOUR DRIVER HOLDS A SIGN',black:'black',meetAtLbl:'WHERE',meetAt:'Leave T3 arrivals through exit B. Giorgio is by the café.',callDriver:'Call driver',writeMarta:'Message Marta',nextStage:'Next stage (demo)',
+exploreSub:'Tours and museums with a Polish guide',guidePl:'PL GUIDE',from:'from',duration:'Duration',guide:'Guide',perPerson:'Per person',date:'DATE',time:'TIME',people:'People',reqNote:'You send a request — Marta checks availability and confirms within 15 minutes. You pay only after confirmation.',sendReq:'Send request',pending:'Awaiting confirmation',pendingSub:"Marta is checking availability. You'll get a notification.",confirmed:'Confirmed',confirmedSub:'Tickets and voucher are in the chat. Meet 15 min before entry.',openVoucher:'View voucher',reqStatus:'REQUEST',okStatus:'OK',
+helpT:'What happened?',helpS:'Pick a topic — Marta gets the message right away.',describe:'Describe briefly (optional)',connect:'Connect with Marta',sosT:'Emergency',sosSub:'If life is at risk, call 112 first. Marta is notified automatically.',e112:'Emergency number',e112s:'Police, ambulance, fire',asst24:'Your assistant 24/7',emb:'EMBASSY',yourPos:'YOUR LOCATION',share:'Share with Marta',shared:'Shared ✓',
+showDriver:'SHOW TO TAXI DRIVER',hotelInfo:'24h reception. Breakfast 7:00–10:30. Metro A Repubblica 5 min walk. City tax paid at the hotel.',hotelProblem:'Problem with the hotel',
+ticketSub:'100 minutes on metro, buses and trams (one metro entry).',tap:'No need to buy a ticket: tap your contactless card at the metro gate or bus validator.',lines:'KEY LINES',watch:'Watch out:',pickpocket:'pickpockets are common on bus 64 and in the metro at Termini. Wear your backpack in front.',
+phrasesSub:'Tap a phrase to show it large.',changePlan:'I want to change something — message Marta',todayUpper:'TODAY',typing:'is typing…',typeMsg:'Message',send:'Send',calling:'Calling…',connected:'Connected · in Polish',videoCall:'Video call',end:'End'}
+};
+const T2 = {
+pl:{tabMap:'Mapa',map:'Mapa',docs:'Dokumenty',privacy:'Prywatność',trip:'Moja podróż',youAreHere:'TU JESTEŚ',toHotel:'1,1 km od hotelu',backHotel:'Wróć do hotelu',lostBtn:'Zgubiłam się — połącz z Martą',taxiShow:'Taksówka: pokaż adres',endRoute:'Zakończ trasę',gpsOn:'GPS · dokładność 5 m · widzi tylko Marta',gpsSos:'Lokalizacja tylko w trybie SOS',gpsOff:'Lokalizacja wyłączona',locLineOn:'Lokalizacja włączona · widzi ją tylko Marta',locLineSos:'Lokalizacja: tylko SOS',locLineOff:'Lokalizacja wyłączona',
+onbPt:'Twoja prywatność',onbPs:'Chronimy Twoje dane zgodnie z RODO. Sama decydujesz, co widzi opiekunka.',locTitle:'Udostępnianie lokalizacji',locSub:'Mapa pokazuje, gdzie jesteś. Marta widzi Twoją pozycję tylko w czasie podróży.',locAlways:'W podróży',locSosOnly:'Tylko SOS',locNone:'Wyłącz',pDocsSub:'Zdjęcia dokumentów są szyfrowane i zostają tylko na Twoim telefonie.',pDelSub:'Wszystkie dane usuwamy automatycznie 30 dni po powrocie.',accept:'Akceptuję politykę prywatności i przetwarzanie danych zgodnie z RODO.',
+vaultT:'Sejf dokumentów',vaultS:'Zrób zdjęcie dokumentów przed wyjazdem. Są zaszyfrowane i zapisane tylko na Twoim telefonie — nikt inny ich nie widzi.',locked:'Sejf zablokowany',lockedSub:'Otwórz za pomocą Face ID lub kodu',unlock:'Odblokuj Face ID',unlocking:'Sprawdzanie…',passport:'Paszport',idcard:'Dowód osobisty',ekuz:'Karta EKUZ',insurance:'Polisa podróżna',addPhoto:'+ DODAJ ZDJĘCIE',saved:'ZASZYFROWANE ✓',tapPhoto:'Dotknij, aby zrobić zdjęcie',shareOnce:'Udostępnij Marcie na 24 h',shareOff:'Marta nie ma dostępu do dokumentów.',shareOnTxt:'Marta ma dostęp do 13.10, 12:00. Potem dostęp wygasa.',lock:'Zablokuj sejf',theftT:'Skradziono dokumenty?',theft1:'Zgłoś kradzież na policji (denuncia). Marta pojedzie z Tobą albo połączy tłumacza.',theft2:'Udostępnij zdjęcie paszportu konsulatowi — to przyspiesza wydanie paszportu tymczasowego.',theft3:'Zastrzeż karty i dowód w Polsce. Marta przeprowadzi Cię przez to krok po kroku.',reportTheft:'Zgłoś kradzież Marcie',
+privS:'Twoje dane przetwarzamy zgodnie z RODO (Rozporządzenie UE 2016/679). Możesz w każdej chwili zmienić zgody.',pShareLoc:'Marta widzi lokalizację',pShareLocSub:'Tylko w dniach podróży 12–16.10',pAuto:'Automatyczne usuwanie danych',pAutoSub:'30 dni po powrocie',pAgency:'Dane dla biura podróży',pAgencySub:'Tylko imię, nazwisko i numer rezerwacji',download:'Pobierz moje dane',downloaded:'WYSŁANO NA E-MAIL',dpo:'Napisz do inspektora ochrony danych',deleteAcc:'Usuń konto i wszystkie dane',deleteConfirm:'Dotknij ponownie, aby potwierdzić',legal:'Administrator danych: Razem sp. z o.o. we współpracy z biurem podróży. Dane przechowujemy na serwerach w UE. Masz prawo do dostępu, poprawienia, usunięcia i przeniesienia danych oraz skargi do Prezesa UODO.'},
+it:{tabMap:'Mappa',map:'Mappa',docs:'Documenti',privacy:'Privacy',youAreHere:'SEI QUI',toHotel:"1,1 km dall'hotel",backHotel:"Torna all'hotel",lostBtn:'Mi sono persa — chiama Marta',taxiShow:"Taxi: mostra l'indirizzo",endRoute:'Chiudi percorso',gpsOn:'GPS · precisione 5 m · la vede solo Marta',gpsSos:'Posizione solo in modalità SOS',gpsOff:'Posizione disattivata',locLineOn:'Posizione attiva · la vede solo Marta',locLineSos:'Posizione: solo SOS',locLineOff:'Posizione disattivata',
+onbPt:'La tua privacy',onbPs:'Proteggiamo i tuoi dati secondo il GDPR. Decidi tu cosa vede l\u2019assistente.',locTitle:'Condivisione posizione',locSub:'La mappa mostra dove sei. Marta vede la tua posizione solo durante il viaggio.',locAlways:'In viaggio',locSosOnly:'Solo SOS',locNone:'Spegni',pDocsSub:'Le foto dei documenti sono cifrate e restano solo sul tuo telefono.',pDelSub:'Cancelliamo tutti i dati automaticamente 30 giorni dopo il rientro.',accept:"Accetto l'informativa privacy e il trattamento dei dati secondo il GDPR.",
+vaultT:'Cassaforte documenti',vaultS:'Fotografa i documenti prima di partire. Sono cifrati e salvati solo sul tuo telefono — nessun altro li vede.',locked:'Cassaforte bloccata',lockedSub:'Apri con Face ID o codice',unlock:'Sblocca con Face ID',unlocking:'Verifica…',passport:'Passaporto',idcard:"Carta d'identità",ekuz:'Tessera TEAM',insurance:'Assicurazione',addPhoto:'+ AGGIUNGI FOTO',saved:'CIFRATO ✓',tapPhoto:'Tocca per scattare la foto',shareOnce:'Condividi con Marta per 24 h',shareOff:'Marta non ha accesso ai documenti.',shareOnTxt:"Marta ha accesso fino al 13.10, 12:00. Poi l'accesso scade.",lock:'Blocca cassaforte',theftT:'Documenti rubati?',theft1:'Fai denuncia alla polizia. Marta viene con te o collega un interprete.',theft2:'Condividi la foto del passaporto con il consolato — accelera il passaporto temporaneo.',theft3:'Blocca carte e documento in Polonia. Marta ti guida passo passo.',reportTheft:'Segnala il furto a Marta',
+privS:'Trattiamo i tuoi dati secondo il GDPR (Regolamento UE 2016/679). Puoi cambiare i consensi in qualsiasi momento.',pShareLoc:'Marta vede la posizione',pShareLocSub:'Solo nei giorni del viaggio 12–16.10',pAuto:'Cancellazione automatica',pAutoSub:'30 giorni dopo il rientro',pAgency:"Dati per l'agenzia",pAgencySub:'Solo nome, cognome e numero di prenotazione',download:'Scarica i miei dati',downloaded:'INVIATO VIA E-MAIL',dpo:'Scrivi al responsabile protezione dati',deleteAcc:'Elimina account e dati',deleteConfirm:'Tocca di nuovo per confermare',legal:"Titolare del trattamento: Razem sp. z o.o. in collaborazione con l'agenzia. Dati conservati su server UE. Hai diritto di accesso, rettifica, cancellazione, portabilità e reclamo all'autorità di controllo."},
+en:{tabMap:'Map',map:'Map',docs:'Documents',privacy:'Privacy',youAreHere:'YOU ARE HERE',toHotel:'1.1 km from the hotel',backHotel:'Back to the hotel',lostBtn:"I'm lost — connect with Marta",taxiShow:'Taxi: show address',endRoute:'End route',gpsOn:'GPS · 5 m accuracy · only Marta sees it',gpsSos:'Location only in SOS mode',gpsOff:'Location off',locLineOn:'Location on · only Marta sees it',locLineSos:'Location: SOS only',locLineOff:'Location off',
+onbPt:'Your privacy',onbPs:'We protect your data under GDPR. You decide what your assistant sees.',locTitle:'Location sharing',locSub:'The map shows where you are. Marta sees your position only during the trip.',locAlways:'During trip',locSosOnly:'SOS only',locNone:'Off',pDocsSub:'Document photos are encrypted and stay only on your phone.',pDelSub:'All data is deleted automatically 30 days after you return.',accept:'I accept the privacy policy and GDPR data processing.',
+vaultT:'Document vault',vaultS:'Photograph your documents before you leave. They are encrypted and stored only on your phone — nobody else sees them.',locked:'Vault locked',lockedSub:'Open with Face ID or passcode',unlock:'Unlock with Face ID',unlocking:'Checking…',passport:'Passport',idcard:'ID card',ekuz:'EHIC card',insurance:'Travel insurance',addPhoto:'+ ADD PHOTO',saved:'ENCRYPTED ✓',tapPhoto:'Tap to take a photo',shareOnce:'Share with Marta for 24 h',shareOff:'Marta has no access to your documents.',shareOnTxt:'Marta has access until 13.10, 12:00. Then access expires.',lock:'Lock vault',theftT:'Documents stolen?',theft1:'Report the theft to the police (denuncia). Marta goes with you or connects an interpreter.',theft2:'Share your passport photo with the consulate — it speeds up a temporary passport.',theft3:'Block cards and ID in Poland. Marta guides you step by step.',reportTheft:'Report theft to Marta',
+privS:'We process your data under GDPR (EU Regulation 2016/679). You can change consents at any time.',pShareLoc:'Marta sees location',pShareLocSub:'Only on trip days 12–16.10',pAuto:'Automatic data deletion',pAutoSub:'30 days after return',pAgency:'Data for travel agency',pAgencySub:'Only name and booking number',download:'Download my data',downloaded:'SENT BY E-MAIL',dpo:'Contact the data protection officer',deleteAcc:'Delete account and all data',deleteConfirm:'Tap again to confirm',legal:'Data controller: Razem sp. z o.o. with your travel agency. Data stored on EU servers. You have the right to access, correct, delete and port your data, and to complain to the supervisory authority.'}
+};
+Object.keys(T2).forEach(k => Object.assign(T[k], T2[k]));
+const ROUTE_STEPS = {
+pl:[['↑','Idź na północ Piazza di Trevi','80 m'],['→','Skręć w prawo w Via del Tritone','250 m'],['→','Skręć w prawo w Via del Traforo (tunel)','300 m'],['←','Skręć w lewo w Via Nazionale','450 m'],['●','Hotel Artemide po prawej, nr 22','']],
+it:[['↑','Vai a nord su Piazza di Trevi','80 m'],['→','Gira a destra in Via del Tritone','250 m'],['→','Gira a destra in Via del Traforo (tunnel)','300 m'],['←','Gira a sinistra in Via Nazionale','450 m'],['●','Hotel Artemide sulla destra, n. 22','']],
+en:[['↑','Head north on Piazza di Trevi','80 m'],['→','Turn right onto Via del Tritone','250 m'],['→','Turn right onto Via del Traforo (tunnel)','300 m'],['←','Turn left onto Via Nazionale','450 m'],['●','Hotel Artemide on the right, no. 22','']]
+};
+const T3 = {
+pl:{guideT:'Jak działa Razem?',guideS:'Wszystko, czego potrzebujesz w Rzymie, w jednej aplikacji. Aplikacja mówi po polsku, włosku i angielsku.',gLang:'JĘZYK APLIKACJI',showMe:'Pokaż mi, gdzie dotknąć',gWhat:'CO ZNAJDZIESZ W APLIKACJI',tapHere:'DOTKNIJ TUTAJ',skip:'Pomiń',nextG:'Dalej',doneG:'Gotowe',
+tour:[['?','Przewodnik','Dotknij ?, aby w każdej chwili wrócić do tego opisu.'],['lang','Język','Zmień język aplikacji: polski, włoski lub angielski.'],['sos','SOS','Nagły wypadek: 112, ambasada i Marta jednym dotknięciem.'],['next','Następny krok','Tu zawsze widzisz, co dalej — np. gdzie czeka kierowca.'],['marta','Twoja opiekunka','Napisz, zadzwoń lub połącz się wideo z Martą — 24/7, po polsku.'],['tiles','Wszystkie usługi','Transfer, hotel, komunikacja, mapa, dokumenty, wycieczki i Watykan.'],['tabs','Menu','Na dole: Dziś, Mapa, Odkrywaj, Pomoc i Czat.']],
+g:{TRF:'Kierowca, tabliczka z nazwiskiem i etapy od lądowania do hotelu.',HTL:'Adres do pokazania taksówkarzowi, godziny i pomoc przy problemach.',MAP:'Zawsze wiesz, gdzie jesteś. Jedno dotknięcie prowadzi z powrotem do hotelu.',BUS:'Bilety, linie metra i autobusów, płatność kartą.',VAT:'Wycieczki, muzea i Watykan z przewodnikiem po polsku. Marta potwierdza rezerwację.',DOC:'Zaszyfrowane zdjęcia dokumentów i pomoc w razie kradzieży.',SOS:'112, Ambasada RP i Twoja opiekunka.',MK:'Czat, telefon i wideo z Martą.',ABC:'Najważniejsze zwroty po włosku z wymową.',PRV:'Twoje zgody, lokalizacja i usuwanie danych (RODO).'},
+gt:{TRF:'Transfer z lotniska',HTL:'Hotel',MAP:'Mapa',BUS:'Komunikacja',VAT:'Wycieczki, muzea, Watykan',DOC:'Sejf dokumentów',SOS:'SOS',MK:'Czat z Martą',ABC:'Rozmówki',PRV:'Prywatność'}},
+it:{guideT:'Come funziona Razem?',guideS:"Tutto ciò che serve a Roma, in un'unica app. L'app parla polacco, italiano e inglese.",gLang:"LINGUA DELL'APP",showMe:'Mostrami dove toccare',gWhat:"COSA TROVI NELL'APP",tapHere:'TOCCA QUI',skip:'Salta',nextG:'Avanti',doneG:'Fatto',
+tour:[['?','Guida','Tocca ? per tornare a questa descrizione in qualsiasi momento.'],['lang','Lingua',"Cambia la lingua dell'app: polacco, italiano o inglese."],['sos','SOS',"Emergenza: 112, ambasciata e Marta con un tocco."],['next','Prossimo passo',"Qui vedi sempre cosa succede dopo — per esempio dove aspetta l'autista."],['marta','La tua assistente','Scrivi, chiama o videochiama Marta — 24/7, in polacco.'],['tiles','Tutti i servizi','Transfer, hotel, trasporti, mappa, documenti, tour e Vaticano.'],['tabs','Menu','In basso: Oggi, Mappa, Scopri, Aiuto e Chat.']],
+g:{TRF:"Autista, cartello con il nome e fasi dall'atterraggio all'hotel.",HTL:"Indirizzo da mostrare al tassista, orari e aiuto per i problemi.",MAP:"Sai sempre dove sei. Un tocco ti riporta all'hotel.",BUS:'Biglietti, linee metro e bus, pagamento con carta.',VAT:'Tour, musei e Vaticano con guida in polacco. Marta conferma la prenotazione.',DOC:'Foto cifrate dei documenti e aiuto in caso di furto.',SOS:'112, Ambasciata di Polonia e la tua assistente.',MK:'Chat, telefono e video con Marta.',ABC:'Le frasi italiane più utili con la pronuncia.',PRV:'Consensi, posizione e cancellazione dati (GDPR).'},
+gt:{TRF:'Transfer aeroporto',HTL:'Hotel',MAP:'Mappa',BUS:'Trasporti',VAT:'Tour, musei, Vaticano',DOC:'Cassaforte documenti',SOS:'SOS',MK:'Chat con Marta',ABC:'Frasi utili',PRV:'Privacy'}},
+en:{guideT:'How does Razem work?',guideS:'Everything you need in Rome, in one app. The app speaks Polish, Italian and English.',gLang:'APP LANGUAGE',showMe:'Show me where to tap',gWhat:"WHAT'S IN THE APP",tapHere:'TAP HERE',skip:'Skip',nextG:'Next',doneG:'Done',
+tour:[['?','Guide','Tap ? to come back to this description at any time.'],['lang','Language','Change the app language: Polish, Italian or English.'],['sos','SOS','Emergency: 112, embassy and Marta in one tap.'],['next','Next step','Here you always see what comes next — e.g. where your driver waits.'],['marta','Your assistant','Message, call or video-call Marta — 24/7, in Polish.'],['tiles','All services','Transfer, hotel, transport, map, documents, tours and the Vatican.'],['tabs','Menu','At the bottom: Today, Map, Explore, Help and Chat.']],
+g:{TRF:'Driver, name sign and stages from landing to the hotel.',HTL:'Address to show the taxi driver, times and help with problems.',MAP:'Always know where you are. One tap takes you back to the hotel.',BUS:'Tickets, metro and bus lines, card payment.',VAT:'Tours, museums and the Vatican with a Polish guide. Marta confirms the booking.',DOC:'Encrypted document photos and help if they are stolen.',SOS:'112, Polish Embassy and your assistant.',MK:'Chat, phone and video with Marta.',ABC:'Key Italian phrases with pronunciation.',PRV:'Your consents, location and data deletion (GDPR).'},
+gt:{TRF:'Airport transfer',HTL:'Hotel',MAP:'Map',BUS:'Transport',VAT:'Tours, museums, Vatican',DOC:'Document vault',SOS:'SOS',MK:'Chat with Marta',ABC:'Phrases',PRV:'Privacy'}}
+};
+Object.keys(T3).forEach(k => Object.assign(T[k], T3[k]));
+const T4 = {
+pl:{protect:'Ochrona',alarmTag:'ANTYKRADZIEŻ',alarmT:'Alarm antykradzieżowy',alarmS:'Telefon głośno wyje, gdy ktoś go zabierze albo gdy oddalisz się od niego.',modeMotion:'Ruch telefonu',modeWatch:'Odległość od zegarka',motionText:'Połóż telefon na stoliku. Jeśli ktoś go podniesie, włączy się syrena na pełnej głośności.',watchText:'Telefon łączy się z Twoim zegarkiem przez Bluetooth. Gdy odległość przekroczy limit, włącza się syrena.',armed:'UZBROJONY',disarmed:'WYŁĄCZONY',arm:'Uzbrój alarm',armedBtn:'Alarm uzbrojony · wyłącz',simTheft:'Symuluj kradzież (demo, dźwięk!)',alarmFired:'Telefon oddalił się od właściciela',alarmFiredSub:'Syrena gra na pełnej głośności. Marta dostała Twoją ostatnią lokalizację.',disarm:'Wyłącz · Face ID',
+groupTag:'GRUPA',groupT:'Alert: odłączenie od grupy',groupS:'Podczas wycieczki z przewodnikiem telefon ostrzeże Cię, gdy oddalisz się od grupy. Przewodniczka też dostanie powiadomienie.',groupRadius:'ALERT PO ODDALENIU O',simGroup:'Symuluj oddalenie od grupy (demo)',groupLost:'Oddaliłaś się od grupy',groupLostSub:'Jesteś 180 m od przewodniczki Ewy. Grupa stoi przy wejściu do Kaplicy Sykstyńskiej.',callGuide:'Zadzwoń do przewodniczki Ewy',showGroup:'Pokaż grupę na mapie',groupOkBtn:'Wszystko OK, wracam',you:'Ty',guideRole:'Przewodniczka · Muzea Watykańskie',youRole:'Grupa 14 osób',inGroup:'W GRUPIE',protectPriv:'Lokalizacja grupy jest widoczna tylko dla przewodniczki i tylko w czasie wycieczki. Alarm działa bez internetu.'},
+it:{protect:'Protezione',alarmTag:'ANTIFURTO',alarmT:'Allarme antifurto',alarmS:'Il telefono suona forte se qualcuno lo prende o se ti allontani da lui.',modeMotion:'Movimento',modeWatch:"Distanza dall'orologio",motionText:'Appoggia il telefono sul tavolo. Se qualcuno lo solleva, parte la sirena a tutto volume.',watchText:"Il telefono è collegato al tuo orologio via Bluetooth. Se la distanza supera il limite, parte la sirena.",armed:'ATTIVO',disarmed:'SPENTO',arm:"Attiva l'allarme",armedBtn:'Allarme attivo · spegni',simTheft:'Simula furto (demo, audio!)',alarmFired:'Il telefono si è allontanato dal proprietario',alarmFiredSub:"La sirena suona a tutto volume. Marta ha ricevuto l'ultima posizione.",disarm:'Spegni · Face ID',
+groupTag:'GRUPPO',groupT:'Avviso: uscita dal gruppo',groupS:"Durante un tour guidato il telefono ti avvisa se ti allontani dal gruppo. Anche la guida riceve l'avviso.",groupRadius:'AVVISO OLTRE',simGroup:'Simula allontanamento (demo)',groupLost:'Ti sei allontanata dal gruppo',groupLostSub:"Sei a 180 m dalla guida Ewa. Il gruppo è all'ingresso della Cappella Sistina.",callGuide:'Chiama la guida Ewa',showGroup:'Mostra il gruppo sulla mappa',groupOkBtn:'Tutto ok, torno',you:'Tu',guideRole:'Guida · Musei Vaticani',youRole:'Gruppo di 14 persone',inGroup:'NEL GRUPPO',protectPriv:"La posizione del gruppo è visibile solo alla guida e solo durante il tour. L'allarme funziona anche senza internet."},
+en:{protect:'Protection',alarmTag:'ANTI-THEFT',alarmT:'Anti-theft alarm',alarmS:'Your phone sounds a loud siren if someone takes it or you move away from it.',modeMotion:'Phone motion',modeWatch:'Distance from watch',motionText:'Put the phone on the table. If someone picks it up, a full-volume siren starts.',watchText:'The phone pairs with your watch over Bluetooth. If the distance passes the limit, the siren starts.',armed:'ARMED',disarmed:'OFF',arm:'Arm the alarm',armedBtn:'Alarm armed · turn off',simTheft:'Simulate theft (demo, sound!)',alarmFired:'Phone moved away from its owner',alarmFiredSub:'The siren is at full volume. Marta received your last location.',disarm:'Turn off · Face ID',
+groupTag:'GROUP',groupT:'Alert: leaving the group',groupS:'On a guided tour your phone warns you if you drift away from the group. The guide is notified too.',groupRadius:'ALERT BEYOND',simGroup:'Simulate leaving the group (demo)',groupLost:'You left the group',groupLostSub:'You are 180 m from guide Ewa. The group is at the Sistine Chapel entrance.',callGuide:'Call guide Ewa',showGroup:'Show group on map',groupOkBtn:"All good, I'm coming back",you:'You',guideRole:'Guide · Vatican Museums',youRole:'Group of 14',inGroup:'IN GROUP',protectPriv:'Group location is visible only to the guide and only during the tour. The alarm works offline.'}
+};
+Object.keys(T4).forEach(k => Object.assign(T[k], T4[k]));
+T.pl.g.ALR='Syrena, gdy telefon oddali się od Ciebie, i alert, gdy odłączysz się od grupy.'; T.pl.gt.ALR='Alarm i grupa';
+T.it.g.ALR="Sirena se il telefono si allontana da te e avviso se esci dal gruppo."; T.it.gt.ALR='Allarme e gruppo';
+T.en.g.ALR='Siren if your phone moves away from you, alert if you leave the group.'; T.en.gt.ALR='Alarm & group';
+const PH = f => 'linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55)),url("https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(f) + '?width=900") center/cover';
+const IMGS = { vat:'Vatican_Museums_Spiral_Staircase_2012.jpg', jp2:'Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg', col:'Colosseo_2020.jpg', tra:'Trastevere,_Rome,_Italy_-_panoramio.jpg', bor:'Galleria_borghese_facade.jpg', cap:'Foro_Romano_Musei_Capitolini_Roma.jpg' };
+T.pl.inspire='ODKRYJ RZYM'; T.it.inspire='SCOPRI ROMA'; T.en.inspire='DISCOVER ROME';
+const T5 = {
+pl:{wLanded:'LO 319 · WYLĄDOWAŁAŚ',wHello:'Witaj w',wCity:'Rzymie!',wSub:'Anno, jest 11:40, w Rzymie 24°C i słońce.',wFrom:'WIADOMOŚĆ OD BIURA PODRÓŻY',wThanks:'Dziękujemy, że podróżujesz z nami! Cały zespół życzy Ci wspaniałego pobytu. Marta czeka na Ciebie przy wyjściu B.',wStart:'Zaczynamy zwiedzanie',sfTag:'UWAGA · STREFA TŁUMU',sfTitle:'Telefon i portfel trzymaj z przodu',sfSub:'Jesteś blisko Fontanny di Trevi. Nigdy nie noś telefonu w tylnej kieszeni.',sfMore:'Jak chronić telefon',now:'teraz',pushTitle:'Duży tłum przy Fontannie di Trevi',pushBody:'Schowaj telefon do przedniej kieszeni i załóż plecak z przodu.',
+planBy:'PLAN OD BIURA PODRÓŻY',leader:'Pilot grupy',leaderSub:'Program i trasę każdego dnia ustala biuro. Pilot może je zmienić w trakcie, a Ty od razu widzisz zmiany.',followGroup:'Zobacz trasę grupy na mapie'},
+it:{wLanded:'LO 319 · SEI ATTERRATA',wHello:'Benvenuta a',wCity:'Roma!',wSub:'Anna, sono le 11:40, a Roma 24°C e sole.',wFrom:"MESSAGGIO DALL'AGENZIA",wThanks:'Grazie di viaggiare con noi! Tutto il team ti augura un soggiorno meraviglioso. Marta ti aspetta all\u2019uscita B.',wStart:'Iniziamo la visita',sfTag:'ATTENZIONE · ZONA AFFOLLATA',sfTitle:'Telefono e portafoglio davanti',sfSub:'Sei vicino alla Fontana di Trevi. Mai il telefono nella tasca dietro.',sfMore:'Come proteggere il telefono',now:'ora',pushTitle:'Molta folla alla Fontana di Trevi',pushBody:'Metti il telefono nella tasca davanti e lo zaino davanti.',
+planBy:"PROGRAMMA DELL'AGENZIA",leader:'Capogruppo',leaderSub:"L'agenzia programma giorni e percorsi. Il capogruppo può cambiarli durante il viaggio e tu vedi subito le modifiche.",followGroup:'Vedi il percorso del gruppo sulla mappa'},
+en:{wLanded:'LO 319 · YOU HAVE LANDED',wHello:'Welcome to',wCity:'Rome!',wSub:"Anna, it's 11:40, 24°C and sunny in Rome.",wFrom:'MESSAGE FROM YOUR AGENCY',wThanks:'Thank you for travelling with us! The whole team wishes you a wonderful stay. Marta is waiting for you at exit B.',wStart:'Start exploring',sfTag:'CAUTION · CROWDED AREA',sfTitle:'Keep phone and wallet in front',sfSub:'You are near the Trevi Fountain. Never carry your phone in a back pocket.',sfMore:'How to protect your phone',now:'now',pushTitle:'Big crowd at the Trevi Fountain',pushBody:'Put your phone in a front pocket and wear your backpack in front.',
+planBy:'PLAN FROM YOUR AGENCY',leader:'Group leader',leaderSub:'The agency programs each day and route. The group leader can change them on the go and you see changes instantly.',followGroup:'See the group route on the map'}
+};
+Object.keys(T5).forEach(k => Object.assign(T[k], T5[k]));
+const T6 = {
+pl:{offTag:'BRAK INTERNETU · TRYB OFFLINE',offRetry:'Połącz',offTitle:'Najważniejsze działa bez internetu',offChat:'Brak internetu: wiadomość wyślemy do Marty SMS-em. Połączenia działają przez zwykłą sieć komórkową.',offMap:'Mapa offline · Rzym pobrany · GPS działa',
+off:[['✓','Mapa i droga do hotelu'],['✓','SOS 112 i telefon do Marty'],['✓','Sejf dokumentów'],['✓','Alarm antykradzieżowy'],['✓','Adres hotelu, bilety, plan'],['✓','Rozmówki i porady'],['SMS','Czat z Martą'],['—','Nowe rezerwacje, wideo']]},
+it:{offTag:'SENZA INTERNET · MODALITÀ OFFLINE',offRetry:'Riconnetti',offTitle:"L'essenziale funziona senza internet",offChat:'Senza internet: il messaggio arriva a Marta via SMS. Le chiamate usano la normale rete telefonica.',offMap:'Mappa offline · Roma scaricata · GPS attivo',
+off:[['✓',"Mappa e strada per l'hotel"],['✓','SOS 112 e chiamata a Marta'],['✓','Cassaforte documenti'],['✓','Allarme antifurto'],['✓','Indirizzo hotel, biglietti, programma'],['✓','Frasi e consigli'],['SMS','Chat con Marta'],['—','Nuove prenotazioni, video']]},
+en:{offTag:'NO INTERNET · OFFLINE MODE',offRetry:'Reconnect',offTitle:'The essentials work offline',offChat:'No internet: your message goes to Marta by SMS. Calls use the normal mobile network.',offMap:'Offline map · Rome downloaded · GPS on',
+off:[['✓','Map and route to hotel'],['✓','SOS 112 and call Marta'],['✓','Document vault'],['✓','Anti-theft alarm'],['✓','Hotel address, tickets, plan'],['✓','Phrases and tips'],['SMS','Chat with Marta'],['—','New bookings, video']]}
+};
+Object.keys(T6).forEach(k => Object.assign(T[k], T6[k]));
+const GUIDE_DEST = { ALR:'protect', TRF:'transfer', HTL:'hotel', MAP:'map', BUS:'transport', VAT:'explore', DOC:'docs', SOS:'sos', MK:'chat', ABC:'phrases', PRV:'privacy' };
+const L = (o, lang) => o[lang] || o.pl;
+const TOURS = [
+{id:'vat',cat:'vatican',code:'VAT',dur:'3 h',price:'59 €',photo:'Cappella Sistina',t:{pl:'Muzea Watykańskie i Kaplica Sykstyńska',it:'Musei Vaticani e Cappella Sistina',en:'Vatican Museums & Sistine Chapel'},d:{pl:'Wejście bez kolejki, przewodnik mówiący po polsku.',it:'Ingresso salta fila, guida in polacco.',en:'Skip-the-line entry, Polish-speaking guide.'}},
+{id:'jp2',cat:'vatican',code:'VAT',dur:'2 h',price:'35 €',photo:'San Pietro',t:{pl:'Bazylika św. Piotra i grób św. Jana Pawła II',it:'Basilica di San Pietro e tomba di San Giovanni Paolo II',en:"St Peter's Basilica & tomb of St John Paul II"},d:{pl:'Z wejściem na kopułę.',it:'Con salita alla cupola.',en:'Includes the dome climb.'}},
+{id:'col',cat:'tours',code:'TUR',dur:'3 h',price:'52 €',photo:'Colosseo',t:{pl:'Koloseum, Forum Romanum i Palatyn',it:'Colosseo, Foro Romano e Palatino',en:'Colosseum, Roman Forum & Palatine'},d:{pl:'Starożytny Rzym w jedno przedpołudnie.',it:'La Roma antica in una mattina.',en:'Ancient Rome in one morning.'}},
+{id:'tra',cat:'tours',code:'TUR',dur:'2,5 h',price:'65 €',photo:'Trastevere',t:{pl:'Wieczór na Trastevere z degustacją',it:'Sera a Trastevere con degustazione',en:'Trastevere evening food walk'},d:{pl:'Pizza, supplì i lody — z lokalnym przewodnikiem.',it:'Pizza, supplì e gelato con guida locale.',en:'Pizza, supplì and gelato with a local guide.'}},
+{id:'bor',cat:'museums',code:'MUZ',dur:'2 h',price:'45 €',photo:'Galleria Borghese',t:{pl:'Galeria Borghese',it:'Galleria Borghese',en:'Borghese Gallery'},d:{pl:'Bernini i Caravaggio. Rezerwacja obowiązkowa.',it:'Bernini e Caravaggio. Prenotazione obbligatoria.',en:'Bernini and Caravaggio. Booking required.'}},
+{id:'cap',cat:'museums',code:'MUZ',dur:'2 h',price:'39 €',photo:'Campidoglio',t:{pl:'Muzea Kapitolińskie',it:'Musei Capitolini',en:'Capitoline Museums'},d:{pl:'Najstarsze muzeum publiczne na świecie.',it:'Il museo pubblico più antico del mondo.',en:"The world's oldest public museum."}}
+];
+const CATS = [
+{id:'doc',code:'DOC',t:{pl:'Zgubione dokumenty',it:'Documenti persi',en:'Lost documents'}},
+{id:'htl',code:'HTL',t:{pl:'Problem z hotelem',it:"Problema con l'hotel",en:'Hotel problem'}},
+{id:'trn',code:'BUS',t:{pl:'Transport / spóźnienie',it:'Trasporti / ritardo',en:'Transport / delay'}},
+{id:'med',code:'MED',t:{pl:'Zdrowie / lekarz',it:'Salute / medico',en:'Health / doctor'}},
+{id:'lost',code:'GPS',t:{pl:'Zgubiłam się',it:'Mi sono persa',en:"I'm lost"}},
+{id:'oth',code:'???',t:{pl:'Inna sprawa',it:'Altro',en:'Something else'}}
+];
+const PHRASES = [
+['Dzień dobry','Buongiorno','bu-on-DŻOR-no'],['Dziękuję','Grazie','GRA-cje'],['Ile to kosztuje?','Quanto costa?','KŁAN-to KO-sta'],['Gdzie jest toaleta?','Dov\u2019è il bagno?','do-WE il BA-nio'],['Rachunek poproszę','Il conto, per favore','il KON-to, per fa-WO-re'],['Potrzebuję pomocy','Ho bisogno di aiuto','o bi-ZO-nio di a-JU-to'],['Nie mówię po włosku','Non parlo italiano','non PAR-lo i-ta-LJA-no']
+];
+const TIPS = {
+pl:[['Watykan: zakryte ramiona i kolana','Bez tego nie wejdziesz do Bazyliki ani Muzeów.'],['Woda z fontann jest pitna','Małe fontanny „nasoni" są w całym mieście — weź butelkę.'],['Kawa przy barze jest tańsza','Przy stoliku zapłacisz nawet dwa razy więcej.'],['Kolacja od 19:30','Wcześniej wiele restauracji jest zamkniętych.'],['Nie siadaj na Schodach Hiszpańskich','Grozi za to mandat.'],['Taksówki tylko białe, z licencją','Z lotniska do centrum stała cena 55 €.']],
+it:[['Vaticano: spalle e ginocchia coperte','Altrimenti non si entra in Basilica né ai Musei.'],["L'acqua dei nasoni è potabile",'Le piccole fontane sono in tutta la città.'],['Il caffè al banco costa meno','Al tavolo si può pagare il doppio.'],['Cena dalle 19:30','Prima molti ristoranti sono chiusi.'],['Non sederti sulla Scalinata di Trinità dei Monti','È prevista una multa.'],['Solo taxi bianchi con licenza','Dall\u2019aeroporto al centro tariffa fissa 55 €.']],
+en:[['Vatican: cover shoulders and knees','Otherwise no entry to the Basilica or Museums.'],['Fountain water is drinkable','The small "nasoni" fountains are all over the city.'],['Coffee at the bar is cheaper','At a table it can cost double.'],['Dinner from 19:30','Many restaurants are closed earlier.'],["Don't sit on the Spanish Steps",'You can be fined.'],['Only white licensed taxis','Fixed fare €55 from the airport to the centre.']]
+};
+TIPS.pl.unshift(['Telefon zawsze z przodu','Przednia kieszeń z zamkiem albo saszetka pod kurtką. Nigdy tylna kieszeń.'],['Nie kładź telefonu na stoliku','W barach i na ogródkach kradzieże zdarzają się w sekundę. Włącz alarm ALR.'],['Zdjęcia z dala od ulicy','Złodzieje na skuterach wyrywają telefony z ręki przy krawężniku.']);
+TIPS.it.unshift(['Telefono sempre davanti','Tasca davanti con zip o marsupio sotto la giacca. Mai la tasca dietro.'],['Non lasciare il telefono sul tavolino','Nei bar e nei dehors i furti avvengono in un secondo. Attiva l\u2019allarme ALR.'],['Foto lontano dalla strada','Gli scippatori in scooter strappano il telefono vicino al marciapiede.']);
+TIPS.en.unshift(['Phone always in front','Zipped front pocket or a pouch under your jacket. Never a back pocket.'],["Don't leave your phone on the table",'At bars and terraces theft takes a second. Turn on the ALR alarm.'],['Photos away from the road','Scooter thieves snatch phones near the kerb.']);
+const TPRICE = { vat:25, jp2:10, col:18, bor:17, cap:15 };
+TOURS.forEach(x => { if (TPRICE[x.id]) x.tprice = TPRICE[x.id] + ' €'; });
+const T7 = {
+pl:{weatherT:'POGODA W RZYMIE',weatherSrc:'NA CAŁĄ PODRÓŻ',rainTip:'Czwartek: deszcz. Marta proponuje tego dnia Galerię Borghese i muzea.',days:['Dziś','Wt','Śr','Czw','Pt'],
+strikeTag:'STRAJK · ATAC',strikeTitle:'Środa 14.10: strajk komunikacji',strikeSub:'Metro i autobusy mogą nie kursować 8:30–17:00. Kursują na pewno: do 8:30 i 17:00–20:00.',strikeFix:'Twoje Koloseum o 9:00: Marta zamówiła minibus spod hotelu o 8:20.',strikePlan:'Plan B na strajk',strikeAlt:'Alternatywy: taksówka (stała cena), spacer, rower miejski. Zmiany pokażemy od razu w aplikacji.',
+tickets:'Moje bilety',ticketsSub:'Wszystkie bilety w telefonie. Kupione w aplikacji i przysłane przez biuro dodają się automatycznie.',ticketsLine:'Transport, muzea, Watykan — wszystko w telefonie',ticketOnly:'SAM BILET WSTĘPU',ticketOnlySub:'Kup od razu telefonem. Bilet z kodem QR pojawi się w „Moje bilety”.',buyWithPhone:'Kup telefonem',guidedOr:'ALBO Z PRZEWODNIKIEM PO POLSKU',transportBuy:'KUP BILET TELEFONEM',payTotal:'DO ZAPŁATY',payWith:'Apple Pay · Google Pay · karta',pay:'Zapłać',paying:'Płatność…',cancel:'Anuluj',added:'Dodano do „Moje bilety”',addWallet:'Dodaj do Apple / Google Wallet',showQr:'Pokaż kod przy wejściu',qrOpen:'POKAŻ QR ▾',qrClose:'ZWIŃ ▴',auto:'OD BIURA',bought:'KUPIONY',t100:'100 min · metro, bus, tram',t24:'24 godziny',t48:'48 godzin',t72:'72 godziny',persons:'os.'},
+it:{weatherT:'METEO A ROMA',weatherSrc:'PER TUTTO IL VIAGGIO',rainTip:'Giovedì pioggia. Marta propone per quel giorno Galleria Borghese e musei.',days:['Oggi','Mar','Mer','Gio','Ven'],
+strikeTag:'SCIOPERO · ATAC',strikeTitle:'Mercoledì 14.10: sciopero dei trasporti',strikeSub:'Metro e bus possono non circolare 8:30–17:00. Garantiti: fino alle 8:30 e 17:00–20:00.',strikeFix:"Il tuo Colosseo alle 9:00: Marta ha prenotato un minibus dall'hotel alle 8:20.",strikePlan:'Piano B per lo sciopero',strikeAlt:"Alternative: taxi (tariffa fissa), a piedi, bici. Le modifiche appaiono subito nell'app.",
+tickets:'I miei biglietti',ticketsSub:"Tutti i biglietti nel telefono. Quelli comprati in app e quelli dell'agenzia si aggiungono da soli.",ticketsLine:'Trasporti, musei, Vaticano — tutto nel telefono',ticketOnly:'SOLO BIGLIETTO',ticketOnlySub:'Compralo subito con il telefono. Il biglietto con QR appare in «I miei biglietti».',buyWithPhone:'Compra col telefono',guidedOr:'OPPURE CON GUIDA IN POLACCO',transportBuy:'COMPRA IL BIGLIETTO COL TELEFONO',payTotal:'TOTALE',payWith:'Apple Pay · Google Pay · carta',pay:'Paga',paying:'Pagamento…',cancel:'Annulla',added:'Aggiunto a «I miei biglietti»',addWallet:'Aggiungi a Apple / Google Wallet',showQr:"Mostra il codice all'ingresso",qrOpen:'MOSTRA QR ▾',qrClose:'CHIUDI ▴',auto:'AGENZIA',bought:'COMPRATO',t100:'100 min · metro, bus, tram',t24:'24 ore',t48:'48 ore',t72:'72 ore',persons:'pers.'},
+en:{weatherT:'WEATHER IN ROME',weatherSrc:'FOR YOUR WHOLE TRIP',rainTip:'Thursday: rain. Marta suggests the Borghese Gallery and museums that day.',days:['Today','Tue','Wed','Thu','Fri'],
+strikeTag:'STRIKE · ATAC',strikeTitle:'Wednesday 14.10: transport strike',strikeSub:'Metro and buses may not run 8:30–17:00. Guaranteed: until 8:30 and 17:00–20:00.',strikeFix:'Your Colosseum at 9:00: Marta booked a minibus from the hotel at 8:20.',strikePlan:'Strike plan B',strikeAlt:'Alternatives: taxi (fixed fare), walking, city bike. Changes show up in the app instantly.',
+tickets:'My tickets',ticketsSub:'All tickets on your phone. Bought in the app or sent by your agency — added automatically.',ticketsLine:'Transport, museums, Vatican — all on your phone',ticketOnly:'ENTRY TICKET ONLY',ticketOnlySub:'Buy now with your phone. The QR ticket appears in "My tickets".',buyWithPhone:'Buy with phone',guidedOr:'OR WITH A POLISH GUIDE',transportBuy:'BUY A TICKET WITH YOUR PHONE',payTotal:'TOTAL',payWith:'Apple Pay · Google Pay · card',pay:'Pay',paying:'Paying…',cancel:'Cancel',added:'Added to "My tickets"',addWallet:'Add to Apple / Google Wallet',showQr:'Show the code at the entrance',qrOpen:'SHOW QR ▾',qrClose:'CLOSE ▴',auto:'AGENCY',bought:'BOUGHT',t100:'100 min · metro, bus, tram',t24:'24 hours',t48:'48 hours',t72:'72 hours',persons:'ppl'}
+};
+Object.keys(T7).forEach(k => Object.assign(T[k], T7[k]));
+const T8 = {
+pl:{live:'NA ŻYWO',seats:'wolnych',lastSeats:'ostatnie',soldOut:'BRAK',availOk:'{n} wolnych miejsc · {d}, {t}',availLow:'Ostatnie {n} miejsca · {d}, {t} — kup szybko',availNone:'Brak miejsc · {d}, {t}. Wybierz inną godzinę.',availShort:'Tylko {n} miejsc — za mało dla {p} osób',cardAvail:'Wolne miejsca: {n} (najbliższy termin {d})',cardLow:'Ostatnie miejsca na {d}',many:'dużo',few:'mało'},
+it:{live:'IN TEMPO REALE',seats:'liberi',lastSeats:'ultimi',soldOut:'ESAURITO',availOk:'{n} posti liberi · {d}, {t}',availLow:'Ultimi {n} posti · {d}, {t} — affrettati',availNone:"Esaurito · {d}, {t}. Scegli un altro orario.",availShort:'Solo {n} posti — non bastano per {p} persone',cardAvail:'Posti liberi: {n} (prima data {d})',cardLow:'Ultimi posti per il {d}',many:'molti',few:'pochi'},
+en:{live:'LIVE',seats:'left',lastSeats:'last',soldOut:'SOLD OUT',availOk:'{n} seats available · {d}, {t}',availLow:'Last {n} seats · {d}, {t} — book soon',availNone:'Sold out · {d}, {t}. Pick another time.',availShort:'Only {n} seats — not enough for {p} people',cardAvail:'Seats available: {n} (next date {d})',cardLow:'Last seats for {d}',many:'many',few:'few'}
+};
+Object.keys(T8).forEach(k => Object.assign(T[k], T8[k]));
+const DATES = ['13.10','14.10','15.10'], TIMES = ['09:00','10:00','13:30','15:00'];
+const avail = (id, d, tm) => { if (id==='vat' && d==='13.10' && tm==='10:00') return 14; let x = 7; for (const c of id+d+tm) x = (x*33 + c.charCodeAt(0)) % 9973; return [0,2,3,6,9,14,18,25][x % 8]; };
+const fmt = (s, o) => s.replace(/\{(\w)\}/g, (_, k) => o[k]);
+const T9 = {
+pl:{crowdNow:'TŁUM TERAZ',crowdAlways:'ALERTY ZAWSZE WŁĄCZONE',crowdMap:'Zobacz tłum na mapie',crowdLayer:'Tłum',lvl:{high:'DUŻY',mid:'ŚREDNI',low:'MAŁY'},best:'najlepiej',bestTimes:{trevi:'7:00 lub po 22:00',col:'otwarcie 8:30',termini:'unikaj 17–19',stp:'przed 8:00',pan:'po 18:00',nav:'teraz'}},
+it:{crowdNow:'AFFOLLAMENTO ORA',crowdAlways:'AVVISI SEMPRE ATTIVI',crowdMap:'Vedi la folla sulla mappa',crowdLayer:'Folla',lvl:{high:'ALTO',mid:'MEDIO',low:'BASSO'},best:'meglio',bestTimes:{trevi:'7:00 o dopo le 22',col:'apertura 8:30',termini:'evita 17–19',stp:'prima delle 8',pan:'dopo le 18',nav:'adesso'}},
+en:{crowdNow:'CROWDS NOW',crowdAlways:'ALERTS ALWAYS ON',crowdMap:'See crowds on the map',crowdLayer:'Crowds',lvl:{high:'HIGH',mid:'MEDIUM',low:'LOW'},best:'best',bestTimes:{trevi:'7:00 or after 22',col:'opening 8:30',termini:'avoid 17–19',stp:'before 8:00',pan:'after 18:00',nav:'now'}}
+};
+Object.keys(T9).forEach(k => Object.assign(T[k], T9[k]));
+const CROWD = [['trevi','Fontana di Trevi','high'],['col','Colosseo','high'],['termini','Roma Termini','high'],['stp','Piazza San Pietro','mid'],['pan','Pantheon','mid'],['nav','Piazza Navona','low']];
+const WEATHER = [[24,16,'sun'],[23,15,'part'],[22,15,'sun'],[19,14,'rain'],[21,13,'sun']];
+const qrFor = (code) => { let seed = 0; for (const c of code) seed = (seed * 31 + c.charCodeAt(0)) >>> 0; const rnd = () => (seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296; const N = 25, out = []; const finder = (r,c) => { for (const [fr,fc] of [[0,0],[0,N-7],[N-7,0]]) { const y=r-fr, x=c-fc; if (y>=0&&y<7&&x>=0&&x<7) return (y===0||y===6||x===0||x===6||(y>=2&&y<=4&&x>=2&&x<=4)) ? 1 : 0; if (y>=-1&&y<=7&&x>=-1&&x<=7) return 0; } return -1; }; for (let r=0;r<N;r++) for (let c=0;c<N;c++) { const f = finder(r,c); out.push((f===-1 ? rnd()>.5 : f===1) ? '#16181D' : '#fff'); } return out; };
+const PLAN = [
+{time:'11:40',t:{pl:'Przylot LO 319',it:'Arrivo LO 319',en:'Arrival LO 319'},s:'Fiumicino T3'},
+{time:'12:30',t:{pl:'Transfer do hotelu',it:"Transfer all'hotel",en:'Transfer to hotel'},s:'Giorgio · AB 123 CD'},
+{time:'14:00',t:{pl:'Zameldowanie',it:'Check-in',en:'Check-in'},s:'Hotel Artemide'},
+{time:'17:00',t:{pl:'Spacer: Fontanna di Trevi',it:'Passeggiata: Fontana di Trevi',en:'Walk: Trevi Fountain'},s:'Propozycja Marty · 15 min pieszo'},
+{time:'20:00',t:{pl:'Kolacja na Trastevere',it:'Cena a Trastevere',en:'Dinner in Trastevere'},s:'Da Enzo al 29 · stolik zarezerwowany'}
+];
+const DAYS = {
+pl:[['Dzień 1 · Przyjazd','12.10','Przylot · transfer · hotel · Trevi · kolacja na Trastevere'],['Dzień 2 · Watykan','13.10','Muzea Watykańskie 10:00 · Bazylika św. Piotra · grób Jana Pawła II'],['Dzień 3 · Starożytny Rzym','14.10','Koloseum 9:00 · Forum Romanum · Kapitol'],['Dzień 4 · Wolny dzień','15.10','Propozycje Marty: Galeria Borghese, Villa Borghese'],['Dzień 5 · Powrót','16.10','Wymeldowanie 11:00 · transfer 12:00 · wylot LO 320 15:10']],
+it:[['Giorno 1 · Arrivo','12.10','Arrivo · transfer · hotel · Trevi · cena a Trastevere'],['Giorno 2 · Vaticano','13.10','Musei Vaticani 10:00 · San Pietro · tomba di Giovanni Paolo II'],['Giorno 3 · Roma antica','14.10','Colosseo 9:00 · Foro Romano · Campidoglio'],['Giorno 4 · Giorno libero','15.10','Proposte di Marta: Galleria Borghese, Villa Borghese'],['Giorno 5 · Ritorno','16.10','Check-out 11:00 · transfer 12:00 · volo LO 320 15:10']],
+en:[['Day 1 · Arrival','12.10','Arrival · transfer · hotel · Trevi · dinner in Trastevere'],['Day 2 · Vatican','13.10',"Vatican Museums 10:00 · St Peter's · tomb of John Paul II"],['Day 3 · Ancient Rome','14.10','Colosseum 9:00 · Roman Forum · Capitoline'],['Day 4 · Free day','15.10',"Marta's ideas: Borghese Gallery, Villa Borghese"],['Day 5 · Return','16.10','Check-out 11:00 · transfer 12:00 · flight LO 320 15:10']]
+};
+const now = () => { const d = new Date(); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); };
+
+class Component extends DCLogic {
+  siren(on){
+    if (on) {
+      try {
+        const ctx = this.actx || (this.actx = new (window.AudioContext || window.webkitAudioContext)());
+        ctx.resume && ctx.resume();
+        const o = ctx.createOscillator(), g = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain();
+        o.type = 'square'; o.frequency.value = 1000; lfo.frequency.value = 3; lg.gain.value = 450;
+        lfo.connect(lg); lg.connect(o.frequency); g.gain.value = 0.12; o.connect(g); g.connect(ctx.destination);
+        o.start(); lfo.start(); this.sirenNodes = [o, lfo];
+      } catch(e) {}
+    } else if (this.sirenNodes) { this.sirenNodes.forEach(n => { try { n.stop(); } catch(e) {} }); this.sirenNodes = null; }
+  }
+  addTicket(tk){ this.setState(st => ({ tickets:[tk, ...st.tickets], toastOn:true })); this.later(() => this.setState({ toastOn:false }), 2600); }
+  state = { tickets:[{ id:'trf', kind:'TRF', t:{pl:'Transfer FCO → Hotel Artemide',it:'Transfer FCO → Hotel Artemide',en:'Transfer FCO → Hotel Artemide'}, sub:'12.10 · 12:30 · Giorgio · AB 123 CD', code:'RZM-T-2481', auto:true }], openTicket:null, pay:null, paying:false, toastOn:false, strikeHidden:false, safetyHidden:false, pushOn:false, armed:false, alarmMode:'motion', alarmDist:10, alarmOn:false, groupAlert:true, groupRadius:100, groupOn:false, guide:false, tour:null, hl:null, locMode:'always', rodo:false, routeOn:false, vault:'locked', docs:{}, shareDocs:false, autoDel:true, agencyShare:true, exported:false, delAsk:false, lang:'pl', screen:'onb', onb:0, code:'', tripLoaded:false, history:[], stage:0, tourId:'vat', filter:'all', bDate:'13.10', bTime:'10:00', people:2, bStatus:{}, helpCat:null, helpText:'', draft:'', typing:false, calling:null, callUp:false, citySheet:false, locShared:false, bigPhrase:null,
+    msgs:[{from:'m',text:'Dzień dobry, Anna! Jestem Marta, Twoja opiekunka w Rzymie. Giorgio będzie czekał przy wyjściu B. Pisz o każdej porze 🙂'.replace(' 🙂',''),time:'10:05'}] };
+  scrollRef = React.createRef();
+  mapRef = React.createRef();
+  screenRef = React.createRef();
+  measure(){
+    requestAnimationFrame(() => {
+      const root = this.screenRef.current, sc = this.scrollRef.current; if (!root || this.state.tour === null) return;
+      const key = T.pl.tour[this.state.tour][0];
+      const el = root.querySelector('[data-guide="' + (key === '?' ? 'help' : key) + '"]'); if (!el) return;
+      const k = root.getBoundingClientRect().width / 390 || 1;
+      if (sc && sc.contains(el)) {
+        const r0 = el.getBoundingClientRect(), s0 = sc.getBoundingClientRect();
+        const top = (r0.top - s0.top) / k, bot = (r0.bottom - s0.top) / k;
+        if (top < 0 || bot > sc.clientHeight) sc.scrollTop += top - 90;
+      }
+      const rr = root.getBoundingClientRect(), r = el.getBoundingClientRect();
+      this.setState({ hl:{ x:(r.left-rr.left)/k - 6, y:(r.top-rr.top)/k - 6, w:r.width/k + 12, h:r.height/k + 12 } });
+    });
+  }
+  postMap(msg){ const f = this.mapRef.current; if (f && f.contentWindow) f.contentWindow.postMessage(msg, '*'); }
+  timers = [];
+  componentWillUnmount(){ this.timers.forEach(clearTimeout); this.siren(false); }
+  later(fn, ms){ this.timers.push(setTimeout(fn, ms)); }
+  componentDidUpdate(pp, ps){
+    if (ps.routeOn !== this.state.routeOn) this.postMap({ route:this.state.routeOn });
+
+    if (this.state.tour !== null && (ps.tour !== this.state.tour || ps.screen !== this.state.screen || ps.lang !== this.state.lang)) this.measure();
+    const el = this.scrollRef.current; if (!el) return;
+    if (ps.screen !== this.state.screen) el.scrollTop = this.state.screen === 'chat' ? el.scrollHeight : 0;
+    else if (this.state.screen === 'chat' && (ps.msgs.length !== this.state.msgs.length || ps.typing !== this.state.typing)) el.scrollTop = el.scrollHeight;
+  }
+  mapPush(s){ if (s === 'map' && !this.pushShown) { this.pushShown = true; this.later(() => this.setState({ pushOn:true }), 1500); this.later(() => this.setState({ pushOn:false }), 8000); } }
+  go = (s) => this.mapPush(s) || this.setState(st => st.screen === s ? null : ({ screen:s, history:[...st.history, st.screen], citySheet:false }));
+  tab = (s) => this.mapPush(s) || this.setState({ screen:s, history:[] });
+  back = () => this.setState(st => { const h = [...st.history]; const p = h.pop() || 'home'; return { screen:p, history:h }; });
+  martaReply(text, delay=1600, extra){
+    this.later(() => this.setState({ typing:true }), 500);
+    this.later(() => this.setState(st => ({ typing:false, msgs:[...st.msgs, { from:'m', text, time:now() }], ...(extra ? extra(st) : {}) })), delay);
+  }
+  send(text){
+    if (!text.trim()) return;
+    this.setState(st => ({ msgs:[...st.msgs, { from:'u', text, time:now() }], draft:'' }));
+    this.martaReply(this.state.offline ? 'Dostałam Twój SMS. Nie masz internetu — zadzwonię do Ciebie za minutę na zwykły numer.' : 'Rozumiem, już się tym zajmuję. Odezwę się za 2 minuty — jeśli wolisz, mogę też zadzwonić.');
+  }
+  startCall(name, initials, video){
+    this.setState({ calling:{ name, initials, video }, callUp:false });
+    this.later(() => this.setState(st => st.calling ? { callUp:true } : null), 1800);
+  }
+  renderVals(){
+    const s = this.state, lang = s.lang, t = T[lang];
+    const sc = s.screen;
+    const dark = sc === 'sos';
+    const subTitles = { transfer:t.transfer, tour:t.tabExplore, sos:t.sosT, hotel:t.hotel, transport:t.transport, tips:t.tips, phrases:t.phrases, trip:t.trip, docs:t.vaultT, privacy:t.privacy, protect:t.protect, tickets:t.tickets };
+    const tabOf = { home:'home', transfer:'home', hotel:'home', transport:'home', tips:'home', phrases:'home', trip:'home', privacy:'home', tickets:'home', protect:'help', docs:'help', map:'map', explore:'explore', tour:'explore', help:'help', sos:'help', chat:'chat' };
+    const activeTab = tabOf[sc];
+    const tabDefs = [['home','',t.tabToday],['map','',t.tabMap],['explore','',t.tabExplore],['help','',t.tabHelp],['chat','',t.tabChat]];
+    const icons = { home:'●', map:'◇', explore:'◎', help:'!', chat:'···' };
+    const tabs = tabDefs.map(([id,code,label]) => ({ code: icons[id], label, onClick:()=>this.tab(id), fg: activeTab===id ? '#16181D' : '#8A8D96', bg: activeTab===id ? (id==='help' ? '#C8102E' : '#16181D') : 'transparent', iconFg: activeTab===id ? '#fff' : (id==='help' ? '#C8102E' : '#8A8D96') }));
+    const langs = ['pl','it','en'].map(c => ({ code:c.toUpperCase(), onClick:()=>this.setState({lang:c}), bg: c===lang ? '#16181D' : 'transparent', fg: c===lang ? '#fff' : '#5E6068' }));
+    const stageDefs = [[t.st0,t.st0s],[t.st1,t.st1s],[t.st2,t.st2s],[t.st3,t.st3s]];
+    const stages = stageDefs.map(([label,sub],i) => { const done = i < s.stage, cur = i === s.stage; return { label, sub, mark: done ? '✓' : String(i+1), dotBg: done ? '#1F8A5B' : cur ? '#F2B33D' : '#E4DFD4', dotFg: done ? '#fff' : '#16181D', lineBg: i===3 ? 'transparent' : done ? '#1F8A5B' : '#E4DFD4', color: done ? '#5E6068' : '#16181D', weight: cur ? 700 : 500 }; });
+    const stageLabel = s.stage >= 4 ? t.st4 : stageDefs[s.stage][0] + ' · ' + stageDefs[s.stage][1];
+    const tiles = [['TRF',t.transfer,'transfer'],['HTL',t.hotel,'hotel'],['BUS',t.transport,'transport'],['TUR',t.tours,'x:tours'],['MUZ',t.museums,'x:museums'],['VAT',t.vatican,'x:vatican'],['MAP',t.map,'map'],['DOC',t.docs,'docs'],['TIP',t.tips,'tips'],['ABC',t.phrases,'phrases'],['PRV',t.privacy,'privacy'],['ALR',t.protect,'protect']].map(([code,label,dest]) => ({ code, label, fg: code==='VAT' ? '#C8102E' : code==='MAP' ? '#1C5FB8' : '#16181D', onClick:()=>{ if (dest.startsWith('x:')) { this.setState({ filter:dest.slice(2) }); this.go('explore'); } else this.go(dest); } }));
+    const planToday = PLAN.map((p,i) => { const done = i===0 || (i===1 && s.stage>=4); const now_ = i===1 && s.stage<4; return { time:p.time, title:L(p.t,lang), sub:p.s, color: done ? '#8A8D96' : '#16181D', timeColor: now_ ? '#C8102E' : done ? '#8A8D96' : '#16181D', badge: done ? 'OK' : now_ ? '●' : '', badgeColor: done ? '#1F8A5B' : '#C8102E' }; });
+    const filters = [['all',t.all],['tours',t.tours],['museums',t.museums],['vatican',t.vatican]].map(([id,label]) => ({ label, onClick:()=>this.setState({filter:id}), bg: s.filter===id ? '#16181D' : '#fff', fg: s.filter===id ? '#fff' : '#16181D', border: s.filter===id ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)' }));
+    const statusOf = (id) => s.bStatus[id];
+    const tourList = TOURS.filter(x => s.filter==='all' || x.cat===s.filter).map(x => { const st = statusOf(x.id); const first = DATES.map(d => [d, TIMES.reduce((a,tm)=>a+avail(x.id,d,tm),0)]).find(([,n]) => n>0) || ['—',0]; const low = first[1] < 10;
+      return { ...x, availText: fmt(low ? t.cardLow : t.cardAvail, { n:first[1], d:first[0] }), availDot: low ? '#E0A21F' : '#3DBE7A', availFg: low ? '#8A5A00' : '#1F8A5B', title:L(x.t,lang), desc:L(x.d,lang), img:PH(IMGS[x.id]), onClick:()=>{ this.setState({ tourId:x.id }); this.go('tour'); }, status: st==='confirmed' ? '✓ '+t.okStatus : st==='pending' ? t.reqStatus : '', statusBg: st==='confirmed' ? '#1F8A5B' : st==='pending' ? '#F2B33D' : 'transparent', statusFg: st==='confirmed' ? '#fff' : '#16181D' }; });
+    const tx = TOURS.find(x => x.id===s.tourId);
+    const tour = { ...tx, title:L(tx.t,lang), desc:L(tx.d,lang), img:PH(IMGS[tx.id]) };
+    const tst = statusOf(s.tourId);
+    const opt = (v, cur, key) => ({ label:v, onClick:()=>this.setState({[key]:v}), bg: v===cur ? '#16181D' : '#fff', fg: v===cur ? '#fff' : '#16181D', border: v===cur ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)' });
+    const priceNum = parseInt(tx.price);
+    const cats = CATS.map(c => { const on = s.helpCat===c.id; return { code:c.code, label:L(c.t,lang), onClick:()=>this.setState({helpCat:c.id}), bg: on ? '#16181D' : '#fff', fg: on ? '#fff' : '#16181D', border: on ? '1.5px solid #16181D' : '1.5px solid rgba(22,24,29,.1)' }; });
+    const msgs = s.msgs.map(m => ({ ...m, align: m.from==='u' ? 'flex-end' : 'flex-start', bg: m.from==='u' ? '#16181D' : '#fff', fg: m.from==='u' ? '#fff' : '#16181D' }));
+    const phraseList = PHRASES.map(([pl,it,say],i) => { const big = s.bigPhrase===i; return { pl: lang==='pl' ? pl : (lang==='en' ? ['Good morning','Thank you','How much is it?','Where is the toilet?','The bill, please','I need help',"I don't speak Italian"][i] : pl), it, say, size: big ? '32px' : '19px', bg: big ? '#16181D' : '#fff', fg: big ? '#fff' : '#16181D', onClick:()=>this.setState({ bigPhrase: big ? null : i }) }; });
+    return {
+      t, langs, tabs, tiles, planToday, stages, stageLabel, filters, tourList, tour, cats, msgs, phraseList,
+      scrollRef:this.scrollRef,
+      statusBg: dark ? '#C8102E' : '#F4F1EA', statusFg: dark ? '#fff' : '#16181D',
+      contentBottom: sc==='onb' || sc==='welcome' ? '0px' : '84px',
+      isOnb: sc==='onb', onb0: s.onb===0, onb1: s.onb===1, onb2: s.onb===2, onb3: s.onb===3,
+      onbDots: [0,1,2,3].map(i => ({ bg: i<=s.onb ? '#C8102E' : '#DCD6C9' })),
+      code: s.code, tripLoaded: s.tripLoaded, notLoaded: !s.tripLoaded, onbBtnBg: s.tripLoaded ? '#16181D' : '#B9B2A3',
+      onCode: (e)=>this.setState({ code:e.target.value.toUpperCase(), tripLoaded:false }),
+      useDemo: ()=>this.setState({ code:'RZM-2481', tripLoaded:true }),
+      fetchTrip: ()=>this.setState(st => st.code.trim().length>=4 ? { tripLoaded:true } : { code:'RZM-2481', tripLoaded:true }),
+      onbNext: ()=>this.setState(st => st.onb<3 ? { onb:st.onb+1 } : { screen:'welcome', history:[] }),
+      isWelcome: sc==='welcome', welcomeImg: 'linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 45%),url("https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent("St_Peter's_Square,_Vatican_City_-_April_2007.jpg") + '?width=1000") center/cover',
+      goMapTab: ()=>this.tab('map'),
+      crowdList: CROWD.map(([k,name,lvl]) => ({ name, level:t.lvl[lvl], color: lvl==='high' ? '#C8102E' : lvl==='mid' ? '#B37A00' : '#1F8A5B', best: t.best+': '+t.bestTimes[k] })),
+      toggleCrowd: ()=>{ const v = !(this.state.crowdOff); this.setState({ crowdOff:v }); this.postMap({ crowd:!v }); },
+      crowdBtnBg: s.crowdOff ? '#fff' : '#16181D', crowdBtnFg: s.crowdOff ? '#16181D' : '#fff',
+      weather: WEATHER.map(([hi,lo,k],i) => ({ day:t.days[i], hi, lo, cardBg: i===0 ? '#F4F1EA' : 'transparent', iconBg: k==='sun' ? '#F2B33D' : k==='part' ? 'linear-gradient(135deg,#F2B33D 45%,#CFC9BC 45%)' : '#8FA8C8', iconH: k==='sun' ? '20px' : '14px', iconR: k==='sun' ? '50%' : '8px', iconShadow: k==='rain' ? '0 5px 0 -3px #1C5FB8' : 'none' })),
+      showStrike: !s.strikeHidden, hideStrike: ()=>this.setState({strikeHidden:true}), goTransport: ()=>this.go('transport'),
+      goTickets: ()=>{ this.setState({toastOn:false}); this.go('tickets'); }, isTickets: sc==='tickets',
+      ticketCount: s.tickets.length, ticketsLine: t.ticketsLine,
+      ticketList: s.tickets.map(tk => { const open = s.openTicket===tk.id; return { kind:tk.kind, title:L(tk.t,lang), sub:tk.sub, code:tk.code, badge: tk.auto ? t.auto : t.bought, badgeBg: tk.auto ? '#F2B33D' : '#6FD39F', open, toggle: open ? t.qrClose : t.qrOpen, onClick:()=>this.setState({ openTicket: open ? null : tk.id }) }; }),
+      qrCells: s.openTicket ? qrFor(s.openTicket) : [],
+      tourHasTicket: !!tx.tprice && !tst, ticketTotal: tx.tprice ? (parseInt(tx.tprice)*s.people)+' €' : '',
+      buyTourTicket: ()=>this.setState({ pay:{ kind:tx.code, t:tx.t, sub:s.bDate+' · '+s.bTime+' · '+s.people+' '+t.persons, price:(parseInt(tx.tprice)*s.people)+' €' } }),
+      transitTickets: [['BIT','1,50 €',t.t100],['ROMA 24H','9,30 €',t.t24],['ROMA 48H','12,50 €',t.t48],['ROMA 72H','18,00 €',t.t72]].map(([name,price,valid]) => ({ name, price, valid, onClick:()=>this.setState({ pay:{ kind:'BUS', t:{pl:'ATAC · '+name,it:'ATAC · '+name,en:'ATAC · '+name}, sub:valid, price } }) })),
+      payOpen: !!s.pay, payTitle: s.pay ? L(s.pay.t,lang) : '', payPrice: s.pay ? s.pay.price : '', paySub: s.pay ? s.pay.sub : '', payBtn: s.paying ? t.paying : t.pay + (s.pay ? ' · '+s.pay.price : ''),
+      closePay: ()=>this.setState({ pay:null, paying:false }),
+      confirmPay: ()=>{ if (s.paying || !s.pay) return; const p = s.pay; this.setState({ paying:true }); this.later(()=>{ this.setState({ pay:null, paying:false }); this.addTicket({ id:'RZM-B-'+Date.now().toString().slice(-5), kind:p.kind, t:p.t, sub:p.sub, code:'RZM-B-'+Date.now().toString().slice(-5), auto:false }); }, 1100); },
+      toastOn: s.toastOn,
+      offline: !!s.offline, toggleNet: ()=>this.setState(st=>({offline:!st.offline})),
+      netLabel: s.offline ? 'OFFLINE' : '5G ▮▮▮', netBg: s.offline ? '#F2B33D' : 'transparent',
+      offList: t.off.map(([icon,label]) => ({ icon, label, mark: icon==='✓' ? '#6FD39F' : icon==='SMS' ? '#F2B33D' : '#8A8D96', fg: icon==='—' ? '#8A8D96' : '#E3E4E8' })),
+      mapLine: s.offline ? t.offMap : (s.locMode==='always' ? t.gpsOn : s.locMode==='sos' ? t.gpsSos : t.gpsOff),
+      enterHome: ()=>this.setState({ screen:'home', history:[] }),
+      showSafety: !s.safetyHidden, hideSafety: ()=>this.setState({safetyHidden:true}), goTips: ()=>this.go('tips'),
+      pushOn: s.pushOn, hidePush: ()=>this.setState({pushOn:false}),
+      isHome: sc==='home', isTransfer: sc==='transfer', isExplore: sc==='explore', isTour: sc==='tour', isHelp: sc==='help', isChat: sc==='chat', isSos: sc==='sos', isHotel: sc==='hotel', isTransport: sc==='transport', isTips: sc==='tips', isPhrases: sc==='phrases', isTrip: sc==='trip',
+      hasSubHeader: !!subTitles[sc], subTitle: subTitles[sc], subHeaderBg: dark ? '#C8102E' : '#F4F1EA', subHeaderFg: dark ? '#fff' : '#16181D', backBg: dark ? 'rgba(255,255,255,.16)' : '#fff',
+      showTabs: sc!=='onb' && sc!=='welcome',
+      back:this.back, goSos:()=>this.go('sos'), goTransfer:()=>this.go('transfer'), goChat:()=>this.tab('chat'), goTrip:()=>this.go('trip'),
+      openCity:()=>this.setState({citySheet:true}), closeCity:()=>this.setState({citySheet:false}), citySheet:s.citySheet,
+      futureCities: lang==='it' ? ['Firenze','Milano','Venezia'] : lang==='en' ? ['Florence','Milan','Venice'] : ['Florencja','Mediolan','Wenecja'],
+      nextStage: ()=>this.setState(st => ({ stage: st.stage>=4 ? 0 : st.stage+1 })),
+      stageBars: [0,1,2,3].map(i => ({ bg: i < s.stage ? '#3DBE7A' : i===s.stage ? '#F2B33D' : 'rgba(255,255,255,.18)' })),
+      callMarta: ()=>this.startCall('Marta Kowalska','MK',false), videoMarta: ()=>this.startCall('Marta Kowalska','MK',true), callDriver: ()=>this.startCall('Giorgio R.','GR',false),
+      isCalling: !!s.calling, callName: s.calling ? s.calling.name : '', callInitials: s.calling ? s.calling.initials : '',
+      callStatus: s.calling ? (s.callUp ? (s.calling.video ? t.videoCall+' · ' : '') + t.connected : t.calling) : '',
+      endCall: ()=>this.setState({ calling:null, callUp:false }),
+      pulseEl: React.createElement('div', { style:{ position:'absolute', inset:0, borderRadius:'50%', background:'#F2B33D', animation:'pulse 1.6s ease-out infinite' } }),
+      dateOpts: DATES.map(v => { const o = opt(v, s.bDate, 'bDate'); const sum = TIMES.reduce((a,tm)=>a+avail(tx.id,v,tm),0); const sel = v===s.bDate; return { ...o, sub: sum>=30 ? t.many : sum>0 ? t.few : t.soldOut, dot: sum>=30 ? '#3DBE7A' : sum>0 ? '#E0A21F' : '#C8102E', subFg: sel ? '#C9CBD1' : '#5E6068' }; }),
+      timeOpts: TIMES.map(v => { const n = avail(tx.id, s.bDate, v), sel = v===s.bTime, none = n===0; return { label:v, disabled:none, onClick:()=>{ if (!none) this.setState({bTime:v}); }, bg: none ? '#EEEAE2' : sel ? '#16181D' : '#fff', fg: none ? '#9A9CA3' : sel ? '#fff' : '#16181D', border: sel ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)', cursor: none ? 'not-allowed' : 'pointer', strike: none ? 'line-through' : 'none', sub: none ? t.soldOut : n<=3 ? t.lastSeats+' '+n : n+' '+t.seats, subFg: none ? '#C8102E' : sel ? '#F2B33D' : n<=3 ? '#C8102E' : '#1F8A5B' }; }),
+      ...(()=>{ const n = avail(tx.id, s.bDate, s.bTime), o = { n, d:s.bDate, t:s.bTime, p:s.people }; const state = n===0 ? 'none' : n < s.people ? 'short' : n<=3 ? 'low' : 'ok';
+        return { availLine: fmt(state==='none' ? t.availNone : state==='short' ? t.availShort : state==='low' ? t.availLow : t.availOk, o),
+          availBg: state==='ok' ? '#E4F4EB' : state==='low' ? '#FFF6DF' : '#FDECEF', availFg: state==='ok' ? '#1E4D35' : state==='low' ? '#4A3B12' : '#8E0B21', availDot: state==='ok' ? '#3DBE7A' : state==='low' ? '#E0A21F' : '#C8102E',
+          cantBook: state==='none' || state==='short', bookOpacity: state==='none' || state==='short' ? 0.4 : 1 }; })(),
+      people: s.people, incP: ()=>this.setState(st=>({people:Math.min(10,st.people+1)})), decP: ()=>this.setState(st=>({people:Math.max(1,st.people-1)})),
+      total: (priceNum*s.people)+' €',
+      tourIdle: !tst, tourPending: tst==='pending', tourConfirmed: tst==='confirmed',
+      bookingLine: s.bDate+' · '+s.bTime+' · '+s.people+' × '+tx.price,
+      sendRequest: ()=>{
+        const id = s.tourId, title = L(tx.t,'pl');
+        this.setState(st => ({ bStatus:{ ...st.bStatus, [id]:'pending' }, msgs:[...st.msgs, { from:'u', text:'Prośba: '+title+' · '+st.bDate+' '+st.bTime+' · '+st.people+' os.', time:now() }] }));
+        const vcode = 'RZM-V-'+(4000+Math.floor(Math.random()*900));
+        this.martaReply('Potwierdzone! '+title+', '+s.bDate+' o '+s.bTime+'. Voucher: '+vcode+' — jest już w „Moje bilety”. Przewodniczka Ewa będzie czekać 15 min wcześniej.', 3200, st => ({ bStatus:{ ...st.bStatus, [id]:'confirmed' }, tickets:[{ id:vcode, kind:tx.code, t:tx.t, sub:s.bDate+' · '+s.bTime+' · '+s.people+' × PL', code:vcode, auto:true }, ...st.tickets] }));
+      },
+      helpText: s.helpText, onHelpText: (e)=>this.setState({helpText:e.target.value}), noCat: !s.helpCat, helpBtnBg: s.helpCat ? '#16181D' : '#B9B2A3',
+      sendHelp: ()=>{ if (!s.helpCat) return; const c = CATS.find(x=>x.id===s.helpCat); const txt = L(c.t,'pl') + (s.helpText.trim() ? ': '+s.helpText.trim() : ''); this.setState({ helpCat:null, helpText:'', screen:'chat', history:[] }); this.send(txt); },
+      hotelProblem: ()=>{ this.setState({ helpCat:'htl', screen:'help', history:[] }); },
+      chatStatus: s.typing ? 'Marta '+t.typing : t.online, typing: s.typing,
+      draft: s.draft, onDraft: (e)=>this.setState({draft:e.target.value}), onDraftKey: (e)=>{ if (e.key==='Enter') this.send(this.state.draft); }, sendDraft: ()=>this.send(this.state.draft),
+      locLabel: s.locShared ? t.shared : t.share, shareLoc: ()=>this.setState({locShared:true}),
+      lines: [
+        {code:'A',color:'#E8601C',route:'Termini · Spagna · Ottaviano',use: lang==='pl' ? 'Watykan (Ottaviano), Schody Hiszpańskie' : lang==='it' ? 'Vaticano (Ottaviano), Piazza di Spagna' : 'Vatican (Ottaviano), Spanish Steps'},
+        {code:'B',color:'#1C5FB8',route:'Termini · Colosseo · Circo Massimo',use: lang==='pl' ? 'Koloseum, Forum Romanum' : lang==='it' ? 'Colosseo, Foro Romano' : 'Colosseum, Roman Forum'},
+        {code:'40',color:'#16181D',route:'Termini → Borgo Sant\u2019Angelo',use: lang==='pl' ? 'Szybki autobus pod Watykan' : lang==='it' ? 'Bus veloce verso il Vaticano' : 'Express bus towards the Vatican'},
+        {code:'FL1',color:'#1F8A5B',route:'Fiumicino → Trastevere · Tiburtina',use: lang==='pl' ? 'Pociąg z lotniska, 8 €' : lang==='it' ? "Treno dall'aeroporto, 8 €" : 'Airport train, €8'}
+      ],
+      locOpts: [['always',t.locAlways],['sos',t.locSosOnly],['off',t.locNone]].map(([id,label]) => ({ label, onClick:()=>this.setState({locMode:id}), bg: s.locMode===id ? '#16181D' : 'transparent', fg: s.locMode===id ? '#fff' : '#33353C' })),
+      locDot: s.locMode==='always' ? '#3DBE7A' : s.locMode==='sos' ? '#E0A21F' : '#B9B2A3',
+      locLine: s.locMode==='always' ? t.locLineOn : s.locMode==='sos' ? t.locLineSos : t.locLineOff,
+      gpsLine: s.locMode==='always' ? t.gpsOn : s.locMode==='sos' ? t.gpsSos : t.gpsOff,
+      toggleRodo: ()=>this.setState(st=>({rodo:!st.rodo})), noRodo: !s.rodo, rodoBg: s.rodo ? '#1F8A5B' : '#fff', rodoBorder: s.rodo ? '2px solid #1F8A5B' : '2px solid #B9B2A3', rodoMark: s.rodo ? '✓' : '', rodoBtnBg: s.rodo ? '#16181D' : '#B9B2A3',
+      isMap: sc==='map', isDocs: sc==='docs', isPrivacy: sc==='privacy',
+      goPrivacy: ()=>this.go('privacy'), goDocs: ()=>this.go('docs'), goHotel: ()=>this.go('hotel'),
+      mapRef: this.mapRef, onMapLoad: ()=>this.postMap({ route:this.state.routeOn, crowd:!this.state.crowdOff }), recenter: ()=>this.postMap({ recenter:true }),
+      routeOn: s.routeOn, noRoute: !s.routeOn, startRoute: ()=>this.setState({routeOn:true}), endRoute: ()=>this.setState({routeOn:false}),
+      routeSteps: ROUTE_STEPS[lang].map(([arrow,text,dist],i) => ({ arrow, text, dist, bg: i===0 ? '#16181D' : '#F4F1EA', fg: i===0 ? '#fff' : '#16181D', weight: i===0 ? 700 : 500 })),
+      lostHelp: ()=>{ this.setState({ screen:'chat', history:[] }); this.send('Zgubiłam się. Jestem przy Fontannie di Trevi — widzisz moją lokalizację?'); },
+      vaultLocked: s.vault!=='open', vaultOpen: s.vault==='open', unlockLabel: s.vault==='checking' ? t.unlocking : t.unlock,
+      unlockVault: ()=>{ this.setState({vault:'checking'}); this.later(()=>this.setState({vault:'open'}), 900); },
+      lockVault: ()=>this.setState({vault:'locked'}),
+      docList: [['passport',t.passport],['idcard',t.idcard],['ekuz',t.ekuz],['insurance',t.insurance]].map(([id,label]) => { const url = s.docs[id]; return { label, hint: url ? '' : t.tapPhoto, st: url ? t.saved : t.addPhoto, stColor: url ? '#1F8A5B' : '#C8102E', bg: url ? 'url('+url+')' : 'repeating-linear-gradient(135deg,#EFEBE3 0 8px,#E6E1D6 8px 16px)', onFile:(e)=>{ const f = e.target.files && e.target.files[0]; if (f) this.setState(st=>({ docs:{ ...st.docs, [id]:URL.createObjectURL(f) } })); } }; }),
+      toggleShareDocs: ()=>this.setState(st=>({shareDocs:!st.shareDocs})), shareDocsBg: s.shareDocs ? '#1F8A5B' : '#CFC9BC', shareDocsJust: s.shareDocs ? 'flex-end' : 'flex-start', shareDocsSub: s.shareDocs ? t.shareOnTxt : t.shareOff,
+      theftSteps: [t.theft1,t.theft2,t.theft3].map((text,i)=>({ n:String(i+1).padStart(2,'0'), text })),
+      reportTheft: ()=>{ this.setState({ screen:'chat', history:[], shareDocs:true }); this.send('Skradziono mi dokumenty. Udostępniam Ci zdjęcie paszportu na 24 h.'); },
+      privRows: [['locMode',t.pShareLoc,t.pShareLocSub],['autoDel',t.pAuto,t.pAutoSub],['agencyShare',t.pAgency,t.pAgencySub]].map(([k,title,sub]) => { const on = k==='locMode' ? s.locMode!=='off' : s[k]; return { title, sub, bg: on ? '#1F8A5B' : '#CFC9BC', just: on ? 'flex-end' : 'flex-start', onClick:()=>this.setState(st => k==='locMode' ? { locMode: st.locMode==='off' ? 'always' : 'off' } : { [k]: !st[k] }) }; }),
+      exportData: ()=>this.setState({exported:true}), exportLabel: s.exported ? t.downloaded : 'JSON · PDF',
+      askDelete: ()=>this.setState(st=>({delAsk:!st.delAsk})), deleteLabel: s.delAsk ? t.deleteConfirm : t.deleteAcc,
+      heroImg: PH('Colosseo_2020.jpg'),
+      cityCards: [[t.cityRome,'Colosseum_in_Rome,_Italy_-_April_2007.jpg',true],[lang==='pl'?'Florencja':lang==='it'?'Firenze':'Florence','Florence_Duomo_from_Michelangelo_hill.jpg'],[lang==='pl'?'Mediolan':lang==='it'?'Milano':'Milan','Milan_Cathedral_from_Piazza_del_Duomo.jpg'],[lang==='pl'?'Wenecja':lang==='it'?'Venezia':'Venice','Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_ponte_dell_Accademia.jpg']].map(([name,f,on]) => ({ name, img:PH(f), badge: on ? '● '+t.active : t.soon, badgeBg: on ? '#F2B33D' : 'rgba(255,255,255,.9)', badgeFg:'#16181D' })),
+      inspo: [['Fontana di Trevi','Trevi_Fountain,_Rome,_Italy_2_-_May_2007.jpg','15 MIN · HTL','map'],['Piazza San Pietro',"St_Peter's_Square,_Vatican_City_-_April_2007.jpg",'VAT','vatican'],['Pantheon','Pantheon_Rome.jpg','20 MIN · HTL','map'],['Cappella Sistina','Sistine_Chapel_ceiling_02.jpg','VAT','vatican'],['Santa Maria in Trastevere','Santa_Maria_in_Trastevere.jpg','TUR','tours']].map(([name,f,sub,dest]) => ({ name, sub, img:PH(f), onClick:()=>{ if (dest==='map') this.tab('map'); else { this.setState({ filter:dest }); this.tab('explore'); } } })),
+      isProtect: sc==='protect', goProtect: ()=>this.go('protect'),
+      alarmModes: [['motion',t.modeMotion],['watch',t.modeWatch]].map(([id,label]) => ({ label, onClick:()=>this.setState({alarmMode:id}), bg: s.alarmMode===id ? '#fff' : 'transparent', fg: s.alarmMode===id ? '#16181D' : '#C9CBD1' })),
+      alarmModeText: s.alarmMode==='motion' ? t.motionText : t.watchText, watchMode: s.alarmMode==='watch',
+      distOpts: [5,10,20].map(v => ({ label:v+' m', onClick:()=>this.setState({alarmDist:v}), bg: s.alarmDist===v ? '#F2B33D' : 'transparent', fg: s.alarmDist===v ? '#16181D' : '#fff', border: s.alarmDist===v ? '1px solid #F2B33D' : '1px solid rgba(255,255,255,.25)' })),
+      armState: s.armed ? '● '+t.armed : t.disarmed, armColor: s.armed ? '#6FD39F' : '#8A8D96',
+      armBtnBg: s.armed ? '#1F8A5B' : '#F2B33D', armBtnFg: s.armed ? '#fff' : '#16181D', armBtnLabel: s.armed ? t.armedBtn : t.arm,
+      toggleArm: ()=>this.setState(st=>({armed:!st.armed})),
+      simTheft: ()=>{ this.setState({ armed:true, alarmOn:true }); this.siren(true); },
+      alarmOn: s.alarmOn, disarm: ()=>{ this.siren(false); this.setState({ alarmOn:false }); },
+      flashEl: React.createElement('div', { style:{ position:'absolute', inset:0, animation:'flash .5s steps(1) infinite' } }),
+      toggleGroup: ()=>this.setState(st=>({groupAlert:!st.groupAlert})), groupBg: s.groupAlert ? '#1F8A5B' : '#CFC9BC', groupJust: s.groupAlert ? 'flex-end' : 'flex-start',
+      radiusOpts: [50,100,200].map(v => ({ label:v+' m', onClick:()=>this.setState({groupRadius:v}), bg: s.groupRadius===v ? '#16181D' : '#fff', fg: s.groupRadius===v ? '#fff' : '#16181D', border: s.groupRadius===v ? '1px solid #16181D' : '1px solid rgba(22,24,29,.12)' })),
+      groupMembers: [
+        { ini:'EW', name:'Ewa Zielińska', role:t.guideRole, dist:'12 m', bg:'#1C5FB8', fg:'#fff', distColor:'#1F8A5B' },
+        { ini:'AN', name:t.you+' · Anna', role:t.youRole, dist:t.inGroup, bg:'#16181D', fg:'#fff', distColor:'#1F8A5B' },
+        { ini:'PN', name:'Piotr Nowak', role:t.youRole, dist:'8 m', bg:'#E4DFD4', fg:'#16181D', distColor:'#1F8A5B' }
+      ],
+      simGroup: ()=>this.setState({ groupOn:true }), groupOn: s.groupOn,
+      callGuide: ()=>{ this.setState({ groupOn:false }); this.startCall('Ewa Zielińska','EW',false); },
+      groupToMap: ()=>this.setState({ groupOn:false, screen:'map', history:[] }),
+      groupOk: ()=>this.setState({ groupOn:false }),
+      screenRef: this.screenRef,
+      guide: s.guide, openGuide: ()=>this.setState({guide:true, citySheet:false}), closeGuide: ()=>this.setState({guide:false}),
+      bigLangs: [['pl','Polski'],['it','Italiano'],['en','English']].map(([c,name]) => ({ code:c.toUpperCase(), name, onClick:()=>this.setState({lang:c}), bg: c===lang ? '#16181D' : '#fff', fg: c===lang ? '#fff' : '#16181D', border: c===lang ? '1.5px solid #16181D' : '1.5px solid rgba(22,24,29,.12)' })),
+      guideItems: Object.keys(t.g).map(code => ({ code, title:t.gt[code], desc:t.g[code], fg: code==='SOS' ? '#C8102E' : code==='MAP' ? '#1C5FB8' : '#16181D', onClick:()=>{ const d = GUIDE_DEST[code]; this.setState({ guide:false, filter:'all', screen:d, history: d==='chat'||d==='explore' ? [] : ['home'] }); } })),
+      startTour: ()=>{ this.setState({ guide:false, screen:'home', history:[], tour:0, hl:null }); if (this.state.tour===0) this.measure(); },
+      touring: s.tour!==null && !!s.hl,
+      endTour: ()=>{ this.setState({ tour:null, hl:null }); if (this.scrollRef.current) this.scrollRef.current.scrollTop = 0; },
+      nextTour: ()=>{ if (s.tour >= t.tour.length-1) { this.setState({ tour:null, hl:null }); if (this.scrollRef.current) this.scrollRef.current.scrollTop = 0; } else this.setState({ tour:s.tour+1 }); },
+      nextTourLabel: s.tour!==null && s.tour >= t.tour.length-1 ? t.doneG : t.nextG,
+      tourCount: s.tour!==null ? String(s.tour+1).padStart(2,'0') + ' / ' + String(t.tour.length).padStart(2,'0') : '',
+      tourTitle: s.tour!==null ? t.tour[s.tour][1] : '', tourText: s.tour!==null ? t.tour[s.tour][2] : '',
+      hlX: s.hl ? s.hl.x+'px' : '0px', hlY: s.hl ? s.hl.y+'px' : '0px', hlW: s.hl ? s.hl.w+'px' : '0px', hlH: s.hl ? s.hl.h+'px' : '0px',
+      tipTop: !s.hl ? 'auto' : (s.hl.y + s.hl.h + 200 < 844 ? (s.hl.y + s.hl.h + 14)+'px' : 'auto'),
+      tipBottom: !s.hl ? 'auto' : (s.hl.y + s.hl.h + 200 < 844 ? 'auto' : (844 - s.hl.y + 14)+'px'),
+      tapEl: s.hl ? React.createElement('div', { key:'tap'+s.tour, style:{ position:'absolute', left:s.hl.x + s.hl.w/2 - 18, top:s.hl.y + s.hl.h/2 - 18, width:36, height:36, pointerEvents:'none', transition:'all .3s ease' } },
+        React.createElement('div', { style:{ position:'absolute', inset:0, borderRadius:'50%', background:'rgba(242,179,61,.55)', animation:'pulse 1.4s ease-out infinite' } }),
+        React.createElement('div', { style:{ position:'absolute', inset:10, borderRadius:'50%', background:'#F2B33D', border:'2px solid #fff' } })) : null,
+      tipList: TIPS[lang].map(([title,body],i) => ({ n:String(i+1).padStart(2,'0'), title, body })),
+      days: DAYS[lang].map(([title,date,items]) => ({ title, date, items }))
+    };
+  }
+}
+</script>
+</body>
+</html>

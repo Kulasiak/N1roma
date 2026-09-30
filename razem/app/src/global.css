@@ -1,0 +1,27 @@
+/* Base styles from the prototype's <helmet>, plus full-screen / safe-area handling for the installed PWA. */
+:root { --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body, #root { margin: 0; height: 100%; }
+html { background: #E7E3DA; }
+body { background: #E7E3DA; font-family: 'Onest', system-ui, sans-serif; color: #16181D; -webkit-font-smoothing: antialiased; overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+#root { max-width: 480px; margin: 0 auto; height: 100dvh; box-shadow: 0 0 40px rgba(0,0,0,.08); }
+a { color: #C8102E; }
+textarea, input { font-family: inherit; }
+input, textarea { font-size: max(16px, 1em); } /* avoids iOS zoom-on-focus */
+button { -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+button:not(:disabled):active, [role="button"]:active { filter: brightness(.94); }
+button:disabled { cursor: not-allowed !important; }
+::-webkit-scrollbar { display: none; }
+@keyframes flash { 0%, 49% { background: #C8102E } 50%, 100% { background: #16181D } }
+@keyframes pulse { 0% { transform: scale(.9); opacity: .8 } 100% { transform: scale(1.6); opacity: 0 } }
+
+/* Map markers (from map.html) */
+.leaflet-tile-pane { filter: saturate(.55) contrast(1.02); }
+.leaflet-control-attribution { font: 10px system-ui; background: rgba(255,255,255,.8) !important; }
+.rz-me { position: relative; width: 22px; height: 22px; }
+.rz-me i { position: absolute; inset: 0; border-radius: 50%; background: #1C5FB8; border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.35); }
+.rz-me b { position: absolute; inset: -14px; border-radius: 50%; background: rgba(28,95,184,.25); animation: rzp 2s ease-out infinite; }
+@keyframes rzp { 0% { transform: scale(.4); opacity: 1 } 100% { transform: scale(1.4); opacity: 0 } }
+.rz-htl { display: flex; align-items: center; gap: 6px; background: #C8102E; color: #fff; border-radius: 10px; padding: 5px 9px; font: 700 12px 'Onest', sans-serif; white-space: nowrap; box-shadow: 0 4px 10px rgba(200,16,46,.4); transform: translate(-50%, -100%); position: absolute; }
+.rz-htl span { font: 700 10px 'JetBrains Mono', monospace; background: #fff; color: #C8102E; border-radius: 4px; padding: 1px 4px; }
+.rz-poi { position: absolute; transform: translate(-50%, -50%); background: #fff; color: #16181D; border-radius: 8px; padding: 3px 7px; font: 600 11px 'Onest', sans-serif; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
