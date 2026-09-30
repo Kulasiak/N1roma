@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+html,body,#m{margin:0;height:100%;background:#EDE9E0}
+.leaflet-tile-pane{filter:saturate(.55) contrast(1.02)}
+.leaflet-control-attribution{font:10px system-ui;background:rgba(255,255,255,.8)!important}
+.me{position:relative;width:22px;height:22px}
+.me i{position:absolute;inset:0;border-radius:50%;background:#1C5FB8;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.me b{position:absolute;inset:-14px;border-radius:50%;background:rgba(28,95,184,.25);animation:p 2s ease-out infinite}
+@keyframes p{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.4);opacity:0}}
+.htl{display:flex;align-items:center;gap:6px;background:#C8102E;color:#fff;border-radius:10px;padding:5px 9px;font:700 12px 'Onest',sans-serif;white-space:nowrap;box-shadow:0 4px 10px rgba(200,16,46,.4);transform:translate(-50%,-100%);position:absolute}
+.htl span{font:700 10px 'JetBrains Mono',monospace;background:#fff;color:#C8102E;border-radius:4px;padding:1px 4px}
+.poi{position:absolute;transform:translate(-50%,-50%);background:#fff;color:#16181D;border-radius:8px;padding:3px 7px;font:600 11px 'Onest',sans-serif;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+</style></head><body><div id="m"></div>
+<script>
+const ME=[41.90085,12.48325], HOTEL=[41.90135,12.49385];
+const ROUTE=[ME,[41.9016,12.4838],[41.9024,12.4852],[41.9019,12.4866],[41.9004,12.4884],[41.8999,12.4893],[41.9004,12.4912],[41.9009,12.4926],HOTEL];
+const POIS=[['Koloseum',41.8902,12.4922],['Pantheon',41.8986,12.4769],['Bazylika św. Piotra',41.9022,12.4539],['Termini',41.9010,12.5018],['Schody Hiszpańskie',41.9059,12.4823],['Piazza Navona',41.8992,12.4731]];
+const map=L.map('m',{zoomControl:false,attributionControl:true}).setView(ME,15);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+L.circle(ME,{radius:35,color:'#1C5FB8',weight:1,fillOpacity:.08}).addTo(map);
+L.marker(ME,{icon:L.divIcon({className:'',html:'<div class="me"><b></b><i></i></div>',iconSize:[22,22],iconAnchor:[11,11]}),zIndexOffset:1000}).addTo(map);
+L.marker(HOTEL,{icon:L.divIcon({className:'',html:'<div class="htl"><span>HTL</span>Artemide</div>',iconSize:[0,0]}),zIndexOffset:900}).addTo(map);
+POIS.forEach(([n,a,b])=>L.marker([a,b],{icon:L.divIcon({className:'',html:'<div class="poi">'+n+'</div>',iconSize:[0,0]})}).addTo(map));
+const CROWD=[[41.90090,12.48330,'high',70],[41.89020,12.49220,'high',160],[41.90100,12.50180,'high',140],[41.90220,12.45390,'mid',170],[41.89860,12.47690,'mid',60],[41.90590,12.48230,'mid',70],[41.89920,12.47310,'low',110]];
+const CC={high:'#C8102E',mid:'#E0A21F',low:'#1F8A5B'};
+const crowdLayer=L.layerGroup(CROWD.map(([a,b,lvl,r])=>L.circle([a,b],{radius:r,color:CC[lvl],weight:2,fillColor:CC[lvl],fillOpacity:.22,interactive:false}))).addTo(map);
+const casing=L.polyline(ROUTE,{color:'#fff',weight:10,opacity:.95,lineJoin:'round'});
+const line=L.polyline(ROUTE,{color:'#16181D',weight:5,lineJoin:'round'});
+function setRoute(on){
+  if(on){casing.addTo(map);line.addTo(map);map.fitBounds(line.getBounds(),{paddingTopLeft:[40,110],paddingBottomRight:[40,330]});}
+  else{map.removeLayer(casing);map.removeLayer(line);map.setView(ME,15);}
+}
+window.addEventListener('message',e=>{const d=e.data||{};if('route' in d)setRoute(!!d.route);if(d.recenter)map.setView(ME,16);if('crowd' in d){if(d.crowd)crowdLayer.addTo(map);else map.removeLayer(crowdLayer);}});
+if(new URLSearchParams(location.search).get('route')==='1')setRoute(true);
+</script></body></html>
