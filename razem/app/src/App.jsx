@@ -2,12 +2,13 @@ import React from 'react';
 import View from './View.jsx';
 import { DEMO_POS, HOTEL } from './MapView.jsx';
 import { loadState, saveState, saveDoc, loadDocs, wipeAll } from './storage.js';
+import { checkCode, SHOW_DEMO, DEMO_CODE, normCode } from './access.js';
 import { T, ROUTE_STEPS, PH, IMGS, GUIDE_DEST, L, TOURS, CATS, PHRASES, TIPS, DATES, TIMES, avail, fmt, CROWD, WEATHER, qrFor, PLAN, DAYS, now } from './data.js';
 
 // Extra strings for PWA-only features (live GPS + hand-off to native navigation).
-Object.assign(T.pl, { gpsHere:'Twoja pozycja (GPS)', navOpen:'Nawigacja krok po kroku', fromHotel:'{d} od hotelu' });
-Object.assign(T.it, { gpsHere:'La tua posizione (GPS)', navOpen:'Navigazione passo passo', fromHotel:"{d} dall'hotel" });
-Object.assign(T.en, { gpsHere:'Your position (GPS)', navOpen:'Turn-by-turn navigation', fromHotel:'{d} from the hotel' });
+Object.assign(T.pl, { codeInvalid:'Nieprawidłowy kod. Sprawdź kod od biura podróży.', codeExpired:'Ten kod wygasł. Skontaktuj się z biurem podróży.', codeChecking:'Sprawdzanie…', gpsHere:'Twoja pozycja (GPS)', navOpen:'Nawigacja krok po kroku', fromHotel:'{d} od hotelu' });
+Object.assign(T.it, { codeInvalid:"Codice non valido. Controlla il codice dell'agenzia.", codeExpired:"Questo codice è scaduto. Contatta l'agenzia.", codeChecking:'Verifica…', gpsHere:'La tua posizione (GPS)', navOpen:'Navigazione passo passo', fromHotel:"{d} dall'hotel" });
+Object.assign(T.en, { codeInvalid:'Invalid code. Check the code from your travel agency.', codeExpired:'This code has expired. Please contact your travel agency.', codeChecking:'Checking…', gpsHere:'Your position (GPS)', navOpen:'Turn-by-turn navigation', fromHotel:'{d} from the hotel' });
 
 // State that survives app restarts (everything else is per-session UI state).
 const KEEP = ['lang','onbDone','code','tripLoaded','rodo','locMode','tickets','bStatus','msgs','stage','strikeHidden','safetyHidden','shareDocs','autoDel','agencyShare','alarmMode','alarmDist','groupAlert','groupRadius','crowdOff','people','docIds','filter'];
@@ -97,7 +98,14 @@ export default class App extends React.Component {
   }
   cleanup = [];
   H(){ const r = this.screenRef.current; return r ? r.clientHeight : window.innerHeight; }
+  verify(code){
+    if (this.state.checking) return;
+    this.setState({ checking:true, codeErr:null });
+    checkCode(code).then(r => this.setState(r.ok ? { code:normCode(code), tripLoaded:true, checking:false } : { tripLoaded:false, codeErr:r.reason, checking:false }));
+  }
   componentDidMount(){
+    // Re-check the saved trip code at every launch: expired or removed codes lose access.
+    if (this.state.onbDone || this.state.tripLoaded) checkCode(this.state.code).then(r => { if (!r.ok) this.setState({ onbDone:false, tripLoaded:false, screen:'onb', onb:1, history:[], codeErr:r.reason }); });
     const net = () => this.setState({ offline: navigator.onLine === false });
     window.addEventListener('online', net); window.addEventListener('offline', net);
     this.cleanup.push(() => { window.removeEventListener('online', net); window.removeEventListener('offline', net); });
@@ -183,9 +191,10 @@ export default class App extends React.Component {
       isOnb: sc==='onb', onb0: s.onb===0, onb1: s.onb===1, onb2: s.onb===2, onb3: s.onb===3,
       onbDots: [0,1,2,3].map(i => ({ bg: i<=s.onb ? '#C8102E' : '#DCD6C9' })),
       code: s.code, tripLoaded: s.tripLoaded, notLoaded: !s.tripLoaded, onbBtnBg: s.tripLoaded ? '#16181D' : '#B9B2A3',
-      onCode: (e)=>this.setState({ code:e.target.value.toUpperCase(), tripLoaded:false }),
-      useDemo: ()=>this.setState({ code:'RZM-2481', tripLoaded:true }),
-      fetchTrip: ()=>this.setState(st => st.code.trim().length>=4 ? { tripLoaded:true } : { code:'RZM-2481', tripLoaded:true }),
+      onCode: (e)=>this.setState({ code:e.target.value.toUpperCase(), tripLoaded:false, codeErr:null }),
+      showDemo: SHOW_DEMO, useDemo: ()=>this.verify(DEMO_CODE),
+      fetchTrip: ()=>this.verify(this.state.code),
+      codeErr: s.codeErr ? (s.codeErr==='expired' ? t.codeExpired : t.codeInvalid) : '', fetchLabel: s.checking ? t.codeChecking : t.fetch,
       onbNext: ()=>this.setState(st => st.onb<3 ? { onb:st.onb+1 } : { screen:'welcome', history:[] }),
       isWelcome: sc==='welcome', welcomeImg: 'linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 45%),url("https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent("St_Peter's_Square,_Vatican_City_-_April_2007.jpg") + '?width=1000") center/cover',
       goMapTab: ()=>this.tab('map'),

@@ -75,6 +75,10 @@ export default function View({ v }) {
                         <input
                           value={v.code}
                           onChange={v.onCode}
+                          onKeyDown={(e) => e.key === "Enter" && v.fetchTrip()}
+                          autoCapitalize="characters"
+                          autoComplete="off"
+                          spellCheck={false}
                           placeholder="RZM-0000"
                           style={css(
                             "flex:1;min-width:0;height:54px;border-radius:14px;border:1.5px solid #CFC9BC;background:#fff;padding:0 16px;font:700 18px 'JetBrains Mono',monospace;letter-spacing:.06em;color:#16181D;outline:none",
@@ -86,17 +90,18 @@ export default function View({ v }) {
                             "height:54px;padding:0 18px;border:0;border-radius:14px;background:#16181D;color:#fff;font:700 15px 'Onest';cursor:pointer",
                           )}
                         >
-                          {v.t.fetch}
+                          {v.fetchLabel}
                         </button>
                       </div>
-                      <button
+                      {v.codeErr && (<div role="alert" style={css("margin-top:10px;background:#FDECEF;color:#8E0B21;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;line-height:1.35")}>{v.codeErr}</div>)}
+                      {v.showDemo && (<button
                         onClick={v.useDemo}
                         style={css(
                           "align-self:flex-start;margin-top:10px;border:0;background:none;padding:0;color:#C8102E;font:600 13px 'Onest';cursor:pointer;text-decoration:underline",
                         )}
                       >
                         {v.t.demo}
-                      </button>
+                      </button>)}
                       {v.tripLoaded && (
                         <>
                           <div style={css("margin-top:22px;background:#fff;border-radius:20px;padding:6px 18px;border:1px solid rgba(22,24,29,.08)")}>

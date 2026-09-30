@@ -20,6 +20,20 @@ npm run preview   # serve dist/ (service worker active)
 
 On the phone: open the URL, then **Share → Add to Home Screen** (iOS Safari) or **Install app** (Android Chrome). It opens full-screen, like a native app.
 
+## Access (trip codes)
+
+The app opens only with a valid trip code from the agency. Each code has an expiry date. The code is checked when it's entered and again at every launch, so an expired or removed code loses access. The "Use demo code" button is hidden.
+
+```bash
+node scripts/add-code.mjs new 2026-11-15 "Agency name" "Nowak family"   # generates e.g. RZM-7KQ2-XM4P
+node scripts/add-code.mjs RZM-1234 2026-11-15 "Agency name"             # adds a specific code
+# then: npm run build, and republish dist/
+```
+
+Codes are stored in `src/access-codes.json` as SHA-256 hashes only; the plain codes never ship in the app. To remove a code, delete its entry and rebuild. `RZM-2481` (valid to 31.12.2026) is a demo code: remove it before launch.
+
+**Limits:** this check runs in the browser, so it keeps out anyone without a code, but a technical user could get around it. It also can't limit devices per code or revoke a code instantly. For those rules (for example max 6 devices, and valid until 30 days after the return), connect the check to the agency's booking backend. Prefer long codes (`new` generates `RZM-XXXX-XXXX`): short 4-digit codes are easy to guess.
+
 ## Structure
 
 | File | Contents |
@@ -28,6 +42,7 @@ On the phone: open the URL, then **Share → Add to Home Screen** (iOS Safari) o
 | `src/App.jsx` | App state and behaviour, ported from the prototype's `Component` class, plus PWA features. |
 | `src/View.jsx` | The UI, converted from the prototype template by `scripts/convert.mjs`, then adapted to full screen. |
 | `src/MapView.jsx` | The Leaflet map from `map.html`: position, hotel, POIs, crowd layer and route. |
+| `src/access.js`, `src/access-codes.json` | Trip-code access check and the list of valid codes. |
 | `src/storage.js` | Saved app state (localStorage) and the encrypted document vault (IndexedDB + AES-GCM). |
 
 ## Real vs. simulated
@@ -43,7 +58,7 @@ On the phone: open the URL, then **Share → Add to Home Screen** (iOS Safari) o
 - 112 is a real `tel:` link.
 
 **Still simulated, needs a backend or integrations** (see the design README → *Integrations needed*)
-- Trip code lookup, Marta's chat replies, calls and video (VoIP), booking confirmations.
+- Loading trip details from the code (flight and hotel are still demo data), Marta's chat replies, calls and video (VoIP), booking confirmations.
 - Payments (Apple Pay / Google Pay), Wallet passes, QR codes, availability, weather, strikes and crowd levels.
 - Face ID unlock (a WebAuthn platform authenticator could replace it), watch/Bluetooth distance alarm, group geofencing, push notifications.
 - Photos come from Wikimedia Commons; the production app needs licensed photos or credits.
